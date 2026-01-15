@@ -11,7 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('attractions', function (Blueprint $table) {
+            $table->id();
+            $table->string("name");
+            $table->string("type");
+            $table->integer("duration");
+            $table->integer("max_capacity");
+            $table->foreignId("park_id")
+                ->references("id")
+                ->on("parks")
+                ->cascadeOnDelete();
+            $table->unique(["name","park_id"]);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('attractions');
     }
 };

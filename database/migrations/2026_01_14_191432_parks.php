@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("location")->unique();
             $table->time("opening_time");
             $table->time("closing_time");
+            $table->timestamps();
         });
     }
 

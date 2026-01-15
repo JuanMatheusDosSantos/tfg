@@ -11,7 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('park_reservations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId("user_id")
+                ->references("id")
+                ->on("users")
+                ->cascadeOnDelete();
+            $table->foreignId("park_id")
+                ->references("id")
+                ->on("parks")
+                ->cascadeOnDelete();
+            $table->date("reservation_date");
+            $table->integer("max_persons");
+            $table->enum("state",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
+            $table->unique(["user_id","park_id","reservation_date"],"ui_pi_rd");
+        });
     }
 
     /**
@@ -19,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('park_reservations');
     }
 };
