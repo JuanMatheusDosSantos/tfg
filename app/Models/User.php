@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    function park_reservation()
+    {
+        return $this->hasMany(Park_reservation::class);
+    }
+
+    function restaurant_reservation()
+    {
+        return $this->hasMany(Restaurant_reservation::class);
+    }
+    function admin_log()
+    {
+        return $this->hasMany(Admin_log::class);
+    }
 }
