@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('attractions', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("type");
+            $table->enum("type",["suave","moderado","intenso"]);//suave, moderada, intensa
             $table->integer("duration");
             $table->integer("max_capacity");
             $table->foreignId("park_id")
