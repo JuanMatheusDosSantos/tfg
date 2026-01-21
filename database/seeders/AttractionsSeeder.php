@@ -22,6 +22,14 @@ class AttractionsSeeder extends Seeder
                 "duration" => 5,
                 "max_capacity" => 20,
                 "park_id" => 1,
+            ],
+            [
+                "id" => 2,
+                "name" => "2",
+                "type" => 2,
+                "duration" => 5,
+                "max_capacity" => 20,
+                "park_id" => 2,
             ]
         ]);
     }

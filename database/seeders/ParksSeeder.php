@@ -16,11 +16,18 @@ class ParksSeeder extends Seeder
     {
         DB::table("parks")->insert([
             [
-                "id"=>1,
-                "name"=>"Mundo Marino y El Arrecife",
-                "location"=>"Valencia",
-                "opening_time"=>"8:00",
-                "closing_time"=>"21:00"
+                "id" => 1,
+                "name" => "Mundo Marino y El Arrecife",
+                "location" => "Valencia",
+                "opening_time" => "8:00",
+                "closing_time" => "21:00"
+            ],
+            [
+                "id" => 2,
+                "name" => "Prueba",
+                "location" => "Sevilla",
+                "opening_time" => "8:00",
+                "closing_time" => "21:00"
             ]
         ]);
     }

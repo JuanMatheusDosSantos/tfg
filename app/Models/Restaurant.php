@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Restaurant extends Model
 {
+    protected $fillable = [
+        "name",
+        "max_capacity",
+        "park_id"
+    ];
     function park()
     {
         return $this->belongsTo(Park::class);

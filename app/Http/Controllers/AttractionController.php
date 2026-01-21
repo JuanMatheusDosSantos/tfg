@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Park;
 use Illuminate\Http\Request;
 use App\Models\Attraction;
 
@@ -30,9 +31,6 @@ class AttractionController extends Controller
     function filterByType($type)
     {
         try {
-
-
-
             $attraction=Attraction::where("type",$type)->get();
             if ($attraction->count()==0){
                 return response()->json(["no hay ninguna atraccion de este tipo"],
@@ -46,8 +44,22 @@ class AttractionController extends Controller
         }
     }
 
-    function filterByPark()
+    function filterByPark($id)
     {
+        try {
+            $parks=Park::findOrFail($id);
+            $attraction=$parks->attractions;
+            if ($attraction->count()==0){
+                return response()->json(["no hay ninguna atraccion de este tipo"],
+//                    204
+                    200
+                );
+            }
+            return response()->json($attraction,200);
+        }catch (\Exception){
+            return response()->json(["ha habido un error, comprueba que el typo sigue existiendo"],404);
+        }
+
 
     }
 
@@ -105,7 +117,7 @@ class AttractionController extends Controller
     {
         try {
            Attraction::findOrFail($id)->delete();
-           return response()->json(["se ha eliminado correctamente la atraccion"]);
+           return response()->json(["se ha eliminado correctamente la atraccion"],204);
         }catch (\Exception $e){
             return response()->json(["no se ha encontrado la atracción"],400);
         }
