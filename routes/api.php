@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\ParkController;
+use App\Http\Controllers\Admin_logController;
+use App\Http\Controllers\Payments;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +26,9 @@ Route::controller(RestaurantController::class)->group(function(){
     Route::post("restaurante","store");
     Route::put("restaurante/update/{id}","update");
     Route::delete("restaurante/delete/{id}","delete");
+});
+Route::controller(ParkController::class)->group(function (){
+    Route::get("parks","index");
+    Route::get("park/{id}","show");
+    Route::post("park","store");
 });

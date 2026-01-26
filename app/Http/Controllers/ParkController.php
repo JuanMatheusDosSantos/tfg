@@ -47,13 +47,20 @@ class ParkController extends Controller
 
     function store(Request $request)
     {
-        $request->validate([
-            "name"=>"required|string|max:255",
-            "location"=>"required|string",
-            "opening_time"=>"required|date_format:H:i",
-            "closing_time"=>"required|date_format:H:i|after:opening_time",
-        ]);
-
+        try {
+            $request->validate([
+                "name" => "required|string|max:255",
+                "location" => "required|string",
+                "opening_time" => "required|date_format:H:i",
+                "closing_time" => "required|date_format:H:i|after:opening_time",
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                "message"=>"error",
+//                "ha habido un error en la validacion"
+                $e->getMessage()
+            ],400);
+        }
         try {
             Park::create([
                 "name"=>$request->get("name"),
