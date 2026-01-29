@@ -22,10 +22,11 @@ return new class extends Migration
                 ->on("restaurants")
                 ->cascadeOnDelete();
             $table->date("reservation_date");
-            $table->date("time_reservation");
-            $table->enum("state",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
+            $table->time("reservation_hour");
+            $table->integer("party_size");
+            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
             $table->timestamps();
-           $table->unique(["user_id","restaurant_id","reservation_date"],"ui_ri_sd");
+           $table->unique(["user_id","restaurant_id","reservation_date","reservation_hour"],"ui_ri_sd");
         });
     }
 

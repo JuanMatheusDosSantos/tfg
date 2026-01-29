@@ -4,6 +4,7 @@ use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\ParkController;
 use App\Http\Controllers\Admin_logController;
 use App\Http\Controllers\Payments;
+use App\Http\Controllers\Restaurant_reservationController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +25,20 @@ Route::controller(RestaurantController::class)->group(function(){
     Route::get("restaurantes","index");
     Route::get("restaurante/{id}","show");
     Route::post("restaurante","store");
-    Route::put("restaurante/update/{id}","update");
-    Route::delete("restaurante/delete/{id}","delete");
+    Route::put("restaurante/{id}","update");
+    Route::delete("restaurante/{id}","delete");
 });
 Route::controller(ParkController::class)->group(function (){
     Route::get("parks","index");
     Route::get("park/{id}","show");
     Route::post("park","store");
+    Route::put("park/{id}","update");
+    Route::delete("park/{id}","delete");
+});
+Route::controller(Restaurant_reservationController::class)->group(function (){
+    Route::get("restaurant_reservations","index");
+    Route::get("restaurant_reservation/{id}","show");
+    Route::post("restaurant_reservation","store");
+    Route::put("restaurant_reservation/{id}","update");
+    Route::delete("restaurant_reservation/{id}","delete");
 });

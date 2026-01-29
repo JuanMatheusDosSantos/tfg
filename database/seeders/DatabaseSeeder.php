@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
 //        ]);
         $this->call([
             ParksSeeder::class,
-            AttractionsSeeder::class
+            AttractionsSeeder::class,
+            UserSeeder::class,
+            RestaurantSeeder::class,
         ]);
     }
 }
