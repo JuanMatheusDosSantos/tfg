@@ -39,7 +39,7 @@ Route::controller(Restaurant_reservationController::class)->group(function (){
     Route::get("restaurant_reservations","index");
     Route::get("restaurant_reservation/{id}","show");
     Route::post("restaurant_reservation","store");
-    Route::put("restaurant_reservation/{id}","update");
+    Route::put("restaurant_reservation/{id}","edit");
     Route::delete("restaurant_reservation/{id}","delete");
     Route::post("restaurant_reservation/userLimit","userLimit");
 });

@@ -45,7 +45,7 @@ class Restaurant_reservationController extends Controller
         }catch (\Exception $e){
             return response()->json(["message" => $e->getMessage()], 400);
         }
-        return response()->json("se ha guardado correctamente", 201);
+        return response()->json(["message"=>"se ha guardado correctamente"], 200);
     }
 
     /**
@@ -94,8 +94,8 @@ class Restaurant_reservationController extends Controller
 
     }
     public function userLimit(
-//        $request
-    Request $request,
+        $request
+//    Request $request,
     ){
         $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
         $party_size = $request->party_size;
@@ -105,18 +105,16 @@ class Restaurant_reservationController extends Controller
             return response()->json([
                 "message" => "esta hora esta llena, pruebe con otra"
             ], 400);
-        }else{
-            return response()->json(["message"=>"se ha guardado correctamente"],201);
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+//    public function update(Request $request, string $id)
+//    {
+//        //
+//    }
 
     /**
      * Remove the specified resource from storage.
