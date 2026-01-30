@@ -33,13 +33,7 @@ class Restaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 400);
         }
-        $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
-        $reservation = Restaurant_reservation::all()->sum("party_size");
-        if ($reservation + $request->party_size > $max) {
-            return response()->json([
-                "message" => "esta hora esta llena, pruebe con otra"
-            ], 400);
-        }
+        $this->userLimit($request);
         try {
             Restaurant_reservation::create([
                 "user_id" => $request->user_id,
@@ -67,15 +61,53 @@ class Restaurant_reservationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+        $reservation=Restaurant_reservation::findOrFail($id);
+        return response()->json($reservation);
+        }catch (\Exception $e){
+            return response()->json(["message" =>
+                $e->getMessage()
+//                "no se ha podido encontrar la reservación"
+            ],
+                400);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                "reservation_date" => "required|date|after_or_equal:today",
+                "reservation_hour" => "required|date_format:H:i",
+                "party_size" => "required|numeric|min:1",
+                "status"=>"required|in:cancelled"
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                "message" =>
+                    $e->getMessage()
+            ], 400);
+        }
+
+    }
+    public function userLimit(
+//        $request
+    Request $request,
+    ){
+        $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
+        $party_size = $request->party_size;
+        $reservation = Restaurant_reservation::where("restaurant_id",$request->restaurant_id)->where("reservation_date",$request->reservation_date)
+            ->where("reservation_hour",$request->reservation_hour)->whereNotIn("status",["cancelleduser"])->sum("party_size");
+        if ($reservation + $party_size > $max) {
+            return response()->json([
+                "message" => "esta hora esta llena, pruebe con otra"
+            ], 400);
+        }else{
+            return response()->json(["message"=>"se ha guardado correctamente"],201);
+        }
     }
 
     /**

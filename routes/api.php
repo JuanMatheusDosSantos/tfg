@@ -41,4 +41,5 @@ Route::controller(Restaurant_reservationController::class)->group(function (){
     Route::post("restaurant_reservation","store");
     Route::put("restaurant_reservation/{id}","update");
     Route::delete("restaurant_reservation/{id}","delete");
+    Route::post("restaurant_reservation/userLimit","userLimit");
 });
