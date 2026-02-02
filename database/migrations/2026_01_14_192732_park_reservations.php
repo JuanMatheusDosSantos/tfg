@@ -23,7 +23,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->date("reservation_date");
             $table->integer("max_persons");
-            $table->enum("state",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
+            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
             $table->unique(["user_id","park_id","reservation_date"],"ui_pi_rd");
         });
     }

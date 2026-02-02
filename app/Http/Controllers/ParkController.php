@@ -34,7 +34,7 @@ class ParkController extends Controller
         try {
             $park=Park::where("location",$location)->get();
             if ($park->count()==0){
-                return response()->json(["no hay ninguna atraccion de este tipo"],
+                return response()->json(["no hay ninguna atracción de este tipo"],
 //                    204
                     200
                 );

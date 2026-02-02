@@ -119,8 +119,20 @@ class Restaurant_reservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $restReserva=Restaurant_reservation::findOrFail($id);
+        }catch (\Exception $e){
+            return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"],400);
+        }
+        if ($restReserva->status=="check_in"){
+            return response()->json(["no puedes borrar una reserva completa"]);
+        }
+        try {
+            $restReserva->destroy();
+        }catch (\Exception $e){
+            return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
+        }
     }
 }
