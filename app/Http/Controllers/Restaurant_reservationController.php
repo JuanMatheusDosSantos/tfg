@@ -42,10 +42,10 @@ class Restaurant_reservationController extends Controller
                 "reservation_hour" => $request->reservation_hour,
                 "party_size" => $request->party_size,
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 400);
         }
-        return response()->json(["message"=>"se ha guardado correctamente"], 200);
+        return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 
     /**
@@ -61,13 +61,13 @@ class Restaurant_reservationController extends Controller
      */
     public function show(string $id)
     {
-        try{
-        $reservation=Restaurant_reservation::findOrFail($id);
-        return response()->json($reservation);
-        }catch (\Exception $e){
+        try {
+            $reservation = Restaurant_reservation::findOrFail($id);
+            return response()->json($reservation);
+        } catch (\Exception $e) {
             return response()->json(["message" =>
-                $e->getMessage()
-//                "no se ha podido encontrar la reservación"
+//                $e->getMessage()
+                "no se ha podido encontrar la reservación"
             ],
                 400);
         }
@@ -83,24 +83,61 @@ class Restaurant_reservationController extends Controller
                 "reservation_date" => "required|date|after_or_equal:today",
                 "reservation_hour" => "required|date_format:H:i",
                 "party_size" => "required|numeric|min:1",
-                "status"=>"required|in:cancelled"
+                "status" => "required|in:cancelled"
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                "message" =>
-                    $e->getMessage()
+//                    $e->getMessage()
+                "ha habido un error en la validacion, introduce correctamente los campos"
             ], 400);
         }
 
+        try {
+            $reservation = Restaurant_reservation::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["ha habido un fallo al buscar la reserva"], 400);
+        }
+        try {
+            $cambios = [];
+            if ($reservation->reservation_date != $request->reservation_date) {
+                $reservation->reservation_date = $request->reservation_date;
+                $cambios[] = "dia de la reserva";
+            }
+            if ($reservation->reservation_hour != $request->reservation_hour) {
+                $reservation->reservation_hour = $request->reservation_hour;
+                $cambios[] = "hora de la reserva";
+            }
+            if ($reservation->party_size != $request->party_size) {
+                $reservation->party_size = $request->party_size;
+                $cambios[] = "tamaño de la reserva";
+            }
+            if ($reservation->status != $request->status) {
+                $cambios[] = "estado de la reserva";
+                $reservation->status = $request->status;
+            }
+            $reservation->save();
+            if ($cambios > 0) {
+                return response()->json(["se ha cambiado correctamente " . implode(", ", $cambios)]);
+            } else {
+                return response()->json([""]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+//                    $e->getMessage()
+                "ha habido un error ha la hora de editar la reserva, introduce correctamente los campos"
+            ], 400);
+        }
     }
+
     public function userLimit(
         $request
 //    Request $request,
-    ){
+    )
+    {
         $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
         $party_size = $request->party_size;
-        $reservation = Restaurant_reservation::where("restaurant_id",$request->restaurant_id)->where("reservation_date",$request->reservation_date)
-            ->where("reservation_hour",$request->reservation_hour)->whereNotIn("status",["cancelleduser"])->sum("party_size");
+        $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
+            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
         if ($reservation + $party_size > $max) {
             return response()->json([
                 "message" => "esta hora esta llena, pruebe con otra"
@@ -119,20 +156,21 @@ class Restaurant_reservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function delete($id)
     {
         try {
-            $restReserva=Restaurant_reservation::findOrFail($id);
-        }catch (\Exception $e){
-            return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"],400);
+            $restReserva = Restaurant_reservation::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"], 400);
         }
-        if ($restReserva->status=="check_in"){
+        if ($restReserva->status == "check_in") {
             return response()->json(["no puedes borrar una reserva completa"]);
         }
         try {
-            $restReserva->destroy();
-        }catch (\Exception $e){
+            $restReserva->delete();
+        } catch (\Exception $e) {
             return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
         }
+        return response()->json(["se ha borrado correctamente la reserva"]);
     }
 }
