@@ -127,6 +127,48 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+
+        "user_errors"=>[
+            "driver" => "single",
+            "path" => storage_path('logs/user_errors.log'),
+            "level"=>"error",
+        ],
+        "park_errors"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/park_errors.log'),
+            "level"=>"error",
+        ],
+        "park_reservations"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/park_reservations.log'),
+            "level"=>"error",
+        ],
+        "restaurant_errors"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/restaurant_errors.log'),
+            "level"=>"error",
+        ],
+        "restaurant_reservations"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/restaurant_reservations.log'),
+            "level"=>"error",
+        ],
+        "attraction_errors"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/attraction_errors.log'),
+            "level"=>"error",
+        ],
+        "payment_errors"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/payments.log'),
+            "level"=>"error",
+        ],
+        "admin_log_errors"=>[
+            "driver"=>"single",
+            "path"=>storage_path('logs/admin_log_errors.log'),
+            "level"=>"error",
+        ]
+
     ],
 
 ];

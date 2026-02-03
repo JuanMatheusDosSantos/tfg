@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\Park_reservationController;
 use App\Http\Controllers\ParkController;
 use App\Http\Controllers\Admin_logController;
 use App\Http\Controllers\Payments;
@@ -43,3 +44,12 @@ Route::controller(Restaurant_reservationController::class)->group(function (){
     Route::delete("restaurant_reservation/{id}","delete");
     Route::post("restaurant_reservation/userLimit","userLimit");
 });
+Route::controller(Park_reservationController::class)->group(function (){
+    Route::get("park_reservations","index");
+    Route::get("park_reservation/{id}","show");
+    Route::post("park_reservation","store");
+    Route::put("park_reservation/{id}","edit");
+    Route::delete("park_reservation/{id}","delete");
+    Route::post("park_reservation/userLimit","userLimit");
+});
+
