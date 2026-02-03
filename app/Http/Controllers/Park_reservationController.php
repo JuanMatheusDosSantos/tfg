@@ -104,19 +104,26 @@ class Park_reservationController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete($id)
     {
-        //
+
+        try {
+            $restReserva = Park_reservation::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"], 400);
+        }
+        if ($restReserva->status == "check_in") {
+            return response()->json(["no puedes borrar una reserva completa"]);
+        }
+        try {
+            $restReserva->delete();
+        } catch (\Exception $e) {
+            return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
+        }
+        return response()->json(["se ha borrado correctamente la reserva"]);
     }
 }
