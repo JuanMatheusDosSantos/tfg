@@ -16,6 +16,7 @@ class Park_reservationController extends Controller
             $parks=Park_reservation::all();
             return response()->json($parks);
         }catch (\Exception $e){
+            \Log::channel("park_reservation")->error("".$e->getMessage());
             return response()->json([
                 "ha habido un error a la hora de mostrar los parques, por favor intentelo mas tarde"
             ],500);
