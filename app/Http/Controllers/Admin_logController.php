@@ -30,17 +30,32 @@ class Admin_logController extends Controller
     {
         try {
             $request->validate([
-                "action"=>$request->action;
+                "action"=>$request->action,
+                "affected_zone"=>$request->affected_zone,
+                "old_value"=>$request->old_value,
+                "new_value"=>$request->new_value,
             ]);
+        }catch (\Exception $e){
+            return response()->json([
+                "ha habido un fallo al mostrar los logs",
+//                $e->getMessage()
+            ],400);
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            $log=Admin_log::findOrFail($id);
+            return response()->json($log);
+        }catch (\Exception $e){
+            return response()->json([
+                "no se ha podido encontrar el log",
+            ],500);
+        }
     }
 
     /**

@@ -53,3 +53,8 @@ Route::controller(Park_reservationController::class)->group(function (){
     Route::post("park_reservation/userLimit","userLimit");
 });
 
+Route::controller(Admin_logController::class)->group(function (){
+    Route::get("admin_logs","index");
+    Route::get("admin_log/{id}","show");
+    Route::post("admin_log","store");
+});
