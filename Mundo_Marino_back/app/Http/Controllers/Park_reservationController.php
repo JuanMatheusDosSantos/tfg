@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Park;
 use App\Models\Park_reservation;
 use Illuminate\Http\Request;
 
@@ -125,5 +126,20 @@ class Park_reservationController extends Controller
             return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
         }
         return response()->json(["se ha borrado correctamente la reserva"]);
+    }
+    public function userLimit(
+        $request
+//    Request $request,
+    )
+    {
+        $max = Park::findOrFail($request->restaurant_id)->max_capacity;
+        $party_size = $request->party_size;
+        $reservation = Park_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
+            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
+        if ($reservation + $party_size > $max) {
+            return response()->json([
+                "message" => "esta hora esta llena, pruebe con otra"
+            ], 400);
+        }
     }
 }

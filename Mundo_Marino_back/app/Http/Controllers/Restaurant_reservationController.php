@@ -145,6 +145,22 @@ class Restaurant_reservationController extends Controller
         }
     }
 
+    public function setUserLimit(Request $request,$id){
+        $new_max=$request->max_capacity;
+        try{
+        $old_max=Restaurant::findOrFail($id)->max_capacity;
+        }catch (\Exception $e){
+            return response()->json(["error"=>"no se ha podido encontrar el restaurante"],400);
+        }
+        if ($new_max!=$old_max){
+            try{
+            Restaurant::findOrFail($request->restaurant_id)->max_capacity=$new_max;
+            }catch (\Exception $e){
+                return response()->json(["error"=>"no se ha podido actualizar la capacidad del restaurante"],400);
+            }
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
