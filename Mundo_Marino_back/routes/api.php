@@ -38,31 +38,31 @@ Route::middleware('auth:api')->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
 
-    Route::post("park","store");
-    Route::put("park/{id}","update");
-    Route::delete("park/{id}","delete");
+    Route::post("park",[ParkController::class,"store"]);
+    Route::put("park/{id}",[ParkController::class,"update"]);
+    Route::delete("park/{id}",[ParkController::class,"delete"]);
 
-    Route::post("atraccion","store");
-    Route::put("atraccion/{id}","update");
-    Route::delete("atraccion/{id}","delete");
+    Route::post("atraccion",[AttractionController::class,"store"]);
+    Route::put("atraccion/{id}",[AttractionController::class,"update"]);
+    Route::delete("atraccion/{id}",[AttractionController::class,"delete"]);
 
-    Route::post("restaurante","store");
-    Route::put("restaurante/{id}","update");
-    Route::delete("restaurante/{id}","delete");
+    Route::post("restaurante",[RestaurantController::class,"store"]);
+    Route::put("restaurante/{id}",[RestaurantController::class,"update"]);
+    Route::delete("restaurante/{id}",[RestaurantController::class,"delete"]);
 
-    Route::post("park_reservation","store");
-    Route::put("park_reservation/{id}","edit");
-    Route::delete("park_reservation/{id}","delete");
+    Route::post("park_reservation",[Park_reservationController::class,"store"]);
+    Route::put("park_reservation/{id}",[Park_reservationController::class,"edit"]);
+    Route::delete("park_reservation/{id}",[Park_reservationController::class,"delete"]);
 
     Route::post("park_reservation/userLimit",[Park_reservationController::class,"setUserLimit"]);
 
     Route::post("restaurant_reservation/userLimit/{id}",[Restaurant_reservationController::class,"setUserLimit"]);
 
-    Route::post("restaurant_reservation","store");
-    Route::put("restaurant_reservation/{id}","edit");
-    Route::delete("restaurant_reservation/{id}","delete");
+    Route::post("restaurant_reservation",[Restaurant_reservationController::class,"store"]);
+    Route::put("restaurant_reservation/{id}",[Restaurant_reservationController::class,"edit"]);
+    Route::delete("restaurant_reservation/{id}",[Restaurant_reservationController::class,"delete"]);
 
-    Route::get("admin_logs",["index"]);
-    Route::get("admin_log/{id}",["show"]);
-    Route::post("admin_log","store");
+    Route::get("admin_logs",[Admin_logController::class,"index"]);
+    Route::get("admin_log/{id}",[Admin_logController::class,"show"]);
+    Route::post("admin_log",[Admin_logController::class,"store"]);
 });
