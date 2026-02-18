@@ -10,6 +10,10 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/Mundo_Marino_back/tests" isTestSource="true" packagePrefix="Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />

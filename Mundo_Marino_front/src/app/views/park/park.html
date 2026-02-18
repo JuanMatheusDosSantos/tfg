@@ -1,0 +1,210 @@
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<header class="py-5 bg-white border-bottom">
+  <div class="container-xl">
+    <h1 class="display-5 fw-bold mb-3" style="color: #005696;">Atracciones</h1>
+    <p class="fs-5 text-secondary lh-lg" style="max-width: 780px;">
+      Disfruta con los tuyos de nuestras refrescantes atracciones.
+      ¿Sabías que en <span class="fw-semibold" style="color: #FF7E54;">Mundo Acuático &amp; Arrecife</span>
+      tenemos toboganes que harían gritar de emoción hasta al surfista más experto?
+      Si buscas adrenalina pura y velocidad, ¡este es tu lugar! Pero si lo que prefieres es un día de relax
+      bajo el sol o ver a los más pequeños jugar seguros en su propia laguna, aquí siempre encontrarás tu rincón ideal.
+    </p>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+<main class="container-xl py-5">
+  <div class="row g-5">
+
+    <!-- SIDEBAR FILTROS -->
+    <aside class="col-12 col-lg-3">
+      <div class="bg-white rounded-4 border shadow-sm p-4" style="position: sticky; top: 100px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="fw-bold fs-5 mb-0 d-flex align-items-center gap-2">
+            <span class="material-icons" style="color: #FF7E54;">filter_list</span>
+            Filtros
+          </h2>
+          <button class="btn btn-link p-0 fw-medium text-decoration-none" style="color: #FF7E54;">
+            Limpiar
+          </button>
+        </div>
+
+        <!-- Toggle esperas -->
+        <div class="mb-4 pb-4 border-bottom">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold small text-secondary">Mostrar tiempos de espera</span>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" role="switch" id="switchEspera"
+                     style="width: 2.5rem; height: 1.25rem; cursor: pointer;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Intensidad -->
+        <div class="mb-4 pb-4 border-bottom">
+          <h3 class="fw-bold text-uppercase small mb-3" style="letter-spacing: 1px;">Intensidad</h3>
+          <div class="d-flex flex-column gap-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="suave" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="suave">Suave</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="moderada" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="moderada">Moderada</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="intensa" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="intensa">Intensa</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Altura -->
+        <div>
+          <h3 class="fw-bold text-uppercase small mb-3" style="letter-spacing: 1px;">Altura mínima</h3>
+          <div class="d-flex flex-column gap-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="h120" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="h120">120 cm</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="h130" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="h130">130 cm</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="h140" style="accent-color: #FF7E54;">
+              <label class="form-check-label text-secondary" for="h140">140 cm</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+
+    <!-- CARDS ATRACCIONES -->
+    <div class="col-12 col-lg-9 d-flex flex-column gap-4">
+
+      <!-- El Cubazo -->
+      <div class="card border rounded-4 shadow-sm overflow-hidden flex-md-row attraction-card">
+        <div class="overflow-hidden" style="min-height: 220px; flex: 0 0 40%;">
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG"
+            alt="El Cubazo" class="w-100 h-100 object-fit-cover attraction-img"
+          />
+        </div>
+        <div class="card-body p-4 p-md-5 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h3 class="fw-bold fs-4 mb-1" style="color: #005696;">El Cubazo</h3>
+              <p class="text-muted mb-0 small">Perfecto para familias y niños</p>
+            </div>
+            <span class="badge rounded-pill fw-bold px-3 py-2"
+                  style="background-color: #dcfce7; color: #15803d; font-size: 0.7rem; letter-spacing: 1px;">
+              SUAVE
+            </span>
+          </div>
+          <p class="text-secondary flex-grow-1 mb-4">
+            Una divertida zona de juegos interactivos con chorros de agua, mini-toboganes y un cubo gigante
+            que se vacía cuando menos te lo esperas. ¡Diversión garantizada para los más pequeños!
+          </p>
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <div class="d-flex align-items-center gap-1 text-muted small">
+              <span class="material-icons" style="font-size: 1rem;">straighten</span>
+              Sin restricción
+            </div>
+            <button class="btn fw-semibold d-flex align-items-center gap-1 rounded-3 attr-btn">
+              Ver detalles
+              <span class="material-icons" style="font-size: 1rem;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- La Mantarraya -->
+      <div class="card border rounded-4 shadow-sm overflow-hidden flex-md-row attraction-card">
+        <div class="overflow-hidden" style="min-height: 220px; flex: 0 0 40%;">
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEcO_iRCG3VCuDFpcHY9phHqsZRk6ZunwMw_wee_hP7K5GCkBgViTVXMxE8mxuun1b8ZPKBdTNno8XZFyD2vQzW4aJ0dA7G7iH4nuUSLLTczHjP6qs0i1oLZ5HrL2qQx_mh62CXRMPgTQgfC2QYVk-tv6EdV0rbmeYt19mTH1gwgge7YhUNxjxVs5R1NWP_nXoYIlfAoGmQb2I0WRWr_GXDyyrAKb2ge0giJnhqyJDIfu8HFE7HNLgPjGNMEURgwHuqV3VCBAzFYsL"
+            alt="La Mantarraya" class="w-100 h-100 object-fit-cover attraction-img"
+          />
+        </div>
+        <div class="card-body p-4 p-md-5 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h3 class="fw-bold fs-4 mb-1" style="color: #005696;">El Desliz de la Mantarraya</h3>
+              <p class="text-muted mb-0 small">Emoción en la oscuridad</p>
+            </div>
+            <span class="badge rounded-pill fw-bold px-3 py-2"
+                  style="background-color: #ffedd5; color: #c2410c; font-size: 0.7rem; letter-spacing: 1px;">
+              MODERADA
+            </span>
+          </div>
+          <p class="text-secondary flex-grow-1 mb-4">
+            Sumérgete en un viaje a oscuras por tubos cerrados que giran y serpentean antes de lanzarte
+            a una piscina de aguas cristalinas. Una experiencia envolvente para toda la familia.
+          </p>
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <div class="d-flex align-items-center gap-1 text-muted small">
+              <span class="material-icons" style="font-size: 1rem;">straighten</span>
+              130 cm
+            </div>
+            <button class="btn fw-semibold d-flex align-items-center gap-1 rounded-3 attr-btn">
+              Ver detalles
+              <span class="material-icons" style="font-size: 1rem;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- El Gran Salto -->
+      <div class="card border rounded-4 shadow-sm overflow-hidden flex-md-row attraction-card">
+        <div class="overflow-hidden" style="min-height: 220px; flex: 0 0 40%;">
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-MT7e-6fccK5RDO2FAOUbcpJT5qiBqtwY7znPpJTBQP-eXeiTwtB0HNoR9_p_fZgWfm1-D0OIiPt6VAIzgaxE5pCzpzI9PedktsydRmPo8tfOjV_CFWcqdtcL3UtjGauo15WYAT0SiZXvar3hacQGQZgNO8CpZ5fKHwv0Upn3GEih9r8RrLJlPw0IvQeG5NmIBHkpFvuy98b_Vav2m29pMzmLgVcHbd974OnLOIumFDEXhey-kxYgXk0xQXpffjvFbwBVdks7SUdR"
+            alt="El Gran Salto" class="w-100 h-100 object-fit-cover attraction-img"
+          />
+        </div>
+        <div class="card-body p-4 p-md-5 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h3 class="fw-bold fs-4 mb-1" style="color: #005696;">El Gran Salto</h3>
+              <p class="text-muted mb-0 small">Adrenalina pura para valientes</p>
+            </div>
+            <span class="badge rounded-pill fw-bold px-3 py-2"
+                  style="background-color: #fee2e2; color: #b91c1c; font-size: 0.7rem; letter-spacing: 1px;">
+              INTENSA
+            </span>
+          </div>
+          <p class="text-secondary flex-grow-1 mb-4">
+            ¿Te atreves con la caída libre? Estos toboganes verticales pondrán a prueba tu valor con una
+            velocidad de vértigo y una llegada explosiva. Solo para los amantes de las emociones fuertes.
+          </p>
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <div class="d-flex align-items-center gap-1 text-muted small">
+              <span class="material-icons" style="font-size: 1rem;">straighten</span>
+              140 cm
+            </div>
+            <button class="btn fw-semibold d-flex align-items-center gap-1 rounded-3 attr-btn">
+              Ver detalles
+              <span class="material-icons" style="font-size: 1rem;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+
+<!-- Estilos del componente — pegar en atracciones-body.component.scss -->
+<style>
+  .attraction-card { transition: box-shadow 0.3s ease; }
+  .attraction-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important; }
+  .attraction-img { transition: transform 0.5s ease; }
+  .attraction-card:hover .attraction-img { transform: scale(1.05); }
+  .attr-btn { background-color: #f1f5f9; color: #334155; }
+  .attr-btn:hover { background-color: #FF7E54 !important; color: #fff !important; }
+  .form-switch .form-check-input:checked { background-color: #FF7E54; border-color: #FF7E54; }
+</style>

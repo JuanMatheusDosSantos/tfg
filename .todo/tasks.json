@@ -1,0 +1,69 @@
+[
+  {
+    "id": "TASK_1",
+    "priority": "HIGH",
+    "tags": [],
+    "title": "restaurant",
+    "description": "hay que pasar del stich al angular",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 2,
+        "day": 18
+      },
+      "time": {
+        "hour": 21,
+        "minute": 35,
+        "second": 6,
+        "nano": 318710200
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_3",
+    "priority": "HIGH",
+    "tags": [],
+    "title": "en general",
+    "description": "hay que cambiar las imagenes y dejarlas en el front, pero primero hay que elegir unas y adaptarlas a angular y que no sea html puro",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 2,
+        "day": 18
+      },
+      "time": {
+        "hour": 21,
+        "minute": 35,
+        "second": 52,
+        "nano": 926294900
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_10",
+    "priority": "HIGH",
+    "tags": [],
+    "title": "reservas",
+    "description": "hay que crearla y conectarla con el back",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 2,
+        "day": 18
+      },
+      "time": {
+        "hour": 21,
+        "minute": 37,
+        "second": 51,
+        "nano": 257117900
+      }
+    },
+    "isImported": false,
+    "prerequisiteTaskId": "TASK_3"
+  }
+]

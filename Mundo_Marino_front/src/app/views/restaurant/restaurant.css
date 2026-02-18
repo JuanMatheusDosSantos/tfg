@@ -1,0 +1,14 @@
+<style>
+.dish-card { transition: box-shadow 0.3s ease; }
+.dish-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important; }
+.dish-img { transition: transform 0.5s ease; }
+.dish-card:hover .dish-img { transform: scale(1.08); }
+
+.event-icon { transition: background-color 0.3s ease, color 0.3s ease; }
+.event-item:hover .event-icon { background-color: #FF7E54 !important; color: #fff; }
+
+.inform-btn:hover { border-color: #FF7E54 !important; color: #FF7E54 !important; }
+
+.input-group-text { min-width: 48px; justify-content: center; }
+.form-control:focus, .form-select:focus { box-shadow: 0 0 0 2px rgba(255,126,84,0.3); }
+</style>
