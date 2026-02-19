@@ -1,0 +1,30 @@
+/* Opciones de tipo de reserva */
+.booking-option {
+  border: 2px solid #e2e8f0 !important;
+  transition: border-color 0.25s, transform 0.2s;
+  cursor: pointer;
+}
+.booking-option:hover {
+  border-color: rgba(255,126,84,0.4) !important;
+  transform: scale(1.02);
+}
+.booking-radio:checked + .booking-option {
+  border-color: #FF7E54 !important;
+  background-color: rgba(255,126,84,0.05);
+  box-shadow: 0 0 0 3px rgba(255,126,84,0.15);
+}
+
+/* Círculos de paso activo/completado */
+.step-circle.active   { background-color: #FF7E54 !important; color: #fff !important; }
+.step-circle.done     { background-color: #22c55e !important; color: #fff !important; }
+.step-label.active    { color: #FF7E54 !important; }
+.step-label.done      { color: #22c55e !important; }
+
+/* Inputs focus */
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 3px rgba(255,126,84,0.2);
+  border-color: #FF7E54 !important;
+}
+
+/* Botón siguiente hover */
+.btn-next:hover { background-color: #374151 !important; }

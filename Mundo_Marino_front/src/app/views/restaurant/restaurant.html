@@ -1,120 +1,305 @@
+<!--&lt;!&ndash; ═══════════════════════════ HERO ═══════════════════════════ &ndash;&gt;-->
+<!--<div class="position-relative overflow-hidden" style="height: 450px;">-->
+<!--  <img-->
+<!--    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiIBhcfTJzZUomUIwOtoRDxRcUYB3cFxDlOZYzvAy1wmSJ_moeXjQpwzqzqmxWd8mLVL4CCghdk3-MOztwi-1jaN2d4QHXzuV6QQjVCsnWxBn-kZ0e9lJOrUNWpSYxhx2boUmA_FnC0EbaJblc1hlhOBewuL77Z6rWGXL2wIiM32MsJAXgJ1HE7ekhkGZ2Sk5EcWZ6gxBB4j5nSGnPN4k3UHNkjGR6PbpoSG6h0uDmmCXdaZHIjyAdSvYH-ss6N9xLPhBNOAE9COHP"-->
+<!--    alt="Happy family at the resort"-->
+<!--    class="w-100 h-100 object-fit-cover"-->
+<!--  />-->
+<!--  <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-center"-->
+<!--       style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.35));">-->
+<!--    <div class="px-3">-->
+<!--      <h1 class="display-4 fw-bold text-white mb-3" style="text-shadow: 0 4px 20px rgba(0,0,0,0.4);">-->
+<!--        Sabores Frente al Mar-->
+<!--      </h1>-->
+<!--      <p class="fs-5 fw-light text-white mx-auto" style="max-width: 600px;">-->
+<!--        Gastronomía de calidad en el corazón del parque-->
+<!--      </p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash; ═══════════════════════════ RESERVA FORM ═══════════════════════════ &ndash;&gt;-->
+<!--<main class="container-xl pb-5" style="margin-top: -5rem; position: relative; z-index: 10;">-->
+<!--  <div class="bg-white rounded-4 shadow p-4 p-md-5 border">-->
+<!--    <div class="mx-auto" style="max-width: 800px;">-->
+
+<!--      <div class="text-center mb-5">-->
+<!--        <span class="fw-bold text-uppercase small" style="color: #FF7E54; letter-spacing: 2px;">Reserva tu mesa</span>-->
+<!--        <h2 class="fw-bold fs-3 mt-2">Disfruta de una experiencia única</h2>-->
+<!--      </div>-->
+
+<!--      <form>-->
+<!--        <div class="row g-4 mb-4">-->
+
+<!--          &lt;!&ndash; Fecha &ndash;&gt;-->
+<!--          <div class="col-12 col-md-6">-->
+<!--            <label class="form-label fw-semibold text-muted small">Fecha</label>-->
+<!--            <div class="input-group">-->
+<!--              <span class="input-group-text bg-light border-0 rounded-start-3">-->
+<!--                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">calendar_today</span>-->
+<!--              </span>-->
+<!--              <input type="date" class="form-control bg-light border-0 rounded-end-3 py-3" />-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Hora &ndash;&gt;-->
+<!--          <div class="col-12 col-md-6">-->
+<!--            <label class="form-label fw-semibold text-muted small">Hora</label>-->
+<!--            <div class="input-group">-->
+<!--              <span class="input-group-text bg-light border-0 rounded-start-3">-->
+<!--                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">schedule</span>-->
+<!--              </span>-->
+<!--              <input type="time" class="form-control bg-light border-0 rounded-end-3 py-3" />-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Comensales &ndash;&gt;-->
+<!--          <div class="col-12 col-md-6">-->
+<!--            <label class="form-label fw-semibold text-muted small">Número de comensales</label>-->
+<!--            <div class="input-group">-->
+<!--              <span class="input-group-text bg-light border-0 rounded-start-3">-->
+<!--                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">groups</span>-->
+<!--              </span>-->
+<!--              <select class="form-select bg-light border-0 rounded-end-3 py-3">-->
+<!--                <option>2 Personas</option>-->
+<!--                <option>3 Personas</option>-->
+<!--                <option>4 Personas</option>-->
+<!--                <option>5+ Personas</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Teléfono &ndash;&gt;-->
+<!--          <div class="col-12 col-md-6">-->
+<!--            <label class="form-label fw-semibold text-muted small">Teléfono</label>-->
+<!--            <div class="input-group">-->
+<!--              <span class="input-group-text bg-light border-0 rounded-start-3">-->
+<!--                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">phone</span>-->
+<!--              </span>-->
+<!--              <input type="tel" placeholder="Tu número de teléfono" class="form-control bg-light border-0 rounded-end-3 py-3" />-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Email &ndash;&gt;-->
+<!--          <div class="col-12">-->
+<!--            <label class="form-label fw-semibold text-muted small">Correo Electrónico</label>-->
+<!--            <div class="input-group">-->
+<!--              <span class="input-group-text bg-light border-0 rounded-start-3">-->
+<!--                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">alternate_email</span>-->
+<!--              </span>-->
+<!--              <input type="email" placeholder="ejemplo@correo.com" class="form-control bg-light border-0 rounded-end-3 py-3" />-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+
+<!--        <button type="submit" class="btn w-100 fw-bold py-3 fs-5 rounded-3 shadow"-->
+<!--                style="background-color: #FF7E54; color: #fff;">-->
+<!--          Enviar Reserva-->
+<!--        </button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--  &lt;!&ndash; ═══════════════════════════ PLATOS ═══════════════════════════ &ndash;&gt;-->
+<!--  <section class="mt-5 pt-4">-->
+<!--    <div class="d-flex justify-content-between align-items-end mb-5">-->
+<!--      <div>-->
+<!--        <h2 class="fw-bold fs-2 mb-1">Nuestros Platos</h2>-->
+<!--        <p class="text-muted mb-0">Productos frescos seleccionados diariamente</p>-->
+<!--      </div>-->
+<!--      <div class="d-flex gap-2">-->
+<!--        <button class="btn btn-white rounded-circle shadow-sm border p-2">-->
+<!--          <span class="material-icons-round">west</span>-->
+<!--        </button>-->
+<!--        <button class="btn btn-white rounded-circle shadow-sm border p-2">-->
+<!--          <span class="material-icons-round">east</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="row g-4">-->
+
+<!--      &lt;!&ndash; Pollo Crujiente &ndash;&gt;-->
+<!--      <div class="col-12 col-sm-6 col-lg-4">-->
+<!--        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">-->
+<!--          <div class="overflow-hidden" style="height: 256px;">-->
+<!--            <img-->
+<!--              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB_9xYSagJR84KQUaxgZB2fzDt3X2RHG3t5lQqQyL7gnrsQ7-qsezEOG-M0g9AhzxSplmH5OVyGx_BOdO67Is0uTE5A_NiBYhOlsP73XRU0PrIUGwDthLMVY2wblYoH0Wc0zJGtKMkUGGi5UmJ86K4We4UmK6e_vD3cGvkqqYEvD2sepg1wcRIT8L0phUuohwh02H94HlxQ1I_rv9EdjkFHplcERFbP6-v_oEBR9Azfmdk6zO4mLO7Ng_Ol5roYcT_73_ohXIxh75X"-->
+<!--              alt="Filete de Pollo Crujiente"-->
+<!--              class="w-100 h-100 object-fit-cover dish-img"-->
+<!--            />-->
+<!--          </div>-->
+<!--          <div class="card-body p-4">-->
+<!--            <div class="d-flex justify-content-between align-items-start mb-2">-->
+<!--              <h3 class="fw-bold fs-5 mb-0">Filete de Pollo Crujiente</h3>-->
+<!--              <span class="fw-bold" style="color: #FF7E54;">14.50€</span>-->
+<!--            </div>-->
+<!--            <p class="text-muted small mb-0">Con hierbas frescas y guarnición de la temporada.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Pasta Mediterránea &ndash;&gt;-->
+<!--      <div class="col-12 col-sm-6 col-lg-4">-->
+<!--        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">-->
+<!--          <div class="overflow-hidden" style="height: 256px;">-->
+<!--            <img-->
+<!--              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPEHl8oUt-eyQQvlXIHNq9XTGLb56I8S3SIXsgqZSSRnCk1AeF-qtfS3M5Rf-HbzYuodusGcRK2rW5BdradwNgpM-UzPhn3Duo1uM_A75GDRLI_fn3gC7AHXzikzOCJjV023GNlNhS9DbH_Gvcoe_c0_pVb2Gnp6MXh-an8pFtNreywgBADMhDwAhBtcGidWtkoPq1aXSQy80tt-lmdUS5eou_CO3fziUdkcYU9CzL2myoVSqIdopP-qXElxTXlEsCknbJw3XRlFC"-->
+<!--              alt="Pasta Mediterránea"-->
+<!--              class="w-100 h-100 object-fit-cover dish-img"-->
+<!--            />-->
+<!--          </div>-->
+<!--          <div class="card-body p-4">-->
+<!--            <div class="d-flex justify-content-between align-items-start mb-2">-->
+<!--              <h3 class="fw-bold fs-5 mb-0">Pasta Mediterránea</h3>-->
+<!--              <span class="fw-bold" style="color: #FF7E54;">12.90€</span>-->
+<!--            </div>-->
+<!--            <p class="text-muted small mb-0">Verduras frescas de la huerta y aceite de oliva virgen.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Asado Especial &ndash;&gt;-->
+<!--      <div class="col-12 col-sm-6 col-lg-4">-->
+<!--        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">-->
+<!--          <div class="overflow-hidden" style="height: 256px;">-->
+<!--            <img-->
+<!--              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1HoAW4eX5t535or0wk4qUZGUFxBcrbE&#45;&#45;sDBOPKTZIBPBnNc1gKsbyayHTBDmGfDMsfHk6DT1qyIPLL11-iG_egBZ3aJDAdSZUR8GfY_nhKbZBXZVAXja_ZaJzoFEhDSqlV9JfGmka5O2_99xPcbRDnoQUhMIaYtXLVUaXmezb2BIUDNhNT8XSo52qpqxYRwQUzxiCEl3kWw1XaIUZQKrG8-2TUNQ5fyYwv1c88vxg-gOmMBm9oWsh012yVv9mzESKEfJadNCUtob"-->
+<!--              alt="Asado Especial"-->
+<!--              class="w-100 h-100 object-fit-cover dish-img"-->
+<!--            />-->
+<!--          </div>-->
+<!--          <div class="card-body p-4">-->
+<!--            <div class="d-flex justify-content-between align-items-start mb-2">-->
+<!--              <h3 class="fw-bold fs-5 mb-0">Asado Especial</h3>-->
+<!--              <span class="fw-bold" style="color: #FF7E54;">18.00€</span>-->
+<!--            </div>-->
+<!--            <p class="text-muted small mb-0">Lentamente cocinado al horno con especias aromáticas.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </section>-->
+
+
+<!--  &lt;!&ndash; ═══════════════════════════ EVENTOS ═══════════════════════════ &ndash;&gt;-->
+<!--  <section class="mt-5 pt-4 text-center">-->
+<!--    <h2 class="fw-bold fs-2 mb-5">Eventos Especiales</h2>-->
+
+<!--    <div class="row g-5 justify-content-center" style="max-width: 900px; margin-inline: auto;">-->
+
+<!--      &lt;!&ndash; Celebraciones &ndash;&gt;-->
+<!--      <div class="col-12 col-md-4">-->
+<!--        <div class="d-flex flex-column align-items-center event-item">-->
+<!--          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"-->
+<!--               style="width: 96px; height: 96px; background-color: #f1f5f9;">-->
+<!--            <span class="material-icons-round" style="font-size: 2.5rem;">celebration</span>-->
+<!--          </div>-->
+<!--          <h3 class="fw-bold fs-5 mb-2">Celebraciones</h3>-->
+<!--          <p class="text-muted">Cumpleaños y momentos inolvidables.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Eventos &ndash;&gt;-->
+<!--      <div class="col-12 col-md-4">-->
+<!--        <div class="d-flex flex-column align-items-center event-item">-->
+<!--          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"-->
+<!--               style="width: 96px; height: 96px; background-color: #f1f5f9;">-->
+<!--            <span class="material-icons-round" style="font-size: 2.5rem;">event</span>-->
+<!--          </div>-->
+<!--          <h3 class="fw-bold fs-5 mb-2">Eventos</h3>-->
+<!--          <p class="text-muted">Organización a medida para tus citas.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Grupos &ndash;&gt;-->
+<!--      <div class="col-12 col-md-4">-->
+<!--        <div class="d-flex flex-column align-items-center event-item">-->
+<!--          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"-->
+<!--               style="width: 96px; height: 96px; background-color: #f1f5f9;">-->
+<!--            <span class="material-icons-round" style="font-size: 2.5rem;">groups</span>-->
+<!--          </div>-->
+<!--          <h3 class="fw-bold fs-5 mb-2">Grupos</h3>-->
+<!--          <p class="text-muted">Menús especiales para grandes grupos.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--    <div class="mt-5">-->
+<!--      <button class="btn fw-bold px-5 py-3 rounded-3 border-2 inform-btn"-->
+<!--              style="border-color: #e2e8f0; color: #1e293b;">-->
+<!--        INFÓRMATE AQUÍ-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--</main>-->
 <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
-<div class="position-relative overflow-hidden" style="height: 450px;">
+<div class="position-relative overflow-hidden" style="height: calc(100vh - 80px); min-height: 700px;">
   <img
     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiIBhcfTJzZUomUIwOtoRDxRcUYB3cFxDlOZYzvAy1wmSJ_moeXjQpwzqzqmxWd8mLVL4CCghdk3-MOztwi-1jaN2d4QHXzuV6QQjVCsnWxBn-kZ0e9lJOrUNWpSYxhx2boUmA_FnC0EbaJblc1hlhOBewuL77Z6rWGXL2wIiM32MsJAXgJ1HE7ekhkGZ2Sk5EcWZ6gxBB4j5nSGnPN4k3UHNkjGR6PbpoSG6h0uDmmCXdaZHIjyAdSvYH-ss6N9xLPhBNOAE9COHP"
-    alt="Happy family at the resort"
+    alt="Restaurante vista"
     class="w-100 h-100 object-fit-cover"
   />
-  <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-center"
-       style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.35));">
-    <div class="px-3">
-      <h1 class="display-4 fw-bold text-white mb-3" style="text-shadow: 0 4px 20px rgba(0,0,0,0.4);">
-        Sabores Frente al Mar
-      </h1>
-      <p class="fs-5 fw-light text-white mx-auto" style="max-width: 600px;">
-        Gastronomía de calidad en el corazón del parque
-      </p>
+  <!-- Gradient overlay: oscuro arriba, funde a blanco abajo -->
+  <div class="position-absolute top-0 start-0 w-100 h-100"
+       style="background: linear-gradient(to bottom, rgba(15,23,42,0.5) 0%, rgba(15,23,42,0) 35%, rgba(15,23,42,0) 65%, rgba(248,250,252,1) 100%);">
+  </div>
+
+  <!-- Contenido centrado -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center px-3">
+    <span class="fw-bold text-uppercase mb-3" style="color: #FF7E54; letter-spacing: 4px; font-size: 0.75rem;">
+      Alta Gastronomía Marina
+    </span>
+    <h1 class="display-2 fw-bold text-white mb-4 lh-sm" style="text-shadow: 0 4px 20px rgba(0,0,0,0.4); max-width: 800px;">
+      Una Experiencia <br/>
+      <span style="background: linear-gradient(to right, #FF7E54, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Inmersiva
+      </span>
+    </h1>
+    <p class="fs-5 fw-light text-white mb-5 mx-auto" style="max-width: 600px; opacity: .9; line-height: 1.8;">
+      Descubre sabores cautivadores rodeado de la majestuosidad del océano en un entorno diseñado para los sentidos.
+    </p>
+    <div class="d-flex flex-column flex-sm-row gap-3">
+      <button class="btn fw-bold px-5 py-3 rounded-pill shadow-lg hero-btn-primary">
+        Ver el Menú
+      </button>
+      <button class="btn fw-bold px-5 py-3 rounded-pill hero-btn-ghost">
+        Nuestra Bodega
+      </button>
     </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-flex flex-column align-items-center"
+       style="opacity: 0.5;">
+    <span class="text-white fw-bold text-uppercase mb-2" style="font-size: 0.6rem; letter-spacing: 3px;">Descubrir</span>
+    <div style="width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);"></div>
   </div>
 </div>
 
 
-<!-- ═══════════════════════════ RESERVA FORM ═══════════════════════════ -->
-<main class="container-xl pb-5" style="margin-top: -5rem; position: relative; z-index: 10;">
-  <div class="bg-white rounded-4 shadow p-4 p-md-5 border">
-    <div class="mx-auto" style="max-width: 800px;">
-
-      <div class="text-center mb-5">
-        <span class="fw-bold text-uppercase small" style="color: #FF7E54; letter-spacing: 2px;">Reserva tu mesa</span>
-        <h2 class="fw-bold fs-3 mt-2">Disfruta de una experiencia única</h2>
+<!-- ═══════════════════════════ PLATOS ═══════════════════════════ -->
+<main class="container-xl py-5 pb-5">
+  <section class="py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-end mb-5 gap-4">
+      <div style="max-width: 600px;">
+        <span class="fw-bold text-uppercase small d-block mb-2" style="color: #FF7E54; letter-spacing: 3px;">Selección del Chef</span>
+        <h2 class="display-5 fw-bold mb-3">Arte en el Plato</h2>
+        <p class="text-muted fs-5 mb-0">
+          Ingredientes de proximidad y pesca sostenible transformados en obras maestras culinarias por nuestro equipo de cocina.
+        </p>
       </div>
-
-      <form>
-        <div class="row g-4 mb-4">
-
-          <!-- Fecha -->
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold text-muted small">Fecha</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light border-0 rounded-start-3">
-                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">calendar_today</span>
-              </span>
-              <input type="date" class="form-control bg-light border-0 rounded-end-3 py-3" />
-            </div>
-          </div>
-
-          <!-- Hora -->
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold text-muted small">Hora</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light border-0 rounded-start-3">
-                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">schedule</span>
-              </span>
-              <input type="time" class="form-control bg-light border-0 rounded-end-3 py-3" />
-            </div>
-          </div>
-
-          <!-- Comensales -->
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold text-muted small">Número de comensales</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light border-0 rounded-start-3">
-                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">groups</span>
-              </span>
-              <select class="form-select bg-light border-0 rounded-end-3 py-3">
-                <option>2 Personas</option>
-                <option>3 Personas</option>
-                <option>4 Personas</option>
-                <option>5+ Personas</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Teléfono -->
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold text-muted small">Teléfono</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light border-0 rounded-start-3">
-                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">phone</span>
-              </span>
-              <input type="tel" placeholder="Tu número de teléfono" class="form-control bg-light border-0 rounded-end-3 py-3" />
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="col-12">
-            <label class="form-label fw-semibold text-muted small">Correo Electrónico</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light border-0 rounded-start-3">
-                <span class="material-icons-round text-muted" style="font-size: 1.2rem;">alternate_email</span>
-              </span>
-              <input type="email" placeholder="ejemplo@correo.com" class="form-control bg-light border-0 rounded-end-3 py-3" />
-            </div>
-          </div>
-
-        </div>
-
-        <button type="submit" class="btn w-100 fw-bold py-3 fs-5 rounded-3 shadow"
-                style="background-color: #FF7E54; color: #fff;">
-          Enviar Reserva
-        </button>
-      </form>
-    </div>
-  </div>
-
-
-  <!-- ═══════════════════════════ PLATOS ═══════════════════════════ -->
-  <section class="mt-5 pt-4">
-    <div class="d-flex justify-content-between align-items-end mb-5">
-      <div>
-        <h2 class="fw-bold fs-2 mb-1">Nuestros Platos</h2>
-        <p class="text-muted mb-0">Productos frescos seleccionados diariamente</p>
-      </div>
-      <div class="d-flex gap-2">
-        <button class="btn btn-white rounded-circle shadow-sm border p-2">
+      <div class="d-flex gap-3 flex-shrink-0">
+        <button class="btn btn-white rounded-circle shadow border p-3 nav-arrow">
           <span class="material-icons-round">west</span>
         </button>
-        <button class="btn btn-white rounded-circle shadow-sm border p-2">
+        <button class="btn btn-white rounded-circle shadow border p-3 nav-arrow">
           <span class="material-icons-round">east</span>
         </button>
       </div>
@@ -122,30 +307,30 @@
 
     <div class="row g-4">
 
-      <!-- Pollo Crujiente -->
+      <!-- Filete Crujiente -->
       <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">
-          <div class="overflow-hidden" style="height: 256px;">
+        <div class="card border rounded-5 shadow-sm overflow-hidden h-100 dish-card">
+          <div class="overflow-hidden" style="height: 320px;">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB_9xYSagJR84KQUaxgZB2fzDt3X2RHG3t5lQqQyL7gnrsQ7-qsezEOG-M0g9AhzxSplmH5OVyGx_BOdO67Is0uTE5A_NiBYhOlsP73XRU0PrIUGwDthLMVY2wblYoH0Wc0zJGtKMkUGGi5UmJ86K4We4UmK6e_vD3cGvkqqYEvD2sepg1wcRIT8L0phUuohwh02H94HlxQ1I_rv9EdjkFHplcERFbP6-v_oEBR9Azfmdk6zO4mLO7Ng_Ol5roYcT_73_ohXIxh75X"
-              alt="Filete de Pollo Crujiente"
+              alt="Filete Crujiente"
               class="w-100 h-100 object-fit-cover dish-img"
             />
           </div>
           <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h3 class="fw-bold fs-5 mb-0">Filete de Pollo Crujiente</h3>
-              <span class="fw-bold" style="color: #FF7E54;">14.50€</span>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="fw-bold fs-5 mb-0">Filete Crujiente</h3>
+              <span class="fw-bold fs-5" style="color: #FF7E54;">14.50€</span>
             </div>
-            <p class="text-muted small mb-0">Con hierbas frescas y guarnición de la temporada.</p>
+            <p class="text-muted mb-0">Pechuga de corral con costra de finas hierbas, emulsión de cítricos y brotes orgánicos.</p>
           </div>
         </div>
       </div>
 
       <!-- Pasta Mediterránea -->
       <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">
-          <div class="overflow-hidden" style="height: 256px;">
+        <div class="card border rounded-5 shadow-sm overflow-hidden h-100 dish-card">
+          <div class="overflow-hidden" style="height: 320px;">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPEHl8oUt-eyQQvlXIHNq9XTGLb56I8S3SIXsgqZSSRnCk1AeF-qtfS3M5Rf-HbzYuodusGcRK2rW5BdradwNgpM-UzPhn3Duo1uM_A75GDRLI_fn3gC7AHXzikzOCJjV023GNlNhS9DbH_Gvcoe_c0_pVb2Gnp6MXh-an8pFtNreywgBADMhDwAhBtcGidWtkoPq1aXSQy80tt-lmdUS5eou_CO3fziUdkcYU9CzL2myoVSqIdopP-qXElxTXlEsCknbJw3XRlFC"
               alt="Pasta Mediterránea"
@@ -153,19 +338,19 @@
             />
           </div>
           <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
               <h3 class="fw-bold fs-5 mb-0">Pasta Mediterránea</h3>
-              <span class="fw-bold" style="color: #FF7E54;">12.90€</span>
+              <span class="fw-bold fs-5" style="color: #FF7E54;">12.90€</span>
             </div>
-            <p class="text-muted small mb-0">Verduras frescas de la huerta y aceite de oliva virgen.</p>
+            <p class="text-muted mb-0">Pasta artesanal con tomates cherry confitados, albahaca fresca y aceite de oliva virgen extra.</p>
           </div>
         </div>
       </div>
 
       <!-- Asado Especial -->
       <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card border rounded-4 shadow-sm overflow-hidden h-100 dish-card">
-          <div class="overflow-hidden" style="height: 256px;">
+        <div class="card border rounded-5 shadow-sm overflow-hidden h-100 dish-card">
+          <div class="overflow-hidden" style="height: 320px;">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1HoAW4eX5t535or0wk4qUZGUFxBcrbE--sDBOPKTZIBPBnNc1gKsbyayHTBDmGfDMsfHk6DT1qyIPLL11-iG_egBZ3aJDAdSZUR8GfY_nhKbZBXZVAXja_ZaJzoFEhDSqlV9JfGmka5O2_99xPcbRDnoQUhMIaYtXLVUaXmezb2BIUDNhNT8XSo52qpqxYRwQUzxiCEl3kWw1XaIUZQKrG8-2TUNQ5fyYwv1c88vxg-gOmMBm9oWsh012yVv9mzESKEfJadNCUtob"
               alt="Asado Especial"
@@ -173,11 +358,11 @@
             />
           </div>
           <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
               <h3 class="fw-bold fs-5 mb-0">Asado Especial</h3>
-              <span class="fw-bold" style="color: #FF7E54;">18.00€</span>
+              <span class="fw-bold fs-5" style="color: #FF7E54;">18.00€</span>
             </div>
-            <p class="text-muted small mb-0">Lentamente cocinado al horno con especias aromáticas.</p>
+            <p class="text-muted mb-0">Corte premium cocinado a baja temperatura durante 12 horas con aroma de sarmiento.</p>
           </div>
         </div>
       </div>
@@ -187,55 +372,71 @@
 
 
   <!-- ═══════════════════════════ EVENTOS ═══════════════════════════ -->
-  <section class="mt-5 pt-4 text-center">
-    <h2 class="fw-bold fs-2 mb-5">Eventos Especiales</h2>
+  <section class="my-5 py-5 rounded-5 border text-center" style="background-color: rgba(255,255,255,0.6);">
+    <div class="mb-5 px-3">
+      <span class="fw-bold text-uppercase small d-block mb-2" style="color: #FF7E54; letter-spacing: 3px;">Moments that Matter</span>
+      <h2 class="display-5 fw-bold mb-3">Eventos Exclusivos</h2>
+      <p class="text-muted mx-auto" style="max-width: 600px;">
+        Desde cenas íntimas hasta grandes celebraciones corporativas, creamos el escenario perfecto para sus recuerdos.
+      </p>
+    </div>
 
-    <div class="row g-5 justify-content-center" style="max-width: 900px; margin-inline: auto;">
+    <div class="row g-5 justify-content-center px-4 mb-5" style="max-width: 900px; margin-inline: auto;">
 
       <!-- Celebraciones -->
       <div class="col-12 col-md-4">
         <div class="d-flex flex-column align-items-center event-item">
-          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"
-               style="width: 96px; height: 96px; background-color: #f1f5f9;">
+          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 shadow event-icon"
+               style="width: 96px; height: 96px; background-color: #fff; border: 1px solid #e2e8f0;">
             <span class="material-icons-round" style="font-size: 2.5rem;">celebration</span>
           </div>
           <h3 class="fw-bold fs-5 mb-2">Celebraciones</h3>
-          <p class="text-muted">Cumpleaños y momentos inolvidables.</p>
+          <p class="text-muted">Cumpleaños y aniversarios con un toque marino único y personalizado.</p>
         </div>
       </div>
 
-      <!-- Eventos -->
+      <!-- Cenas de Gala -->
       <div class="col-12 col-md-4">
         <div class="d-flex flex-column align-items-center event-item">
-          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"
-               style="width: 96px; height: 96px; background-color: #f1f5f9;">
-            <span class="material-icons-round" style="font-size: 2.5rem;">event</span>
+          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 shadow event-icon"
+               style="width: 96px; height: 96px; background-color: #fff; border: 1px solid #e2e8f0;">
+            <span class="material-icons-round" style="font-size: 2.5rem;">restaurant_menu</span>
           </div>
-          <h3 class="fw-bold fs-5 mb-2">Eventos</h3>
-          <p class="text-muted">Organización a medida para tus citas.</p>
+          <h3 class="fw-bold fs-5 mb-2">Cenas de Gala</h3>
+          <p class="text-muted">Menús degustación diseñados para los paladares más exigentes.</p>
         </div>
       </div>
 
-      <!-- Grupos -->
+      <!-- Empresas -->
       <div class="col-12 col-md-4">
         <div class="d-flex flex-column align-items-center event-item">
-          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 event-icon"
-               style="width: 96px; height: 96px; background-color: #f1f5f9;">
+          <div class="rounded-circle d-flex align-items-center justify-content-center mb-4 shadow event-icon"
+               style="width: 96px; height: 96px; background-color: #fff; border: 1px solid #e2e8f0;">
             <span class="material-icons-round" style="font-size: 2.5rem;">groups</span>
           </div>
-          <h3 class="fw-bold fs-5 mb-2">Grupos</h3>
-          <p class="text-muted">Menús especiales para grandes grupos.</p>
+          <h3 class="fw-bold fs-5 mb-2">Empresas</h3>
+          <p class="text-muted">El entorno ideal para presentaciones y networking de alto nivel.</p>
         </div>
       </div>
 
     </div>
 
-    <div class="mt-5">
-      <button class="btn fw-bold px-5 py-3 rounded-3 border-2 inform-btn"
-              style="border-color: #e2e8f0; color: #1e293b;">
-        INFÓRMATE AQUÍ
-      </button>
-    </div>
+    <button class="btn fw-bold px-5 py-3 rounded-pill text-white shadow"
+            style="background-color: #005D91; letter-spacing: 2px; font-size: 0.85rem;">
+      SOLICITAR INFORMACIÓN
+    </button>
   </section>
-
 </main>
+
+
+<!-- ═══════════════════════════ FAB RESERVAR ═══════════════════════════ -->
+<div class="position-fixed bottom-0 end-0 p-4" style="z-index: 60;">
+  <button class="btn d-flex align-items-center fw-bold text-white rounded-pill shadow-lg fab-btn"
+          style="background-color: #FF7E54; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">
+    <span class="me-3" style="letter-spacing: 1px;">Reservar Mesa</span>
+    <div class="rounded-circle d-flex align-items-center justify-content-center"
+         style="width: 48px; height: 48px; background-color: rgba(255,255,255,0.2);">
+      <span class="material-icons-round">calendar_month</span>
+    </div>
+  </button>
+</div>

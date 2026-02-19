@@ -1,0 +1,521 @@
+<div class="position-relative py-5 px-3 overflow-hidden" style="min-height: calc(100vh - 80px);">
+
+  <!-- Fondo decorativo -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity: 0.08;">
+    <div style="position:absolute; top:-4rem; left:-4rem; width:24rem; height:24rem; background:#60a5fa; border-radius:50%; filter:blur(80px);"></div>
+    <div style="position:absolute; bottom:-4rem; right:-4rem; width:24rem; height:24rem; background:#FF7E54; border-radius:50%; filter:blur(80px);"></div>
+  </div>
+  <div class="container position-relative" style="max-width: 860px; z-index: 1;">
+
+    <div class="position-relative py-5 px-3 overflow-hidden" style="min-height: calc(100vh - 80px);">
+
+      <!-- Fondo decorativo -->
+      <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.08;">
+        <div style="position:absolute;top:-4rem;left:-4rem;width:24rem;height:24rem;background:#60a5fa;border-radius:50%;filter:blur(80px);"></div>
+        <div style="position:absolute;bottom:-4rem;right:-4rem;width:24rem;height:24rem;background:#FF7E54;border-radius:50%;filter:blur(80px);"></div>
+      </div>
+
+      <div class="container position-relative" style="max-width:860px; z-index:1;">
+
+        <!-- ═══ STEPPER INDICADOR ═══ -->
+        <div class="mb-5">
+          <div class="d-flex align-items-center justify-content-center position-relative"
+               style="max-width:480px; margin-inline:auto;">
+
+            <!-- Línea base -->
+            <div class="position-absolute top-50 start-0 w-100"
+                 style="height:2px; background-color:#e2e8f0; z-index:0; transform:translateY(-12px);"></div>
+
+            <!-- Línea progreso -->
+            <div class="position-absolute top-50 start-0"
+                 [style.width.%]="progreso"
+                 style="height:2px; background-color:#FF7E54; z-index:0; transform:translateY(-12px); transition:width 0.4s ease;">
+            </div>
+
+            <!-- Paso 1 -->
+            <div class="d-flex flex-column align-items-center" style="z-index:1; flex:1;">
+              <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-2 shadow-sm"
+                   style="width:40px; height:40px; transition:background-color 0.3s;"
+                   [style.background-color]="stepColor(1)"
+                   [style.color]="stepTextColor(1)">
+                @if (pasoActual() > 1) {
+                  <span class="material-icons-round" style="font-size:1rem;">check</span>
+                } @else {
+                  1
+                }
+              </div>
+              <span class="fw-semibold" style="font-size:0.72rem;" [style.color]="labelColor(1)">Tipo</span>
+            </div>
+
+            <!-- Paso 2 -->
+            <div class="d-flex flex-column align-items-center" style="z-index:1; flex:1;">
+              <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-2 shadow-sm"
+                   style="width:40px; height:40px; transition:background-color 0.3s;"
+                   [style.background-color]="stepColor(2)"
+                   [style.color]="stepTextColor(2)">
+                @if (pasoActual() > 2) {
+                  <span class="material-icons-round" style="font-size:1rem;">check</span>
+                } @else {
+                  2
+                }
+              </div>
+              <span class="fw-semibold" style="font-size:0.72rem;" [style.color]="labelColor(2)">Detalles</span>
+            </div>
+
+            <!-- Paso 3 -->
+            <div class="d-flex flex-column align-items-center" style="z-index:1; flex:1;">
+              <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-2 shadow-sm"
+                   style="width:40px; height:40px; transition:background-color 0.3s;"
+                   [style.background-color]="stepColor(3)"
+                   [style.color]="stepTextColor(3)">
+                @if (pasoActual() > 3) {
+                  <span class="material-icons-round" style="font-size:1rem;">check</span>
+                } @else {
+                  3
+                }
+              </div>
+              <span class="fw-semibold" style="font-size:0.72rem;" [style.color]="labelColor(3)">Tus Datos</span>
+            </div>
+
+            <!-- Paso 4 -->
+            <div class="d-flex flex-column align-items-center" style="z-index:1; flex:1;">
+              <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold mb-2 shadow-sm"
+                   style="width:40px; height:40px; transition:background-color 0.3s;"
+                   [style.background-color]="stepColor(4)"
+                   [style.color]="stepTextColor(4)">
+                4
+              </div>
+              <span class="fw-semibold" style="font-size:0.72rem;" [style.color]="labelColor(4)">Confirmar</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <form [formGroup]="reservaForm" (ngSubmit)="enviarReserva()">
+
+          <!-- ═══════════ PASO 1 — TIPO ═══════════ -->
+          @if (pasoActual() === 1) {
+            <div class="bg-white rounded-4 shadow p-4 p-md-5 border">
+              <div class="text-center mb-5">
+                <h1 class="fw-bold fs-3 mb-2">Empecemos tu Reserva</h1>
+                <p class="text-muted">Selecciona el tipo de experiencia que deseas disfrutar en Mundo Marino El Arrecife</p>
+              </div>
+
+              <div class="row g-4 mb-5">
+
+                <div class="col-12 col-md-4">
+                  <input type="radio" class="d-none" id="type_restaurant"
+                         formControlName="tipo" value="restaurante" />
+                  <label for="type_restaurant"
+                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 border-2 text-center w-100 h-100"
+                         [class.selected]="reservaForm.value.tipo === 'restaurante'">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                         style="width:64px; height:64px; background-color:#eff6ff;">
+                      <span class="material-icons-round fs-3" style="color:#2563eb;">restaurant</span>
+                    </div>
+                    <h3 class="fw-bold fs-5 mb-1">Restaurante</h3>
+                    <p class="text-muted small mb-0">Saborea lo mejor del mar</p>
+                  </label>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <input type="radio" class="d-none" id="type_park"
+                         formControlName="tipo" value="parque" />
+                  <label for="type_park"
+                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 border-2 text-center w-100 h-100"
+                         [class.selected]="reservaForm.value.tipo === 'parque'">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                         style="width:64px; height:64px; background-color:#fff7ed;">
+                      <span class="material-icons-round fs-3" style="color:#ea580c;">water_park</span>
+                    </div>
+                    <h3 class="fw-bold fs-5 mb-1">Parque</h3>
+                    <p class="text-muted small mb-0">Aventura y diversión total</p>
+                  </label>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <input type="radio" class="d-none" id="type_both"
+                         formControlName="tipo" value="combo" />
+                  <label for="type_both"
+                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 border-2 text-center w-100 h-100"
+                         [class.selected]="reservaForm.value.tipo === 'combo'">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                         style="width:64px; height:64px; background-color:#faf5ff;">
+                      <span class="material-icons-round fs-3" style="color:#9333ea;">stars</span>
+                    </div>
+                    <h3 class="fw-bold fs-5 mb-1">Combo Total</h3>
+                    <p class="text-muted small mb-0">Restaurante + Parque</p>
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <button type="button"
+                        class="btn fw-bold px-5 py-3 rounded-3 d-flex align-items-center gap-2"
+                        style="background-color:#1e293b; color:#fff;"
+                        [disabled]="!reservaForm.value.tipo"
+                        (click)="siguiente()">
+                  Siguiente Paso
+                  <span class="material-icons-round">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          }
+
+
+          <!-- ═══════════ PASO 2 — DETALLES ═══════════ -->
+          @if (pasoActual() === 2) {
+            <div class="bg-white rounded-4 shadow p-4 p-md-5 border">
+              <div class="mb-4">
+                <h1 class="fw-bold fs-3 mb-1">Detalles de tu visita</h1>
+                <p class="text-muted">Indica cuándo vendrás y cuántas personas sois</p>
+              </div>
+
+              <div class="row g-4 mb-4">
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold text-muted small">Fecha</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border-0 rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">calendar_today</span>
+                </span>
+                    <input type="date" class="form-control bg-light border-0 rounded-end-3 py-3"
+                           formControlName="fecha" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold text-muted small">Hora</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border-0 rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">schedule</span>
+                </span>
+                    <input type="time" class="form-control bg-light border-0 rounded-end-3 py-3"
+                           formControlName="hora" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Adultos</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border-0 rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">person</span>
+                </span>
+                    <input type="number" min="1" class="form-control bg-light border-0 rounded-end-3 py-3"
+                           formControlName="adultos" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Niños (4-12 años)</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border-0 rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">child_care</span>
+                </span>
+                    <input type="number" min="0" class="form-control bg-light border-0 rounded-end-3 py-3"
+                           formControlName="ninos" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold text-muted small">Discapacidad</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border-0 rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">accessible</span>
+                </span>
+                    <input type="number" min="0" class="form-control bg-light border-0 rounded-end-3 py-3"
+                           formControlName="discapacidad" />
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center pt-3">
+                <button type="button"
+                        class="btn btn-link fw-semibold text-muted text-decoration-none d-flex align-items-center gap-1"
+                        (click)="atras()">
+                  <span class="material-icons-round">arrow_back</span> Atrás
+                </button>
+                <button type="button"
+                        class="btn fw-bold px-5 py-3 rounded-3 d-flex align-items-center gap-2"
+                        style="background-color:#1e293b; color:#fff;"
+                        (click)="siguiente()">
+                  Siguiente Paso
+                  <span class="material-icons-round">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          }
+
+
+          <!-- ═══════════ PASO 3 — TUS DATOS ═══════════ -->
+          @if (pasoActual() === 3) {
+            <div class="bg-white rounded-4 shadow p-4 p-md-5 border">
+              <div class="mb-4">
+                <h1 class="fw-bold fs-3 mb-1">Tus Datos</h1>
+                <p class="text-muted">Completa la información para finalizar tu reserva.</p>
+              </div>
+
+              <div class="row g-4 mb-4">
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small">Nombre Completo</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">person</span>
+                </span>
+                    <input type="text" placeholder="Juan Pérez"
+                           class="form-control border rounded-end-3 py-3"
+                           formControlName="nombre" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small">Correo Electrónico</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">mail</span>
+                </span>
+                    <input type="email" placeholder="juan.perez@ejemplo.com"
+                           class="form-control border rounded-end-3 py-3"
+                           formControlName="email" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small">Teléfono</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">phone</span>
+                </span>
+                    <input type="tel" placeholder="+34 600 000 000"
+                           class="form-control border rounded-end-3 py-3"
+                           formControlName="telefono" />
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small">DNI / Pasaporte (Opcional)</label>
+                  <div class="input-group">
+                <span class="input-group-text bg-light border rounded-start-3">
+                  <span class="material-icons-round text-muted" style="font-size:1.2rem;">badge</span>
+                </span>
+                    <input type="text" placeholder="12345678X"
+                           class="form-control border rounded-end-3 py-3"
+                           formControlName="dni" />
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-semibold small">Comentarios adicionales</label>
+                  <textarea class="form-control border rounded-3 p-3" rows="4"
+                            placeholder="Alergias, necesidades especiales o peticiones adicionales..."
+                            formControlName="comentarios"></textarea>
+                </div>
+
+              </div>
+
+              <div class="d-flex align-items-start gap-3 mb-4">
+                <input type="checkbox" class="form-check-input mt-1" id="terms3"
+                       formControlName="terminos" style="accent-color:#FF7E54;" />
+                <label class="form-check-label text-muted small" for="terms3">
+                  Acepto los <a href="#" style="color:#FF7E54;">términos y condiciones</a> y la
+                  <a href="#" style="color:#FF7E54;">política de privacidad</a>.
+                </label>
+              </div>
+
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 pt-2">
+                <button type="button"
+                        class="btn btn-link fw-semibold text-muted text-decoration-none d-flex align-items-center gap-1"
+                        (click)="atras()">
+                  <span class="material-icons-round">arrow_back</span> Atrás
+                </button>
+                <button type="button"
+                        class="btn fw-bold px-5 py-3 rounded-3 d-flex align-items-center gap-2"
+                        style="background-color:#1e293b; color:#fff;"
+                        (click)="siguiente()">
+                  Continuar a Revisión
+                  <span class="material-icons-round">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          }
+
+
+          <!-- ═══════════ PASO 4 — CONFIRMAR ═══════════ -->
+          @if (pasoActual() === 4) {
+            <div class="text-center mb-4">
+              <h1 class="fw-bold fs-3 mb-2">Revisa tu Reserva</h1>
+              <p class="text-muted">Verifica que todos los detalles sean correctos antes de proceder al pago seguro.</p>
+            </div>
+
+            <div class="bg-white rounded-4 shadow border overflow-hidden">
+              <div class="p-4 p-md-5">
+
+                <!-- Cabecera -->
+                <div class="d-flex justify-content-between align-items-start border-bottom border-dashed pb-4 mb-4">
+                  <div>
+                    <h2 class="fw-bold fs-5 mb-1">Resumen de Reserva</h2>
+                    <p class="text-muted small mb-0">Ref: MMR-2024-8842</p>
+                  </div>
+                  <span class="badge rounded-pill fw-bold px-3 py-2 d-flex align-items-center gap-1"
+                        style="background-color:rgba(255,126,84,0.12); color:#FF7E54; font-size:0.8rem;">
+                <span class="material-icons-round" style="font-size:1rem;">restaurant</span>
+                    {{ reservaForm.value.tipo }}
+              </span>
+                </div>
+
+                <div class="row g-4">
+
+                  <!-- Fecha, hora y asistentes -->
+                  <div class="col-12 col-md-6">
+                    <p class="fw-bold text-uppercase text-muted mb-3"
+                       style="font-size:0.7rem; letter-spacing:2px;">Fecha y Hora</p>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                      <div class="rounded-3 d-flex align-items-center justify-content-center bg-light"
+                           style="width:40px; height:40px;">
+                        <span class="material-icons-round" style="color:#FF7E54;">calendar_today</span>
+                      </div>
+                      <span class="fw-semibold">{{ reservaForm.value.fecha }}</span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                      <div class="rounded-3 d-flex align-items-center justify-content-center bg-light"
+                           style="width:40px; height:40px;">
+                        <span class="material-icons-round" style="color:#FF7E54;">schedule</span>
+                      </div>
+                      <span class="fw-semibold">{{ reservaForm.value.hora }}</span>
+                    </div>
+
+                    <p class="fw-bold text-uppercase text-muted mb-3"
+                       style="font-size:0.7rem; letter-spacing:2px;">Asistentes</p>
+
+                    <div class="d-flex flex-column gap-2">
+                      <div class="d-flex justify-content-between text-secondary">
+                    <span class="d-flex align-items-center gap-2">
+                      <span class="material-icons-round text-muted" style="font-size:1rem;">person</span>
+                      Adultos
+                    </span>
+                        <span class="fw-bold">{{ reservaForm.value.adultos }} x 45,00€</span>
+                      </div>
+                      <div class="d-flex justify-content-between text-secondary">
+                    <span class="d-flex align-items-center gap-2">
+                      <span class="material-icons-round text-muted" style="font-size:1rem;">child_care</span>
+                      Niños (4-12 años)
+                    </span>
+                        <span class="fw-bold">{{ reservaForm.value.ninos }} x 25,00€</span>
+                      </div>
+                      <div class="d-flex justify-content-between text-secondary">
+                    <span class="d-flex align-items-center gap-2">
+                      <span class="material-icons-round text-muted" style="font-size:1rem;">accessible</span>
+                      Discapacidad
+                    </span>
+                        <span class="fw-bold">{{ reservaForm.value.discapacidad }} x 20,00€</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Contacto y totales -->
+                  <div class="col-12 col-md-6">
+                    <div class="rounded-4 p-4 mb-4" style="background-color:#f8fafc; border:1px solid #e2e8f0;">
+                      <p class="fw-bold text-uppercase text-muted mb-3"
+                         style="font-size:0.7rem; letter-spacing:2px;">Información de Contacto</p>
+                      <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                          <span class="material-icons-round text-muted">person</span>
+                          <span class="fw-medium small">{{ reservaForm.value.nombre }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                          <span class="material-icons-round text-muted">mail</span>
+                          <span class="fw-medium small">{{ reservaForm.value.email }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                          <span class="material-icons-round text-muted">phone</span>
+                          <span class="fw-medium small">{{ reservaForm.value.telefono }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between text-muted mb-2">
+                      <span>Subtotal</span>
+                      <span class="fw-medium">{{ formatEur(subtotal) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted mb-3">
+                      <span>IVA (10%)</span>
+                      <span class="fw-medium">{{ formatEur(iva) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                      <span class="fw-bold fs-5">Total</span>
+                      <span class="fw-bold" style="font-size:2rem; color:#FF7E54;">{{ formatEur(total) }}</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Términos -->
+                <div class="mt-4 pt-4 border-top">
+                  <div class="d-flex align-items-start gap-3">
+                    <input type="checkbox" class="form-check-input mt-1" id="terms4"
+                           formControlName="terminos" style="accent-color:#FF7E54;" />
+                    <label class="form-check-label text-muted small" for="terms4">
+                      He leído y acepto los <a href="#" style="color:#FF7E54;">términos y condiciones</a>
+                      de reserva, así como la política de cancelación de Mundo Marino El Arrecife.
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones footer -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 p-4 border-top"
+                   style="background-color:#f8fafc;">
+                <button type="button"
+                        class="btn btn-link fw-semibold text-muted text-decoration-none d-flex align-items-center gap-1"
+                        (click)="atras()">
+                  <span class="material-icons-round">arrow_back</span> Volver a detalles
+                </button>
+                <button type="submit"
+                        class="btn fw-bold px-5 py-3 rounded-3 d-flex align-items-center gap-2 shadow"
+                        style="background-color:#FF7E54; color:#fff;"
+                        [disabled]="reservaForm.invalid">
+                  Confirmar y Pagar
+                  <span class="material-icons-round">payments</span>
+                </button>
+              </div>
+            </div>
+          }
+
+        </form>
+
+
+        <!-- ═══ CONTACTO ═══ -->
+        <div class="mt-5 text-center">
+          <div class="d-inline-flex flex-column flex-md-row align-items-center gap-4 gap-md-5 p-4 rounded-4 border bg-white">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-3 p-2" style="background-color:#dbeafe;">
+                <span class="material-icons-round" style="color:#2563eb;">phone</span>
+              </div>
+              <div class="text-start">
+                <p class="text-muted fw-semibold mb-0" style="font-size:0.65rem; letter-spacing:1px; text-transform:uppercase;">Llámanos</p>
+                <p class="fw-bold mb-0">+34 123 456 789</p>
+              </div>
+            </div>
+            <div class="d-none d-md-block border-start" style="height:40px;"></div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-3 p-2" style="background-color:rgba(255,126,84,0.12);">
+                <span class="material-icons-round" style="color:#FF7E54;">mail</span>
+              </div>
+              <div class="text-start">
+                <p class="text-muted fw-semibold mb-0" style="font-size:0.65rem; letter-spacing:1px; text-transform:uppercase;">Escríbenos</p>
+                <p class="fw-bold mb-0">reservas&#64;mundo-marino.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
