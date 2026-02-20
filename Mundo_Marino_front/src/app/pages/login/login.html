@@ -1,0 +1,143 @@
+<div class="login-bg d-flex flex-column align-items-center justify-content-center p-5">
+
+  <!-- Card -->
+  <div class="login-card w-100 bg-white rounded-4 shadow p-5 p-md-5 border">
+
+    <!-- Logo -->
+    <div class="d-flex flex-column align-items-center mb-4">
+      <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+           style="width:52px;height:52px;background-color:rgba(255,126,84,0.1);">
+        <svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96
+                13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554
+                44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                fill="#FF7E54"/>
+        </svg>
+      </div>
+      <h2 class="fw-bold text-uppercase mb-0" style="font-size:0.75rem;letter-spacing:3px;color:#1e293b;">
+        Mundo Marino
+      </h2>
+      <p class="text-muted mb-0" style="font-size:0.65rem;letter-spacing:2px;font-weight:600;">
+        EL ARRECIFE
+      </p>
+    </div>
+
+    <!-- Título -->
+    <div class="text-center mb-4">
+      <h1 class="fw-bold fs-3 mb-1">Iniciar Sesión</h1>
+      <p class="text-muted small mb-0">Bienvenido de nuevo a las profundidades</p>
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage) {
+      <div class="d-flex align-items-center gap-2 rounded-3 mb-3 p-3"
+           style="background-color:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#dc2626;font-size:0.85rem;">
+        <span class="material-icons-round" style="font-size:1rem;">error_outline</span>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Formulario -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3">
+
+      <!-- Email -->
+      <div>
+        <label class="form-label fw-semibold small" for="email">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border rounded-start-3">
+            <span class="material-icons-round text-muted" style="font-size:1.1rem;">alternate_email</span>
+          </span>
+          <input type="email" id="email" formControlName="email"
+                 placeholder="ejemplo@correo.com"
+                 autocomplete="username"
+                 class="form-control border rounded-end-3 py-3"
+                 [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"/>
+        </div>
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          <div class="invalid-feedback d-block" style="font-size:0.78rem;">
+            Introduce un email válido.
+          </div>
+        }
+      </div>
+
+      <!-- Contraseña -->
+      <div>
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label class="form-label fw-semibold small mb-0" for="password">Contraseña</label>
+          <a href="#" style="color:#FF7E54;font-size:0.78rem;font-weight:600;text-decoration:none;">
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-text bg-light border rounded-start-3">
+            <span class="material-icons-round text-muted" style="font-size:1.1rem;">lock</span>
+          </span>
+          <input [type]="showPassword ? 'text' : 'password'"
+                 id="password" formControlName="password"
+                 placeholder="Introduce tu contraseña"
+                 autocomplete="current-password"
+                 class="form-control border py-3"
+                 [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"/>
+          <button type="button"
+                  class="input-group-text bg-light border rounded-end-3 toggle-pass"
+                  (click)="switchPassword()">
+            <span class="material-icons-round text-muted" style="font-size:1.1rem;">
+              {{ showPassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        </div>
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          <div class="invalid-feedback d-block" style="font-size:0.78rem;">
+            La contraseña es obligatoria.
+          </div>
+        }
+      </div>
+
+      <!-- Recordarme -->
+      <!--      <div class="d-flex align-items-center gap-2">-->
+      <!--        <input type="checkbox" class="form-check-input" id="remember"-->
+      <!--               formControlName="remember" style="accent-color:#FF7E54;" />-->
+      <!--        <label class="form-check-label text-muted small" for="remember">-->
+      <!--          Recordarme en este equipo-->
+      <!--        </label>-->
+      <!--      </div>-->
+
+      <!-- Submit -->
+      <button type="submit"
+              class="btn fw-bold py-3 rounded-3 mt-1 submit-btn"
+              [disabled]="loginForm.invalid">
+        Entrar
+      </button>
+
+    </form>
+
+    <!-- Registro -->
+    <div class="text-center mt-4">
+      <p class="text-muted small mb-0">
+        ¿Aún no tienes cuenta?
+        <a href="/register" class="fw-bold" style="color:#FF7E54;text-decoration:none;">
+          Regístrate aquí
+        </a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Links footer -->
+  <div class="d-flex gap-4 mt-4">
+    <a href="#" class="footer-link">Aviso Legal</a>
+    <a href="#" class="footer-link">Privacidad</a>
+    <a href="#" class="footer-link">Soporte</a>
+  </div>
+
+  <!-- Ola decorativa -->
+  <div class="wave-decoration">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M0,192L48,176C96,160,192,128,288,128C384,128,480,160,576,181.3C672,203,768,213,864,197.3C960,181,1056,139,1152,122.7C1248,107,1344,117,1392,122.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        fill="#FF7E54" fill-opacity="0.08"/>
+    </svg>
+  </div>
+
+</div>

@@ -1,0 +1,104 @@
+/* ── Secciones ── */
+.card-section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.section-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #FF7E54;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Resumen sticky ── */
+.sticky-summary {
+  position: sticky;
+  top: 100px;
+}
+
+.total-box {
+  background: linear-gradient(135deg, rgba(255, 126, 84, 0.08), rgba(255, 126, 84, 0.03));
+  border: 1px solid rgba(255, 126, 84, 0.2);
+}
+
+/* ── Radio fix ── */
+.radio-hidden {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.booking-option {
+  border: 2px solid #e2e8f0;
+  cursor: pointer !important;
+  transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  user-select: none;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.booking-option:hover {
+  border-color: rgba(255, 126, 84, 0.4);
+  transform: translateY(-2px);
+}
+
+.booking-option.selected {
+  border-color: #FF7E54 !important;
+  background-color: rgba(255, 126, 84, 0.04);
+  box-shadow: 0 0 0 3px rgba(255, 126, 84, 0.15);
+}
+
+/* ── Inputs ── */
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 126, 84, 0.18);
+  border-color: #FF7E54 !important;
+}
+
+.input-group-text {
+  min-width: 46px;
+  justify-content: center;
+}
+
+/* ── Botón submit ── */
+.submit-btn {
+  background-color: #FF7E54;
+  color: #fff;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #f06940;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 126, 84, 0.3);
+}
+
+.submit-btn:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+}
+
+/* ── Errores ── */
+.invalid-feedback {
+  font-size: 0.8rem;
+  color: #ef4444;
+}

@@ -1,92 +1,270 @@
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-      <div class="card shadow">
-        <div class="card-body">
-          <h2 class="text-center mb-4">Iniciar Sesión</h2>
+<div class="position-relative py-5 px-3 overflow-hidden">
 
-          @if (errorMessage) {
-            <div class="alert alert-danger p-2 small">
-              {{ errorMessage }}
+  <!-- Fondo decorativo -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.07;">
+    <div
+      style="position:absolute;top:-4rem;left:-4rem;width:28rem;height:28rem;background:#60a5fa;border-radius:50%;filter:blur(90px);"></div>
+    <div
+      style="position:absolute;bottom:-4rem;right:-4rem;width:28rem;height:28rem;background:#FF7E54;border-radius:50%;filter:blur(90px);"></div>
+  </div>
+
+  <div class="container position-relative" style="max-width:1100px; z-index:1;">
+
+    <!-- Cabecera -->
+    <div class="text-center mb-5">
+      <span class="fw-bold text-uppercase small d-block mb-2"
+            style="color:#FF7E54; letter-spacing:3px;">Mundo Marino El Arrecife</span>
+      <h1 class="fw-bold display-6 mb-2">Haz tu Reserva</h1>
+      <p class="text-muted">Completa el formulario y confirma tu experiencia en el parque.</p>
+    </div>
+
+    @if (errorMessage) {
+      <div class="d-flex align-items-center gap-2 rounded-3 mb-4 p-3"
+           style="background-color:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#dc2626;">
+        <span class="material-icons-round" style="font-size:1.1rem;">error_outline</span>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <div class="row g-4 align-items-start">
+
+        <!-- ═══ COLUMNA IZQUIERDA — FORMULARIO ═══ -->
+        <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+
+          <!-- 1. Tipo de experiencia -->
+          <div class="card-section">
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+              <div class="step-badge">1</div>
+              <h2 class="fw-bold fs-5 mb-0">Tipo de Experiencia</h2>
             </div>
-          }
-          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="max-w-7xl mx-auto px-4 py-10">
-            <div class="flex flex-col lg:flex-row gap-8">
 
-              <div class="flex-grow space-y-6">
-                <section class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                  <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    <span class="bg-teal-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center">1</span>
-                    Experiencia
-                  </h2>
-                  <select formControlName="bookinType" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3">
-                    <option value="restaurant">Restaurante</option>
-                    <option value="park">Parque</option>
-                    <option value="combo">Combo</option>
-                  </select>
-                </section>
+            <div class="row g-3">
 
-                <div class="grid md:grid-cols-2 gap-6">
-                  <section class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-bold mb-4">Fecha</h2>
-                    <input type="date" formControlName="fecha" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3" />
-                  </section>
-
-                  <section class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-bold mb-4">Personas</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                      <input type="number" formControlName="adult" placeholder="Adultos" class="rounded-xl border-slate-200 p-2" />
-                      <input type="number" formControlName="child" placeholder="Niños" class="rounded-xl border-slate-200 p-2" />
-                    </div>
-                  </section>
-                </div>
-
-                <section formGroupName="client" class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                  <h2 class="text-lg font-bold mb-6">Tus Datos</h2>
-                  <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <input formControlName="name" placeholder="Nombre completo" class="w-full rounded-xl border-slate-100 bg-slate-50 p-3" />
-                      @if (bookingForm.get('cliente.nombre')?.touched && bookingForm.get('cliente.nombre')?.invalid) {
-                        <p class="text-red-500 text-xs mt-1">El nombre es obligatorio (mín. 3 caracteres)</p>
-                      }
-                    </div>
-                    <div>
-                      <input formControlName="email" type="email" placeholder="Email" class="w-full rounded-xl border-slate-100 bg-slate-50 p-3" />
-                      @if (bookingForm.get('cliente.email')?.touched && bookingForm.get('cliente.email')?.invalid) {
-                        <p class="text-red-500 text-xs mt-1">Introduce un email válido</p>
-                      }
-                    </div>
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="opt_restaurant"
+                       formControlName="bookingType" value="restaurant"/>
+                <label for="opt_restaurant"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'restaurant'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#eff6ff;">
+                    <span class="material-icons-round fs-4" style="color:#2563eb;">restaurant</span>
                   </div>
-                </section>
+                  <span class="fw-bold small">Restaurante</span>
+                </label>
               </div>
 
-              <aside class="w-full lg:w-1/3">
-                <div class="bg-white p-8 rounded-3xl border-2 border-slate-100 shadow-xl sticky top-24">
-                  <h3 class="text-xl font-bold mb-6 text-slate-900">Resumen</h3>
-
-                  <div class="space-y-3 mb-6">
-                    <p class="flex justify-between text-sm"><span>Adultos:</span> <b>{{ bookingForm.value.adultos }}</b></p>
-                    <p class="flex justify-between text-sm"><span>Niños:</span> <b>{{ bookingForm.value.ninos }}</b></p>
-                    <p class="flex justify-between text-sm"><span>Fecha:</span> <b>{{ bookingForm.value.fecha }}</b></p>
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="opt_park"
+                       formControlName="bookingType" value="park"/>
+                <label for="opt_park"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'park'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#fff7ed;">
+                    <span class="material-icons-round fs-4" style="color:#ea580c;">water_park</span>
                   </div>
+                  <span class="fw-bold small">Parque</span>
+                </label>
+              </div>
 
-                  <div class="bg-teal-50 p-4 rounded-xl mb-6 text-center">
-                    <span class="text-teal-800 text-2xl font-black">{{ precioTotal() | currency:'EUR' }}</span>
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="park_restaurant"
+                       formControlName="bookingType" value="park_restaurant"/>
+                <label for="park_restaurant"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'park_restaurant'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#faf5ff;">
+                    <span class="material-icons-round fs-4" style="color:#9333ea;">stars</span>
                   </div>
-
-                  <button type="submit"
-                          [disabled]="bookingForm.invalid"
-                          class="w-full bg-orange-500 disabled:bg-slate-300 text-white font-bold py-4 rounded-2xl transition-all shadow-lg hover:bg-orange-600">
-                    Confirmar y Pagar
-                  </button>
-                </div>
-              </aside>
+                  <span class="fw-bold small">Parque y Restaurante</span>
+                </label>
+              </div>
 
             </div>
-          </form>
+          </div>
 
+
+          <!-- 2. Fecha y Personas -->
+          <div class="card-section">
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+              <div class="step-badge">2</div>
+              <h2 class="fw-bold fs-5 mb-0">Fecha y Personas</h2>
+            </div>
+
+            <div class="row g-3">
+
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold small text-muted">Fecha de visita</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-0 rounded-start-3">
+                    <span class="material-icons-round text-muted" style="font-size:1.1rem;">calendar_today</span>
+                  </span>
+                  <input type="date" formControlName="date"
+                         [min]="fechaMinima"
+                         class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                </div>
+                <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
+                  * Se requiere un mínimo de 24h de antelación.
+                </p>
+              </div>
+
+              <div class="col-6 col-md-3">
+                <label class="form-label fw-semibold small text-muted">Adultos</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-0 rounded-start-3">
+                    <span class="material-icons-round text-muted" style="font-size:1.1rem;">person</span>
+                  </span>
+                  <input type="number" min="1" formControlName="adult"
+                         class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                </div>
+              </div>
+
+              <div class="col-6 col-md-3">
+                <label class="form-label fw-semibold small text-muted">Niños</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-0 rounded-start-3">
+                    <span class="material-icons-round text-muted" style="font-size:1.1rem;">child_care</span>
+                  </span>
+                  <input type="number" min="0" formControlName="child"
+                         class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          <!-- 3. Datos reservas -->
+          @if (bookingForm.get("bookingType")?.value == "park"||bookingForm.get("bookingType")?.value == "park_restaurant") {
+            <div class="card-section">
+              <div class="section-header d-flex align-items-center gap-2 mb-4">
+                <div class="step-badge">3</div>
+                <h2 class="fw-bold fs-5 mb-0">Datos de Pago</h2>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label fw-semibold small text-muted">Nombre en la tarjeta</label>
+                  <div class="input-group">
+        <span class="input-group-text bg-light border rounded-start-3">
+          <span class="material-icons-round text-muted" style="font-size:1.1rem;">badge</span>
+        </span>
+                    <input type="text" placeholder="Como aparece en la tarjeta" formControlName="cardHolder"
+                           class="form-control border rounded-end-3 py-3"/>
+                  </div>
+                  @if (bookingForm.get('cardHolder')?.touched && bookingForm.get('cardHolder')?.invalid) {
+                    <div class="invalid-feedback d-block">El nombre del titular es obligatorio.</div>
+                  }
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small text-muted">Número de tarjeta</label>
+                  <div class="input-group">
+        <span class="input-group-text bg-light border rounded-start-3">
+          <span class="material-icons-round text-muted" style="font-size:1.1rem;">credit_card</span>
+        </span>
+                    <input type="text" placeholder="0000 0000 0000 0000" formControlName="cardNumber"
+                           maxlength="16" class="form-control border rounded-end-3 py-3"/>
+                  </div>
+                  @if (bookingForm.get('cardNumber')?.touched && bookingForm.get('cardNumber')?.invalid) {
+                    <div class="invalid-feedback d-block">Introduce los 16 dígitos.</div>
+                  }
+                </div>
+
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-semibold small text-muted">Expiración</label>
+                  <input type="text" placeholder="MM/AA" formControlName="expiryDate"
+                         maxlength="5" class="form-control border rounded-3 py-3 text-center"/>
+                  @if (bookingForm.get('expiryDate')?.touched && bookingForm.get('expiryDate')?.invalid) {
+                    <div class="invalid-feedback d-block">Formato MM/AA.</div>
+                  }
+                </div>
+
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-semibold small text-muted">CVC/CVV</label>
+                  <div class="input-group">
+                    <input type="password" placeholder="123" formControlName="cvv"
+                           maxlength="4" class="form-control border rounded-start-3 py-3 text-center"/>
+                    <span class="input-group-text bg-light border rounded-end-3">
+                      <span class="material-icons-round text-muted" style="font-size:1.1rem;">help_outline</span>
+                    </span>
+                  </div>
+                  @if (bookingForm.get('cvv')?.touched && bookingForm.get('cvv')?.invalid) {
+                    <div class="invalid-feedback d-block">CVC inválido.</div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
         </div>
+
+
+        <!-- ═══ COLUMNA DERECHA — RESUMEN ═══ -->
+        <div class="col-12 col-lg-4">
+          <div class="card-section sticky-summary">
+
+            <h3 class="fw-bold fs-5 mb-4">Resumen</h3>
+
+            <!-- Desglose -->
+            <div class="d-flex flex-column gap-2 mb-4">
+              <div class="d-flex justify-content-between small text-muted">
+                <span class="d-flex align-items-center gap-1">
+                  <span class="material-icons-round" style="font-size:1rem;">person</span>
+                  Adultos
+                </span>
+                <span class="fw-semibold text-dark">{{ bookingForm.value.adult }}</span>
+              </div>
+              <div class="d-flex justify-content-between small text-muted">
+                <span class="d-flex align-items-center gap-1">
+                  <span class="material-icons-round" style="font-size:1rem;">child_care</span>
+                  Niños
+                </span>
+                <span class="fw-semibold text-dark">{{ bookingForm.value.child }}</span>
+              </div>
+              @if (bookingForm.value.date) {
+                <div class="d-flex justify-content-between small text-muted">
+                  <span class="d-flex align-items-center gap-1">
+                    <span class="material-icons-round" style="font-size:1rem;">calendar_today</span>
+                    Fecha
+                  </span>
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.date }}</span>
+                </div>
+              }
+            </div>
+
+            <!-- Total -->
+            @if (bookingForm.get('bookingType')?.value === "park"||bookingForm.get("bookingType")?.value == "park_restaurant") {
+              <div class="total-box rounded-3 p-3 text-center mb-4">
+                <p class="text-muted small mb-1">Total estimado</p>
+                <p class="fw-black mb-0" style="font-size:2rem; color:#FF7E54;">
+                  {{ precioTotal | currency:'EUR' }}
+                </p>
+              </div>
+            }
+
+            <!-- Botón -->
+            <button type="submit"
+                    [disabled]="bookingForm.invalid"
+                    class="btn w-100 fw-bold py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 submit-btn">
+              <span class="material-icons-round">payments</span>
+              Confirmar y Pagar
+            </button>
+
+            <!-- Seguridad -->
+            <div class="d-flex align-items-center justify-content-center gap-1 mt-3 text-muted"
+                 style="font-size:0.74rem;">
+              <span class="material-icons-round" style="font-size:1rem;">lock</span>
+              Pago 100% seguro · SSL Encrypted
+            </div>
+
+          </div>
+        </div>
+
       </div>
-    </div>
+    </form>
+
   </div>
 </div>

@@ -1,0 +1,129 @@
+/* ── Fondo con gradiente azul ── */
+.login-bg {
+  /*background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 40%, #f8fafc 70%, #ffffff 100%);*/
+  position: relative;
+}
+
+/* ── Card centrada y acotada ── */
+.login-card {
+  max-width: 420px;
+  border-radius: 1.5rem !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+  padding: 2.5rem !important;
+}
+
+/* ── Inputs sin icono (como el diseño objetivo) ── */
+.form-control {
+  border-radius: 0.75rem !important;
+  border: 1.5px solid #e2e8f0 !important;
+  padding: 0.85rem 1rem !important;
+  font-size: 0.9rem;
+  background-color: #fff !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  border-color: #FF7E54 !important;
+  box-shadow: 0 0 0 3px rgba(255, 126, 84, 0.15) !important;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+/* Quitar el input-group-text de icono para que quede limpio */
+.input-group-text {
+  display: none !important;
+}
+
+.input-group .form-control {
+  border-radius: 0.75rem !important;
+}
+
+/* ── Botón naranja ancho ── */
+.submit-btn {
+  background-color: #FF7E54;
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem !important;
+  font-size: 1rem;
+  padding: 0.9rem !important;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #f06940;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(255, 126, 84, 0.35);
+}
+
+.submit-btn:disabled {
+  background-color: #FF7E54;
+  color: #fff;
+  opacity: 1;
+}
+
+/* ── Toggle password ── */
+.toggle-pass {
+  display: flex !important;
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-left: none !important;
+  background: #fff !important;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* Cuando hay toggle, el input no tiene borde derecho redondeado */
+.input-group:has(.toggle-pass) .form-control {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+  border-right: none !important;
+}
+
+/* ── Checkbox ── */
+.form-check-input {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem !important;
+  accent-color: #FF7E54;
+}
+
+/* ── Footer links ── */
+.footer-link {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #FF7E54;
+}
+
+/* ── Ola ── */
+.wave-decoration {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wave-decoration svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Errores ── */
+.invalid-feedback {
+  color: #ef4444;
+  font-size: 0.78rem;
+}
