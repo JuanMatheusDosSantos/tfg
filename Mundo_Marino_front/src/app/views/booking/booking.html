@@ -102,9 +102,15 @@
                   <span class="input-group-text bg-light border-0 rounded-start-3">
                     <span class="material-icons-round text-muted" style="font-size:1.1rem;">calendar_today</span>
                   </span>
-                  <input type="date" formControlName="date"
-                         [min]="fechaMinima"
-                         class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                  @if (bookingForm.get("bookingType")?.value == "park"||bookingForm.get("bookingType")?.value == "park_restaurant") {
+
+                    <input type="date" formControlName="date"
+                           [min]="fechaMinimaPark"
+                           class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                  } @else {
+                    <input type="datetime-local" formControlName="restaurantDate"
+                           class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                  }
                 </div>
                 <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
                   * Se requiere un mínimo de 24h de antelación.

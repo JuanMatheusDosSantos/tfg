@@ -42,13 +42,13 @@ Route::middleware('auth:api')->group(function () {
     Route::put("park/{id}",[ParkController::class,"update"]);
     Route::delete("park/{id}",[ParkController::class,"delete"]);
 
-    Route::post("atraccion",[AttractionController::class,"store"]);
-    Route::put("atraccion/{id}",[AttractionController::class,"update"]);
-    Route::delete("atraccion/{id}",[AttractionController::class,"delete"]);
+    Route::post("attraction",[AttractionController::class,"store"]);
+    Route::put("attraction/{id}",[AttractionController::class,"update"]);
+    Route::delete("attraction/{id}",[AttractionController::class,"delete"]);
 
-    Route::post("restaurante",[RestaurantController::class,"store"]);
-    Route::put("restaurante/{id}",[RestaurantController::class,"update"]);
-    Route::delete("restaurante/{id}",[RestaurantController::class,"delete"]);
+    Route::post("restaurant",[RestaurantController::class,"store"]);
+    Route::put("restaurant/{id}",[RestaurantController::class,"update"]);
+    Route::delete("restaurant/{id}",[RestaurantController::class,"delete"]);
 
     Route::post("park_reservation",[Park_reservationController::class,"store"]);
     Route::put("park_reservation/{id}",[Park_reservationController::class,"edit"]);

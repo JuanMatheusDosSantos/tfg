@@ -21,4 +21,8 @@ class Park extends Model
     {
         return $this->hasMany(Restaurant::class);
     }
+    function park_reservations()
+    {
+        return $this->hasMany(Park_reservation::class);
+    }
 }

@@ -27,4 +27,8 @@ export class Navbar {
       }
     });
   }
+  alertLogin() {
+    alert('¡Atención! Tienes que iniciar sesión para poder realizar una reserva.');
+    this.router.navigate(['/login']);
+  }
 }

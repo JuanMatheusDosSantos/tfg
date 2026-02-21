@@ -32,16 +32,16 @@ class ParkController extends Controller
     function filterBylocation($location)
     {
         try {
-            $park=Park::where("location",$location)->get();
-            if ($park->count()==0){
+            $park = Park::where("location", $location)->get();
+            if ($park->count() == 0) {
                 return response()->json(["no hay ninguna atracción de este tipo"],
 //                    204
                     200
                 );
             }
-            return response()->json($park,200);
-        }catch (\Exception){
-            return response()->json(["ha habido un error, comprueba que el typo sigue existiendo"],404);
+            return response()->json($park, 200);
+        } catch (\Exception) {
+            return response()->json(["ha habido un error, comprueba que el typo sigue existiendo"], 404);
         }
     }
 
@@ -54,57 +54,61 @@ class ParkController extends Controller
                 "opening_time" => "required|date_format:H:i",
                 "closing_time" => "required|date_format:H:i|after:opening_time",
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                "message"=>"error",
+                "message" => "error",
 //                "ha habido un error en la validacion"
                 $e->getMessage()
-            ],400);
+            ], 400);
         }
         try {
             Park::create([
-                "name"=>$request->get("name"),
-                "location"=>$request->get("location"),
-                "opening_time"=>$request->get("opening_time"),
-                "closing_time"=>$request->get("closing_time")
+                "name" => $request->get("name"),
+                "location" => $request->get("location"),
+                "opening_time" => $request->get("opening_time"),
+                "closing_time" => $request->get("closing_time")
             ]);
-            return response()->json(["se ha guardado correctamente la atracción"],201);
-        }
-        catch (\Exception $e){
+            return response()->json(["se ha guardado correctamente la atracción"], 201);
+        } catch (\Exception $e) {
 //            return response()->json(["ha ocurrido un error a la hora de guardar la atracción"],500);
-            return response()->json([$e->getMessage()],500);
+            return response()->json([$e->getMessage()], 500);
         }
     }
 
     function update(Request $request, $id)
     {
         $request->validate([
-            "name"=>$request->get("name"),
-            "location"=>$request->get("location"),
-            "opening_time"=>$request->get("opening_time"),
-            "closing_time"=>$request->get("closing_time")
+            "name" => $request->get("name"),
+            "location" => $request->get("location"),
+            "opening_time" => $request->get("opening_time"),
+            "closing_time" => $request->get("closing_time")
         ]);
 
-        $park=Park::findOrFail($id);
+        $park = Park::findOrFail($id);
         try {
-            $park->name=$request->name;
-            $park->location=$request->location;
-            $park->opening_time=$request->opening_time;
-            $park->closing_time=$request->closing_time;
+            $park->name = $request->name;
+            $park->location = $request->location;
+            $park->opening_time = $request->opening_time;
+            $park->closing_time = $request->closing_time;
             $park->save();
             return response()->json(["se ha cambiado correctamente la informacion de la atraccion",]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 //            return response()->json(["ha ocurrido un error a la hora de cambiar la atracción"],500);
-            return response()->json([$e->getMessage()],500);
+            return response()->json([$e->getMessage()], 500);
         }
     }
+
     function delete($id)
     {
         try {
-            Park::findOrFail($id)->delete();
-            return response()->json(["se ha eliminado correctamente la atraccion"],204);
-        }catch (\Exception $e){
-            return response()->json(["no se ha encontrado la atracción"],400);
+            $park = Park::findOrFail($id);
+            $park->restaurant()->restaurant_reservations()->delete();
+            $park->restaurant()->delete();
+            $park->park_reservations()->delete();
+            $park->delete();
+            return response()->json(["se ha eliminado correctamente la atraccion"], 204);
+        } catch (\Exception $e) {
+            return response()->json(["no se ha encontrado la atracción"], 400);
         }
     }
 }

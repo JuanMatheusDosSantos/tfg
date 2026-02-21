@@ -16,8 +16,12 @@ export class AuthService {
 
   isLoggedIn = signal<boolean>(!!localStorage.getItem('access_token'));
   user$ = this.userSubject.asObservable();
-  currentUser = signal<any>(null);
-
+  // currentUser = signal<any>(null);
+  currentUser = signal<any>(
+    localStorage.getItem('user_data')
+      ? JSON.parse(localStorage.getItem('user_data')!)
+      : null
+  );
   login(credentials: { email: string; password: string }) {
     return this.http
       .post<LoginResponse>(`${this.api}/login`, credentials)

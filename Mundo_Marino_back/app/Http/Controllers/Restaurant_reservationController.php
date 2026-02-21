@@ -43,7 +43,9 @@ class Restaurant_reservationController extends Controller
                 "party_size" => $request->party_size,
             ]);
         } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 400);
+//            return response()->json(["message" => $e->getMessage()], 400);
+            return response()->json([$request->user_id], 400);
+
         }
         return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
