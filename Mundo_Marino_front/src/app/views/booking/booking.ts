@@ -90,9 +90,9 @@ private bookingParkService=inject(Park_reservationService)
           console.error('Error de Laravel:', err.error);
         }
       });
-    }else if(this.bookingForm.get("bookingType")?.value == "park"){
+    }else if(this.bookingForm.get("bookingType")?.value === "park"){
       fd.append("user_id",this.currentUser()?.id.toString())
-      fd.append("park","1")
+      fd.append("park_id","1")
       fd.append("reservation_date",values.date)
       fd.append("adults",values.adult.toString())
       fd.append("child",values.adult.toString())
