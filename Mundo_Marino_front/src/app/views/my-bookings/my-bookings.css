@@ -1,0 +1,37 @@
+.card-section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.ticket-card {
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.ticket-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+  transform: translateY(-2px);
+}
+
+.ticket-img {
+  width: 100%;
+  height: 200px;
+}
+
+@media (min-width: 768px) {
+  .ticket-img {
+    width: 260px;
+    height: auto;
+    flex-shrink: 0;
+  }
+}
+
+.filter-label {
+  cursor: pointer;
+}
+
+.filter-label:hover span {
+  color: #FF7E54;
+}

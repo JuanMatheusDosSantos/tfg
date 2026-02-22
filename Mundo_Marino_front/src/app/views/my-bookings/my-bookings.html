@@ -1,0 +1,260 @@
+@if (cargando()) {
+  <div class="position-relative py-5 px-3 overflow-hidden" style="min-height: calc(100vh - 80px);">
+
+    <!-- Fondo decorativo -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.07;">
+      <div
+        style="position:absolute;top:-4rem;left:-4rem;width:28rem;height:28rem;background:#60a5fa;border-radius:50%;filter:blur(90px);"></div>
+      <div
+        style="position:absolute;bottom:-4rem;right:-4rem;width:28rem;height:28rem;background:#FF7E54;border-radius:50%;filter:blur(90px);"></div>
+    </div>
+
+    <div class="container position-relative" style="max-width:1100px; z-index:1;">
+
+      <!-- Cabecera -->
+      <div class="mb-5">
+        <h1 class="fw-bold mb-2" style="font-size:2.5rem; color:#005696;">Mis Entradas</h1>
+        <p class="text-muted" style="max-width:600px;">
+          Bienvenido a tu panel personal. Aquí puedes gestionar tus reservas, ver tus códigos QR
+          de acceso y descargar tus comprobantes para tu próxima visita a
+          <span class="fw-semibold" style="color:#FF7E54;">Mundo Marino El Arrecife</span>.
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-start">
+
+        <!-- ═══ SIDEBAR — SKELETON ═══ -->
+        <div class="col-12 col-lg-3">
+          <div class="card-section" style="position:sticky; top:100px;">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="skeleton" style="height:20px;width:90px;"></div>
+              <div class="skeleton" style="height:16px;width:50px;"></div>
+            </div>
+
+            <div class="mb-4">
+              <div class="skeleton mb-3" style="height:14px;width:70px;"></div>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="skeleton" style="width:20px;height:20px;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:14px;width:80px;"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="skeleton" style="width:20px;height:20px;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:14px;width:80px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="skeleton mb-3" style="height:14px;width:100px;"></div>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="skeleton" style="width:20px;height:20px;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:14px;width:110px;"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="skeleton" style="width:20px;height:20px;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:14px;width:90px;"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="skeleton" style="width:20px;height:20px;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:14px;width:100px;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ═══ LOADING STATE ═══ -->
+        <div class="col-12 col-lg-9 d-flex flex-column align-items-center justify-content-center py-5">
+
+          <div class="text-center">
+
+            <!-- Icono animado -->
+            <div class="position-relative d-inline-flex align-items-center justify-content-center mb-4">
+              <div class="ping-ring"></div>
+              <div class="loading-icon-wrap rounded-circle d-flex align-items-center justify-content-center shadow">
+                <span class="material-icons-round" style="font-size:2.5rem;color:#00A8B5;">tsunami</span>
+              </div>
+            </div>
+
+            <h3 class="fw-semibold mb-2" style="color:#005696;">Cargando tus entradas...</h3>
+            <p class="text-muted small mb-4" style="max-width:280px;margin-inline:auto;">
+              Estamos preparando los detalles de tu próxima aventura marina.
+            </p>
+
+            <!-- Barra shimmer -->
+            <div class="shimmer-track rounded-pill mx-auto">
+              <div class="shimmer-bar rounded-pill"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="position-relative py-5 px-3 overflow-hidden" style="min-height: calc(100vh - 80px);">
+
+    <!-- Fondo decorativo -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.07;">
+      <div
+        style="position:absolute;top:-4rem;left:-4rem;width:28rem;height:28rem;background:#60a5fa;border-radius:50%;filter:blur(90px);"></div>
+      <div
+        style="position:absolute;bottom:-4rem;right:-4rem;width:28rem;height:28rem;background:#FF7E54;border-radius:50%;filter:blur(90px);"></div>
+    </div>
+
+    <div class="container position-relative" style="max-width:1100px; z-index:1;">
+
+      <!-- Cabecera -->
+      <div class="mb-5">
+        <h1 class="fw-bold mb-2" style="font-size:2.5rem; color:#005696;">Mis Entradas</h1>
+        <p class="text-muted" style="max-width:600px;">
+          Bienvenido a tu panel personal. Aquí puedes gestionar tus reservas, ver tus códigos QR
+          de acceso y descargar tus comprobantes para tu próxima visita a
+          <span class="fw-semibold" style="color:#FF7E54;">Mundo Marino El Arrecife</span>.
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-start">
+
+        <!-- ═══ SIDEBAR FILTROS ═══ -->
+        <div class="col-12 col-lg-3">
+          <div class="card-section" style="position:sticky; top:100px;">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="fw-bold fs-5 mb-0 d-flex align-items-center gap-2">
+                <span class="material-icons-round" style="color:#FF7E54;">filter_list</span>
+                Filtros
+              </h2>
+              <button class="btn btn-link p-0 text-decoration-none fw-semibold"
+                      style="color:#FF7E54;font-size:0.85rem;"
+                      (click)="limpiarFiltros()">
+                Limpiar
+              </button>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-4">
+              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Estado</p>
+              <div class="d-flex flex-column gap-2">
+                @for (s of status; track s) {
+                  <label class="d-flex align-items-center gap-2 filter-label">
+                    <input type="checkbox" class="form-check-input"
+                           style="accent-color:#FF7E54;"
+                           [checked]="filtroStatus().includes(s)"
+                           (change)="toggleStatus(s)" />
+                    <span class="text-muted small">{{ s }}</span>
+                  </label>
+                }
+              </div>
+            </div>
+
+            <!-- Tipo de Ticket -->
+            <div>
+              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de
+                Ticket</p>
+              <div class="d-flex flex-column gap-2">
+                <label class="d-flex align-items-center gap-2 filter-label">
+                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
+                  <span class="text-muted small">Entrada General</span>
+                </label>
+                <label class="d-flex align-items-center gap-2 filter-label">
+                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
+                  <span class="text-muted small">Pase VIP</span>
+                </label>
+                <label class="d-flex align-items-center gap-2 filter-label">
+                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
+                  <span class="text-muted small">Restaurante</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- ═══ LISTADO DE ENTRADAS ═══ -->
+        <div class="col-12 col-lg-9 d-flex flex-column gap-4">
+
+          <!-- Entrada ACTIVA -->
+          @for (res of reservasFiltradas(); track res.category + '_' + res.id) {
+            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm">
+
+              <div class="ticket-img overflow-hidden position-relative">
+                <img
+                  [src]="res.category === 'Parque' ?
+                  'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG'
+                  :'https://lh3.googleusercontent.com/aida-public/AB6AXuAEcO_iRCG3VCuDFpcHY9phHqsZRk6ZunwMw_wee_hP7K5GCkBgViTVXMxE8mxuun1b8ZPKBdTNno8XZFyD2vQzW4aJ0dA7G7iH4nuUSLLTczHjP6qs0i1oLZ5HrL2qQx_mh62CXRMPgTQgfC2QYVk-tv6EdV0rbmeYt19mTH1gwgge7YhUNxjxVs5R1NWP_nXoYIlfAoGmQb2I0WRWr_GXDyyrAKb2ge0giJnhqyJDIfu8HFE7HNLgPjGNMEURgwHuqV3VCBAzFYsL'"
+                  alt="Entrada General" class="w-100 h-100 object-fit-cover"/>
+              </div>
+
+              <div class="p-4 p-md-5 d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h3 class="fw-bold fs-5 mb-1" style="color:#005696;">Entrada al {{res.category}}</h3>
+                    <p class="text-muted small d-flex align-items-center gap-1 mb-0">
+                      <span class="material-icons-round" style="font-size:0.9rem;">calendar_today</span>
+                      {{ res.reservation_date }}  @if (res.category==="Restaurante") {
+                      · {{res.reservation_hour.substring(0,5)}}
+                    }
+                    </p>
+                  </div>
+                  <span class="badge rounded-pill fw-bold px-3 py-2"
+                        style="background-color:rgba(34,197,94,0.12);color:#16a34a;font-size:0.72rem;">
+                  {{ res.status }}
+                  </span>
+                </div>
+
+                <div class="d-flex flex-column flex-md-row gap-4 align-items-start mb-4">
+                  <div class="d-flex flex-column gap-2 flex-grow-1">
+                    <div class="d-flex align-items-center gap-2 text-muted small">
+                      <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">groups</span>
+                      @if (res.category==="Restaurante"){
+                        {{res.party_size}} Personas
+                      }@else{
+                       {{res.adults+res.child}} {{(res.adults+res.child)==1?"Persona":"Personas"}} ({{ res.adults }} {{ res.adults==1?"Adulto":"Adultos" }}, {{res.child}} {{ res.child == 1 ? "Niño" : "Niños" }})
+                      }
+                    </div>
+                     @if(res.category==="Parque"){<div class="d-flex align-items-center gap-2 text-muted small">
+                      <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">location_on</span>
+                      Acceso Principal - Puerta A
+                    </div>}
+                    <div class="d-flex align-items-center gap-2 text-muted small">
+                    <span class="material-icons-round"
+                          style="color:#FF7E54;font-size:1.1rem;">confirmation_number</span>
+                      ID: #MM-9928341
+                    </div>
+                  </div>
+                  <div class="bg-white p-2 rounded-3 border shadow-sm">
+                    <img
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiJQbZUO5fJSLASU_Dr04CjVj2BXaY5UiZZfn_Af9U4za1ixsTDO4QWghyYi8UKeng_AY4qbynDLlPafXl6fnKmdIh89_cZ9LJR8UpXd0FP_Gi2b8gIrNF5mgS4yk73uMoyZnmR_vuTPcI0a2TUQQ50PnNKZHAojWY3M4N6t5pINlLabqLb41WZLkSeEXE1sYS8dnk3PnrOkku1K3ofL_0xOVQEduZuu1lHvrd3M0YaRgm1_Uhk48ZHbt_SqDtPoSHyqzIt3A0Eips"
+                      alt="QR Code" style="width:96px;height:96px;"/>
+                    <p class="text-center text-muted mb-0 mt-1" style="font-size:0.6rem;letter-spacing:1px;">SCAN ME</p>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                  <button
+                    class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">
+                    <span class="material-icons-round" style="font-size:1.1rem;">share</span>
+                    Compartir
+                  </button>
+                  <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
+                          style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;">
+                    <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
+                    Descargar PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+        }
+
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date("reservation_date");
             $table->time("reservation_hour");
             $table->integer("party_size");
-            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending"])->default("pending");
+            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending","accepted"])->default("pending");
             $table->timestamps();
            $table->unique(["user_id","restaurant_id","reservation_date","reservation_hour"],"ui_ri_sd");
         });

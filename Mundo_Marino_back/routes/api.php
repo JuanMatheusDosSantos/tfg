@@ -26,11 +26,7 @@ Route::get("atraccion/parque/{id}",[AttractionController::class,"filterByPark"])
 Route::get("restaurantes",[RestaurantController::class,"index"]);
 Route::get("restaurante/{id}",[RestaurantController::class,"show"]);
 
-Route::get("park_reservations",[Park_reservationController::class,"index"]);
-Route::get("park_reservation/{id}",[Park_reservationController::class,"show"]);
 
-Route::get("restaurant_reservations",[Restaurant_reservationController::class,"index"]);
-Route::get("restaurant_reservation/{id}",[Restaurant_reservationController::class,"show"]);
 
 
 Route::middleware('auth:api')->group(function () {
@@ -50,6 +46,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put("restaurant/{id}",[RestaurantController::class,"update"]);
     Route::delete("restaurant/{id}",[RestaurantController::class,"delete"]);
 
+    Route::get("park_reservations",[Park_reservationController::class,"index"]);
+    Route::get("park_reservation/{id}",[Park_reservationController::class,"show"]);
+
     Route::post("park_reservation",[Park_reservationController::class,"store"]);
     Route::put("park_reservation/{id}",[Park_reservationController::class,"edit"]);
     Route::delete("park_reservation/{id}",[Park_reservationController::class,"delete"]);
@@ -57,6 +56,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post("park_reservation/userLimit",[Park_reservationController::class,"setUserLimit"]);
 
     Route::post("restaurant_reservation/userLimit/{id}",[Restaurant_reservationController::class,"setUserLimit"]);
+
+    Route::get("restaurant_reservations",[Restaurant_reservationController::class,"index"]);
+    Route::get("restaurant_reservation/{id}",[Restaurant_reservationController::class,"show"]);
 
     Route::post("restaurant_reservation",[Restaurant_reservationController::class,"store"]);
     Route::put("restaurant_reservation/{id}",[Restaurant_reservationController::class,"edit"]);

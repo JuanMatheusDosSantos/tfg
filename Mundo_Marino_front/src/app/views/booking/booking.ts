@@ -1,5 +1,13 @@
 import {Component, inject} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
 import {AuthService} from '../../auth/auth';
 import {Router} from '@angular/router';
@@ -37,16 +45,26 @@ export class Booking {
       bookingType: ["", [Validators.required]],
       adult: [0, [Validators.required]],
       child: [0, [Validators.required]],
-      date: [[]],
-      restaurantDate: [],
-      currentUser: [[]],
-      cardHolder: [""],
-      cardNumber: [""],
-      expiryDate: [""],
-      cvv: [""]
+      date: [null],
+      restaurantDate: [null,[this.customDateValidator()]],
+      cardHolder: ["", [Validators.required, Validators.minLength(3)]],
+      cardNumber: ["", [
+        Validators.required,
+        Validators.pattern('^[0-9]{16}$') // Solo 16 números
+      ]],
+      expiryDate: ["", [
+        Validators.required,
+        Validators.pattern('^(0[1-9]|1[0-2])\/?([0-9]{2})$') // Formato MM/YY
+      ]],
+      cvv: ["", [
+        Validators.required,
+        Validators.pattern('^[0-9]{3,4}$') // 3 o 4 dígitos
+      ]]
     });
     this.bookingForm.get('bookingType')?.valueChanges.subscribe(type => {
       this.actualizarValidadoresPago(type);
+
+      this.bookingForm.get('restaurantDate')?.updateValueAndValidity();
     });
   }
 
@@ -162,6 +180,7 @@ export class Booking {
   }
 
   protected readonly fechaMinimaPark = this.minDatePark();
+  protected readonly fechaMinimaRestaurant = this.minDateRestaurant();
 
   private minDatePark(): string {
     const hoy = new Date();
@@ -188,5 +207,35 @@ export class Booking {
       // IMPORTANTE: Decirle a Angular que re-calcule si el campo es válido
       control?.updateValueAndValidity();
     });
+  }
+  private minDateRestaurant(): string {
+    const ahora = new Date();
+    // Sumamos las 2 horas de margen
+    ahora.setHours(ahora.getHours() + 2);
+
+    // Usamos el truco de la "Suecia" (sv-SE) porque formatea en ISO pero mantiene TU hora local
+    // Resultado: "2026-02-22 17:46:00" -> cambiamos el espacio por 'T' y cortamos
+    return ahora.toLocaleString('sv-SE', { hour12: false })
+      .replace(' ', 'T')
+      .slice(0, 16);
+  }
+  private customDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      const tipo = this.bookingForm?.get('bookingType')?.value;
+      if (!valor || tipo === 'park') {
+        return null;
+      }
+
+      const fechaSeleccionada = new Date(valor).getTime();
+      const ahoraMasDosHoras = new Date().getTime() + (1 * 60 * 60 * 1000+59*60*1000);
+
+      // Solo aplicamos el error si es Restaurante o Ambos y no cumple el tiempo
+      if (fechaSeleccionada < ahoraMasDosHoras) {
+        return { horaInvalida: true };
+      }
+
+      return null;
+    };
   }
 }

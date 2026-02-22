@@ -13,7 +13,7 @@ class Restaurant_reservationController extends Controller
      */
     public function index()
     {
-        $reservations = Restaurant_reservation::with("user");
+        $reservations = Restaurant_reservation::with("user")->get();
         return response()->json($reservations);
     }
 
