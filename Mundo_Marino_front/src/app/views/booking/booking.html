@@ -102,7 +102,7 @@
                   <span class="input-group-text bg-light border-0 rounded-start-3">
                     <span class="material-icons-round text-muted" style="font-size:1.1rem;">calendar_today</span>
                   </span>
-                  @if (bookingForm.get("bookingType")?.value == "park"||bookingForm.get("bookingType")?.value == "park_restaurant") {
+                  @if (bookingForm.get("bookingType")?.value == "park") {
 
                     <input type="date" formControlName="date"
                            [min]="fechaMinimaPark"

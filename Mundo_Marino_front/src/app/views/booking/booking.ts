@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
-import {required} from '@angular/forms/signals';
 import {AuthService} from '../../auth/auth';
 import {Router} from '@angular/router';
 import {RestaurantReservationService} from '../../components/restaurant_reservation';
@@ -14,7 +13,9 @@ import {Park_reservationService} from '../../components/park_reservation';
     CurrencyPipe
   ],
   templateUrl: './booking.html',
-  styleUrls: ['./booking.css'],
+  styleUrls: [
+    './booking.css'
+  ],
 })
 export class Booking {
   private authServices = inject(AuthService);
@@ -22,8 +23,8 @@ export class Booking {
   errorMessage = "";
   bookingForm!: FormGroup;
 
-  private bookingRestaurantService=inject(RestaurantReservationService)
-private bookingParkService=inject(Park_reservationService)
+  private bookingRestaurantService = inject(RestaurantReservationService)
+  private bookingParkService = inject(Park_reservationService)
   private fb = inject(FormBuilder);
   public router = inject(Router);
 
@@ -37,7 +38,7 @@ private bookingParkService=inject(Park_reservationService)
       adult: [0, [Validators.required]],
       child: [0, [Validators.required]],
       date: [[]],
-      restaurantDate:[],
+      restaurantDate: [],
       currentUser: [[]],
       cardHolder: [""],
       cardNumber: [""],
@@ -54,31 +55,28 @@ private bookingParkService=inject(Park_reservationService)
 
     this.loading = true
 
-    const fd = new FormData();
+    const fdPark = new FormData();
+
+    const fdRest = new FormData();
+
     const values = this.bookingForm.value;
 
-    if (this.bookingForm.get("bookingType")?.value == "restaurant"){
-      // Mapeo de campos según lo que espera tu Validator en Laravel
-      fd.append('date', values.date);
-      fd.append('adult', values.adult);
-      fd.append('child', values.child);
-
-      fd.append('category', values.category_id);
+    if (this.bookingForm.get("bookingType")?.value === "restaurant") {
       const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
 
       const fecha = partes[0];
       const hora = partes[1];
 
       // 3. Lo añadimos al FormData con los nombres de tus columnas en BD
-      fd.append('reservation_date', fecha);
-      fd.append('reservation_hour', hora);
-      fd.append('status', 'pending');
-      fd.append("user_id",this.currentUser()?.id.toString())
-      fd.append("restaurant_id","1")
-      let total=Number(this.bookingForm.get("adult")?.value??0) +Number(this.bookingForm.get("child")?.value??0);
-      fd.append('party_size', total.toString());
+      fdRest.append('reservation_date', fecha);
+      fdRest.append('reservation_hour', hora);
+      fdRest.append('status', 'pending');
+      fdRest.append("user_id", this.currentUser()?.id.toString())
+      fdRest.append("restaurant_id", "1")
+      let total = Number(this.bookingForm.get("adult")?.value ?? 0) + Number(this.bookingForm.get("child")?.value ?? 0);
+      fdRest.append('party_size', total.toString());
 
-      this.bookingRestaurantService.create(fd).subscribe({
+      this.bookingRestaurantService.create(fdRest).subscribe({
         next: (res) => {
           console.log('¡Petición creada con éxito!', res);
           this.router.navigate(['/']);
@@ -90,14 +88,14 @@ private bookingParkService=inject(Park_reservationService)
           console.error('Error de Laravel:', err.error);
         }
       });
-    }else if(this.bookingForm.get("bookingType")?.value === "park"){
-      fd.append("user_id",this.currentUser()?.id.toString())
-      fd.append("park_id","1")
-      fd.append("reservation_date",values.date)
-      fd.append("adults",values.adult.toString())
-      fd.append("child",values.adult.toString())
+    } else if (this.bookingForm.get("bookingType")?.value === "park") {
+      fdPark.append("user_id", this.currentUser()?.id.toString())
+      fdPark.append("park_id", "1")
+      fdPark.append("reservation_date", values.date)
+      fdPark.append("adults", values.adult.toString())
+      fdPark.append("child", values.adult.toString())
 
-      this.bookingParkService.create(fd).subscribe({
+      this.bookingParkService.create(fdPark).subscribe({
         next: (res) => {
           console.log('¡Petición creada con éxito!', res);
           this.router.navigate(['/']);
@@ -110,20 +108,55 @@ private bookingParkService=inject(Park_reservationService)
         }
       });
 
-    }
-    else{
-      let total=Number(this.bookingForm.get("adult")?.value??0) +Number(this.bookingForm.get("child")?.value??0);
-      // Mapeo de campos según lo que espera tu Validator en Laravel
-      fd.append('date', values.date);
-      fd.append('party_size', total.toString());
-      fd.append('destinatary', values.destinatary);
+    } else {
+      const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
 
-      // IMPORTANTE: Enviamos 'category' (como pide el back) usando el valor de 'category_id'
-      fd.append('category', values.category_id);
+      const fecha = partes[0];
+      const hora = partes[1];
 
-      // Campos obligatorios para la creación según tu lógica de Laravel
-      fd.append('status', 'pending');
-      fd.append('signers', '0');
+      //cosas del parque
+      fdPark.append("park_id", "1")
+      fdPark.append("adults", values.adult.toString())
+      fdPark.append("child", values.adult.toString())
+      fdPark.append('status', 'pending');
+      fdPark.append("user_id", this.currentUser()?.id.toString())
+      fdPark.append("reservation_date", fecha)
+
+      //cosas del restaurante
+      fdRest.append('reservation_hour', hora);
+      fdRest.append("restaurant_id", "1")
+      fdRest.append('status', 'pending');
+      fdRest.append("user_id", this.currentUser()?.id.toString())
+      fdRest.append("reservation_date", fecha)
+
+      let total = Number(this.bookingForm.get("adult")?.value ?? 0) + Number(this.bookingForm.get("child")?.value ?? 0);
+      fdRest.append('party_size', total.toString());
+
+      this.bookingParkService.create(fdPark).subscribe({
+        next: (res) => {
+          console.log('¡Petición creada con éxito!', res);
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.loading = false;
+          // Mostramos el mensaje de error en la UI
+          this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
+          console.error('Error de Laravel:', err.error);
+        }
+      });
+
+      this.bookingRestaurantService.create(fdRest).subscribe({
+        next: (res) => {
+          console.log('¡Petición creada con éxito!', res);
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.loading = false;
+          // Mostramos el mensaje de error en la UI
+          this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
+          console.error('Error de Laravel:', err.error);
+        }
+      });
 
     }
   }

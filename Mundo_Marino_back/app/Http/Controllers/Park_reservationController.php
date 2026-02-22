@@ -14,7 +14,7 @@ class Park_reservationController extends Controller
     public function index()
     {
         try {
-            $parks=Park_reservation::all();
+            $parks=Park_reservation::with("user");
             return response()->json($parks);
         }catch (\Exception $e){
             \Log::channel("park_reservation")->error("".$e->getMessage());
