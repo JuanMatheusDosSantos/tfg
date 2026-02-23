@@ -229,25 +229,30 @@
                       ID: #MM-9928341
                     </div>
                   </div>
-                  <div class="bg-white p-2 rounded-3 border shadow-sm">
-                    <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiJQbZUO5fJSLASU_Dr04CjVj2BXaY5UiZZfn_Af9U4za1ixsTDO4QWghyYi8UKeng_AY4qbynDLlPafXl6fnKmdIh89_cZ9LJR8UpXd0FP_Gi2b8gIrNF5mgS4yk73uMoyZnmR_vuTPcI0a2TUQQ50PnNKZHAojWY3M4N6t5pINlLabqLb41WZLkSeEXE1sYS8dnk3PnrOkku1K3ofL_0xOVQEduZuu1lHvrd3M0YaRgm1_Uhk48ZHbt_SqDtPoSHyqzIt3A0Eips"
-                      alt="QR Code" style="width:96px;height:96px;"/>
-                    <p class="text-center text-muted mb-0 mt-1" style="font-size:0.6rem;letter-spacing:1px;">SCAN ME</p>
-                  </div>
+
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
                   <button
-                    class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">
-                    <span class="material-icons-round" style="font-size:1.1rem;">share</span>
-                    Compartir
+                    class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-primary text-white">
+                    <span class="material-icons-round" style="font-size:1.1rem;">edit</span>
+                    Editar
                   </button>
-                  <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
+                  @if (res.category==="Parque"){
+                    <button (click)="deletePark(res.id)"
+                          class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-danger text-white"
                           style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;">
-                    <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
-                    Descargar PDF
+                    <span class="material-icons-round" style="font-size:1.1rem;">delete</span>
+                    Eliminar
                   </button>
+                  } @else {
+                    <button (click)="deleteRestaurant(res.id)"
+                            class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-danger text-white"
+                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;">
+                      <span class="material-icons-round" style="font-size:1.1rem;">delete</span>
+                      Eliminar
+                    </button>
+                  }
                 </div>
               </div>
             </div>

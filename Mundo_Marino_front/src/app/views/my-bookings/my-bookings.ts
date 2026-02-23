@@ -8,7 +8,7 @@ import {forkJoin} from 'rxjs';
 @Component({
   selector: 'app-my-bookings',
   imports: [],
-  standalone:true,
+  standalone: true,
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.css',
 })
@@ -27,7 +27,8 @@ export class MyBookings {
   public cargando = signal(true);
   public isLoggedIn = this.authService.isLoggedIn;
 
-  public currentUser: any | null=null;
+  public currentUser: any | null = null;
+  park = []
 
   ngOnInit(): void {
     this.authService.loadUserIfNeeded();
@@ -40,18 +41,17 @@ export class MyBookings {
 
       forkJoin({
         parks: this.bookingPark.fetchPark_reservations(),
-        restaurants: this.bookingRestaurant.fetchRestaurant_reservations()
+        restaurants: this.bookingRestaurant.fetchRestaurant_reservations(),
       }).subscribe({
         next: (res) => {
-          const parks = res.parks.map(p => ({ ...p, category: 'Parque' }));
-          const restaurants = res.restaurants.map(r => ({ ...r, category: 'Restaurante' }));
+          const parks = res.parks.map(p => ({...p, category: 'Parque'}));
+          const restaurants = res.restaurants.map(r => ({...r, category: 'Restaurante'}));
 
-          this.allReservations.set([...parks, ...restaurants].sort((a, b)=>{
-            // Convertimos las fechas a objetos Date para comparar
+          this.allReservations.set([...parks, ...restaurants].sort((a, b) => {
             const dateA = new Date(a.reservation_date ?? 0).getTime();
             const dateB = new Date(b.reservation_date ?? 0).getTime();
 
-            return dateB - dateA; // De menor a mayor fecha
+            return dateB - dateA;
           }));
 
 
@@ -64,6 +64,28 @@ export class MyBookings {
         }
       });
     });
+  }
+
+  deletePark(id: number) {
+    if (confirm("¿estas seguro de que quieres eliminar de que quieres eliminar la peticion?")) {
+      this.bookingPark.delete(id).subscribe({
+        error: (err) => alert('No puedes borrar esto (quizás no eres el dueño)'),
+        next: () => {
+          this.allReservations.update(reservas => reservas.filter(r => !(r.id === id && r.category === "Parque")))
+        }
+      });
+    }
+  }
+
+  deleteRestaurant(id: number) {
+    if (confirm("¿estas seguro de que quieres eliminar de que quieres eliminar la reserva?")) {
+      this.bookingRestaurant.delete(id).subscribe({
+        error: (err) => alert('No puedes borrar esto'),
+        next: () => {
+          this.allReservations.update(reservas => reservas.filter(r => !(r.id === id && r.category === "Restaurante")))
+        }
+      });
+    }
   }
 
   reservasFiltradas = computed(() => {
