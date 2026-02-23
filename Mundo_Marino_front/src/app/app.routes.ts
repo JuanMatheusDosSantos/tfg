@@ -7,6 +7,7 @@ import {Twitter} from './views/twitter/twitter';
 import {Login} from './pages/login/login';
 import {Register} from './pages/register/register';
 import {MyBookings} from './views/my-bookings/my-bookings';
+import {EditBookings} from './views/edit-bookings/edit-bookings';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {path:"login",component:Login},
   {path:"register",component:Register},
   {path:"myBookings",component:MyBookings},
+  {path:"editBooking",component:EditBookings},
   {path:"twitter",
     canActivate: [() => {
       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';

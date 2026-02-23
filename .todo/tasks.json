@@ -5,7 +5,7 @@
     "tags": [],
     "title": "restaurant",
     "description": "hay que pasar del stich al angular",
-    "status": "TODO",
+    "status": "DONE",
     "date": {
       "date": {
         "year": 2026,
@@ -48,7 +48,7 @@
     "priority": "HIGH",
     "tags": [],
     "title": "reservas",
-    "description": "hay que crearla y conectarla con el back",
+    "description": "hay que crearla y conectarla con el back, falta edit",
     "status": "TODO",
     "date": {
       "date": {
