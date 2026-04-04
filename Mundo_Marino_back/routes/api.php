@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\admin\Admin_logController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Park_reservationController;
 use App\Http\Controllers\ParkController;
-use App\Http\Controllers\Admin_logController;
 use App\Http\Controllers\Payments;
 use App\Http\Controllers\Restaurant_reservationController;
 use App\Http\Controllers\RestaurantController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);

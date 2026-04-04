@@ -154,25 +154,38 @@
             </div>
 
             <!-- Tipo de Ticket -->
-            <div>
-              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de
-                Ticket</p>
+<!--            <div>-->
+<!--              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de-->
+<!--                Ticket</p>-->
+<!--              <div class="d-flex flex-column gap-2">-->
+<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
+<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
+<!--                  <span class="text-muted small">Entrada General</span>-->
+<!--                </label>-->
+<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
+<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
+<!--                  <span class="text-muted small">Pase VIP</span>-->
+<!--                </label>-->
+<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
+<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
+<!--                  <span class="text-muted small">Restaurante</span>-->
+<!--                </label>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="mb-4">
+              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de Ticket</p>
               <div class="d-flex flex-column gap-2">
-                <label class="d-flex align-items-center gap-2 filter-label">
-                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
-                  <span class="text-muted small">Entrada General</span>
-                </label>
-                <label class="d-flex align-items-center gap-2 filter-label">
-                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
-                  <span class="text-muted small">Pase VIP</span>
-                </label>
-                <label class="d-flex align-items-center gap-2 filter-label">
-                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>
-                  <span class="text-muted small">Restaurante</span>
-                </label>
+                @for (tipo of tiposTicket; track tipo) {
+                  <label class="d-flex align-items-center gap-2 filter-label">
+                    <input type="checkbox" class="form-check-input"
+                           style="accent-color:#FF7E54;"
+                           [checked]="filtroTipo().includes(tipo)"
+                           (change)="toggleTipo(tipo)" />
+                    <span class="text-muted small">{{ tipo }}</span>
+                  </label>
+                }
               </div>
             </div>
-
           </div>
         </div>
 

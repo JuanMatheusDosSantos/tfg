@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
 use Illuminate\Http\Request;
 
-class Restaurant_reservationController extends Controller
+class AdminRestaurant_reservationController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -151,13 +153,13 @@ class Restaurant_reservationController extends Controller
     public function setUserLimit(Request $request,$id){
         $new_max=$request->max_capacity;
         try{
-        $old_max=Restaurant::findOrFail($id)->max_capacity;
+            $old_max=Restaurant::findOrFail($id)->max_capacity;
         }catch (\Exception $e){
             return response()->json(["error"=>"no se ha podido encontrar el restaurante"],400);
         }
         if ($new_max!=$old_max){
             try{
-            Restaurant::findOrFail($request->restaurant_id)->max_capacity=$new_max;
+                Restaurant::findOrFail($request->restaurant_id)->max_capacity=$new_max;
             }catch (\Exception $e){
                 return response()->json(["error"=>"no se ha podido actualizar la capacidad del restaurante"],400);
             }

@@ -71,12 +71,28 @@ export class MyBookings {
       });
     });
   }
+  tiposTicket = ['Parque', 'Restaurante'];
+  filtroTipo = signal<string[]>([]);
+
+  toggleTipo(tipo: string) {
+    this.filtroTipo.update(current =>
+      current.includes(tipo)
+        ? current.filter(t => t !== tipo)
+        : [...current, tipo]
+    );
+  }
 
   reservasFiltradas = computed(() => {
-    const filtros = this.filtroStatus();
-    const todas = this.allReservations(); // ← llámalo como función
-    if (filtros.length === 0) return todas;
-    return todas.filter(r => filtros.includes(r.status));
+    const filtrosStatus = this.filtroStatus();
+    const filtrosTipo = this.filtroTipo();
+    const todas = this.allReservations();
+
+    return todas.filter(r => {
+      const tipo = 'park_id' in r ? 'Parque' : 'Restaurante';
+      const passStatus = filtrosStatus.length === 0 || filtrosStatus.includes(r.status);
+      const passTipo = filtrosTipo.length === 0 || filtrosTipo.includes(tipo);
+      return passStatus && passTipo;
+    });
   });
 
   toggleStatus(status: string) {

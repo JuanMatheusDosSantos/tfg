@@ -69,7 +69,6 @@ class Park_reservationController extends Controller
         }catch (\Exception $e){
             return response()->json(["ha habido un fallo al intentar mostrar la reserva"],400);
         }
-        return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 
     /**
