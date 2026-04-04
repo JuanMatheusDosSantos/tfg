@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Park;
 use App\Models\Park_reservation;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Park_reservationController extends Controller
 {
@@ -157,6 +159,37 @@ class Park_reservationController extends Controller
             return response()->json([
                 "message" => "esta hora esta llena, pruebe con otra"
             ], 400);
+        }
+    }
+
+    public function showQR($id)
+    {
+        $reservation = Park_reservation::findOrFail($id);
+
+        $qrImage = QrCode::size(200)
+            ->generate($reservation->codigo_qr);  // SVG por defecto sin format()
+
+        return response($qrImage, 200)
+            ->header('Content-Type', 'image/svg+xml');
+    }
+    public function downloadParkReservation($id)
+    {
+        try {
+            $reservation = Park_reservation::with('user')->findOrFail($id);
+
+            $qrSvg = base64_encode(
+                QrCode::size(200)->generate($reservation->codigo_qr)
+            );
+
+            $pdf = Pdf::loadView('pdfs.entrada', [
+                'reservation' => $reservation,
+                'qr'       => $qrSvg
+            ]);
+
+            return $pdf->download('entrada-'.$id.'.pdf');
+
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
         }
     }
 }

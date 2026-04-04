@@ -30,6 +30,23 @@ class UserSeeder extends Seeder
             "role"=>"admin",
             "phone"=>123456789
         ]);
+        User::factory()->create([
+            "name" => "park",
+            "email" => "park@gmail.com",
+            "password" => bcrypt("12345678"),
+            "role" => "park",
+//            "park_id"=>1,
+            "phone" => 987654321
+        ]);
+
+        User::factory()->create([
+            "name" => "restaurant",
+            "email" => "restaurant@gmail.com",
+            "password" => bcrypt("12345678"),
+            "role" => "restaurant",
+//            "park_id"=>1,
+            "phone" => 555666777
+        ]);
         User::factory()->count(10)->create();
     }
 }

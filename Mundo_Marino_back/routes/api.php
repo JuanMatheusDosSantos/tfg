@@ -27,7 +27,8 @@ Route::get("restaurantes",[RestaurantController::class,"index"]);
 Route::get("restaurante/{id}",[RestaurantController::class,"show"]);
 
 
-
+Route::get("reservation/{id}/qr",[Park_reservationController::class,"showQR"]);
+Route::get("reservation/{id}/pdf",[Park_reservationController::class,"downloadParkReservation"]);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
@@ -67,4 +68,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get("admin_logs",[Admin_logController::class,"index"]);
     Route::get("admin_log/{id}",[Admin_logController::class,"show"]);
     Route::post("admin_log",[Admin_logController::class,"store"]);
+});
+
+Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () {
+
 });

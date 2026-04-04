@@ -216,10 +216,10 @@
                       @if (res.category==="Restaurante"){
                         {{res.party_size}} Personas
                       }@else{
-                       {{res.adults+res.child}} {{(res.adults+res.child)==1?"Persona":"Personas"}} ({{ res.adults }} {{ res.adults==1?"Adulto":"Adultos" }}, {{res.child}} {{ res.child == 1 ? "Niño" : "Niños" }})
+                        {{res.adults+res.child}} {{(res.adults+res.child)==1?"Persona":"Personas"}} ({{ res.adults }} {{ res.adults==1?"Adulto":"Adultos" }}, {{res.child}} {{ res.child == 1 ? "Niño" : "Niños" }})
                       }
                     </div>
-                     @if(res.category==="Parque"){<div class="d-flex align-items-center gap-2 text-muted small">
+                    @if(res.category==="Parque"){<div class="d-flex align-items-center gap-2 text-muted small">
                       <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">location_on</span>
                       Acceso Principal - Puerta A
                     </div>}
@@ -229,37 +229,68 @@
                       ID: #MM-9928341
                     </div>
                   </div>
-
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                  <button
-                    class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-primary text-white">
-                    <span class="material-icons-round" style="font-size:1.1rem;">edit</span>
-                    Editar
-                  </button>
-                  @if (res.category==="Parque"){
-                    <button (click)="deletePark(res.id)"
-                          class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-danger text-white"
-                          style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;">
-                    <span class="material-icons-round" style="font-size:1.1rem;">delete</span>
-                    Eliminar
-                  </button>
-                  } @else {
-                    <button (click)="deleteRestaurant(res.id)"
-                            class="btn fw-semibold d-flex align-items-center gap-2 rounded-3 bg-danger text-white"
-                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;">
-                      <span class="material-icons-round" style="font-size:1.1rem;">delete</span>
-                      Eliminar
-                    </button>
+                  @if(res.category==="Parque"){
+                    <div class="bg-white p-2 rounded-3 border shadow-sm"
+                         style="cursor:pointer;"
+                         (click)="abrirQR(res)"
+                    >
+                      <img
+                        [src]="getQrUrl(res.id)"
+                        alt="QR Code" style="width:96px;height:96px;"/>
+                      <p class="text-center text-muted mb-0 mt-1" style="font-size:0.6rem;letter-spacing:1px;">SCAN ME</p>
+                    </div>
                   }
                 </div>
+
+                @if(res.category==="Parque"){
+                  <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                    <button
+                      class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">
+                      <span class="material-icons-round" style="font-size:1.1rem;">share</span>
+                      Compartir
+                    </button>
+                    <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
+                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"
+                            (click)="descargarPDF(res)">
+                      <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
+                      Descargar PDF
+                    </button>
+                  </div>
+                }
               </div>
             </div>
-        }
+          }
+
 
         </div>
       </div>
+    </div>
+  </div>
+}
+@if (qrModal().visible) {
+  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+       style="background:rgba(0,0,0,0.6); z-index:9999;"
+       (click)="cerrarQR()">
+
+    <div class="bg-white rounded-4 p-4 shadow-lg text-center"
+         style="max-width:340px; width:90%;"
+         (click)="$event.stopPropagation()">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0" style="color:#005696;">Tu código QR</h5>
+        <button class="btn-close" (click)="cerrarQR()"></button>
+      </div>
+
+      <p class="text-muted small mb-3">Muestra este código en la entrada del parque</p>
+
+      <div class="border rounded-3 p-3 mb-3 d-inline-block">
+        <img [src]="qrModal().url" alt="QR Code" style="width:220px;height:220px;"/>
+      </div>
+
+      <p class="fw-semibold small mb-1" style="color:#005696;">
+        Reserva #{{ qrModal().reserva?.id }}
+      </p>
+      <p class="text-muted small">{{ qrModal().reserva?.reservation_date }}</p>
     </div>
   </div>
 }

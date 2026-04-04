@@ -128,7 +128,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
-      <excludeFolder url="file://$MODULE_DIR$/bootstrap/cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/sanctum" />
       <excludeFolder url="file://$MODULE_DIR$/Mundo_Marino_back/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/Mundo_Marino_back/vendor/carbonphp/carbon-doctrine-types" />

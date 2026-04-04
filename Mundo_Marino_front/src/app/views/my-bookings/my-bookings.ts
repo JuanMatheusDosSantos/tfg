@@ -4,6 +4,8 @@ import {RestaurantReservationService} from '../../components/restaurant_reservat
 import {AuthService} from '../../auth/auth';
 import {ActivatedRoute} from '@angular/router';
 import {forkJoin} from 'rxjs';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-my-bookings',
@@ -19,6 +21,9 @@ export class MyBookings {
   public authService = inject(AuthService);
   private route = inject(ActivatedRoute);
 
+  private http = inject(HttpClient);
+  private sanitizer = inject(DomSanitizer);
+
   allReservations = signal<any[]>([]);
   public status: string[] = [];
 
@@ -28,7 +33,7 @@ export class MyBookings {
   public isLoggedIn = this.authService.isLoggedIn;
 
   public currentUser: any | null = null;
-  park = []
+  private apiUrl = 'http://localhost:8000/api';
 
   ngOnInit(): void {
     this.authService.loadUserIfNeeded();
@@ -41,17 +46,18 @@ export class MyBookings {
 
       forkJoin({
         parks: this.bookingPark.fetchPark_reservations(),
-        restaurants: this.bookingRestaurant.fetchRestaurant_reservations(),
+        restaurants: this.bookingRestaurant.fetchRestaurant_reservations()
       }).subscribe({
         next: (res) => {
           const parks = res.parks.map(p => ({...p, category: 'Parque'}));
           const restaurants = res.restaurants.map(r => ({...r, category: 'Restaurante'}));
 
           this.allReservations.set([...parks, ...restaurants].sort((a, b) => {
+            // Convertimos las fechas a objetos Date para comparar
             const dateA = new Date(a.reservation_date ?? 0).getTime();
             const dateB = new Date(b.reservation_date ?? 0).getTime();
 
-            return dateB - dateA;
+            return dateB - dateA; // De menor a mayor fecha
           }));
 
 
@@ -64,28 +70,6 @@ export class MyBookings {
         }
       });
     });
-  }
-
-  deletePark(id: number) {
-    if (confirm("¿estas seguro de que quieres eliminar de que quieres eliminar la peticion?")) {
-      this.bookingPark.delete(id).subscribe({
-        error: (err) => alert('No puedes borrar esto (quizás no eres el dueño)'),
-        next: () => {
-          this.allReservations.update(reservas => reservas.filter(r => !(r.id === id && r.category === "Parque")))
-        }
-      });
-    }
-  }
-
-  deleteRestaurant(id: number) {
-    if (confirm("¿estas seguro de que quieres eliminar de que quieres eliminar la reserva?")) {
-      this.bookingRestaurant.delete(id).subscribe({
-        error: (err) => alert('No puedes borrar esto'),
-        next: () => {
-          this.allReservations.update(reservas => reservas.filter(r => !(r.id === id && r.category === "Restaurante")))
-        }
-      });
-    }
   }
 
   reservasFiltradas = computed(() => {
@@ -106,5 +90,45 @@ export class MyBookings {
 
   limpiarFiltros() {
     this.filtroStatus.set([]);
+  }
+
+  qrModal = signal<{ visible: boolean; url: string | null; reserva: any | null }>({
+    visible: false,
+    url: null,
+    reserva: null
+  });
+
+  abrirQR(reserva: any) {
+    const url = `${this.apiUrl}/reservation/${reserva.id}/qr`;
+    this.qrModal.set({ visible: true, url, reserva });
+  }
+
+  cerrarQR() {
+    this.qrModal.set({visible: false, url: null, reserva: null});
+  }
+
+  descargarPDF(reserva: any) {
+
+    this.http.get(`${this.apiUrl}/reservation/${reserva.id}/pdf`, {
+      responseType: 'blob'
+
+    }).subscribe({
+      next:(blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `entrada-${reserva.reservation_date.split("-").join("")}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    },error: (err) => {
+        // Leer el blob del error para ver el mensaje
+        const reader = new FileReader();
+        reader.onload = () => console.error('Error PDF:', reader.result);
+        reader.readAsText(err.error);
+      }
+  });
+  }
+  getQrUrl(id: number): string {
+    return `${this.apiUrl}/reservation/${id}/qr`;
   }
 }

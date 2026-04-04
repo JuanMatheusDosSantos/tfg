@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer("phone")->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum("role",["admin","park","restaurant","normal"])->default("normal");
+            $table->enum("role",["admin","park","restaurant","user"])->default("user");
+//            $table->integer("park_id")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
