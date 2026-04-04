@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer("adults")->default(1);
             $table->integer("child")->default(0);
             $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending","accepted"])->default("pending");
+            $table->string('codigo_qr')->unique();
             $table->timestamps();
             $table->unique(["user_id","park_id","reservation_date"],"ui_pi_rd");
         });
