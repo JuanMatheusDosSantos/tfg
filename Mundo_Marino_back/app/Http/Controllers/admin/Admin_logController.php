@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin_log;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 
 class Admin_logController extends Controller
@@ -11,12 +12,17 @@ class Admin_logController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         try {
+            $this->authorize('viewAny', Admin_log::class);
             $logs=Admin_log::all();
             return response()->json($logs);
-        }catch (\Exception $e){
+        }catch (AuthenticationException $e){
+            return  response()->json(["no tienes permisos"],403);
+        }
+        catch (\Exception $e){
             return response()->json([
                 "ha habido un fallo al mostrar los logs"
             ],500);
@@ -30,10 +36,10 @@ class Admin_logController extends Controller
     {
         try {
             $request->validate([
-                "action"=>$request->action,
-                "affected_zone"=>$request->affected_zone,
-                "old_value"=>$request->old_value,
-                "new_value"=>$request->new_value,
+                "action"        => "required|string",
+                "affected_zone" => "required|string",
+                "old_value"     => "nullable",
+                "new_value"     => "nullable",
             ]);
         }catch (\Exception $e){
             return response()->json([
@@ -72,5 +78,16 @@ class Admin_logController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public static function saveLog($action, $affected_zone, $old_value=null, $new_value=null)
+    {
+        Admin_log::create([
+            "action" => $action,
+            "affected_zone" => $affected_zone,
+            "old_value" => $old_value?\Safe\json_encode($old_value):null,
+            "new_value" => $new_value?\Safe\json_encode($new_value):null,
+            "user_id"=>auth()->id(),
+        ]);
     }
 }

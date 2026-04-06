@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, finalize, tap } from 'rxjs';
-import { LoginResponse, User } from './auth.model';
-import { Router } from '@angular/router';
+import {inject, Injectable, signal} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, catchError, finalize, of, tap} from 'rxjs';
+import {LoginResponse, User} from './auth.model';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,8 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   private router = inject(Router);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   isLoggedIn = signal<boolean>(!!localStorage.getItem('access_token'));
   user$ = this.userSubject.asObservable();
@@ -22,14 +23,17 @@ export class AuthService {
       ? JSON.parse(localStorage.getItem('user_data')!)
       : null
   );
+
   login(credentials: { email: string; password: string }) {
     return this.http
       .post<LoginResponse>(`${this.api}/login`, credentials)
       .pipe(tap(res => this.storeTokens(res)));
   }
+
   register(data: { name: string; email: string; password: string }) {
     return this.http.post(`${this.api}/register`, data);
   }
+
   logout() {
 // Hacemos la petición al backend para invalidar el token allí
     return this.http.post(`${this.api}/logout`, {}).pipe(
@@ -39,6 +43,7 @@ export class AuthService {
       })
     );
   }
+
   getProfile() {
     return this.http
       .get<User>(`${this.api}/me`)
@@ -77,6 +82,7 @@ export class AuthService {
   getAccessToken() {
     return localStorage.getItem('access_token');
   }
+
   refreshToken() {
     return this.http.post<{ access_token: string }>(
       `${this.api}/refresh`,
@@ -87,11 +93,43 @@ export class AuthService {
       })
     );
   }
+
   loadUserIfNeeded() {
     if (this.getAccessToken() && !this.userSubject.value) {
       this.getProfile().subscribe({
         error: () => this.limpiarSesionLocal()
       });
     }
+  }
+
+  waitForUser() {
+    // Si ya hay usuario cargado, devuelve inmediatamente
+    if (this.currentUser()) {
+      return of(this.currentUser());
+    }
+
+    // Si hay token pero no usuario, cárgalo primero
+    if (this.getAccessToken()) {
+      return this.getProfile().pipe(
+        catchError(() => {
+          this.limpiarSesionLocal();
+          return of(null);
+        })
+      );
+    }
+
+    return of(null);
+  }
+
+  get isAdmin() {
+    return this.currentUser().role === 'admin';
+  }
+
+  get isPark() {
+    return this.currentUser().role === 'park'
+  }
+
+  get isRestaurant() {
+    return this.currentUser().role === 'restaurant'
   }
 }

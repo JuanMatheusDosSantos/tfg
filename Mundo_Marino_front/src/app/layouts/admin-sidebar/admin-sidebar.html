@@ -1,0 +1,128 @@
+<!--<aside class="d-flex flex-column bg-white border-end"-->
+<!--       style="width:220px; min-height:100vh; position:sticky; top:0;">-->
+
+<!--  <nav class="flex-grow-1 p-3 d-flex flex-column gap-1 overflow-auto pt-4">-->
+
+<!--    <a [routerLink]="'/admin'"-->
+<!--       routerLinkActive="fw-semibold"-->
+<!--       [routerLinkActiveOptions]="{ exact: true }"-->
+<!--       class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"-->
+<!--       style="font-size:0.9rem; transition:background 0.15s; color:#475569;">-->
+<!--      <span class="material-symbols-outlined" style="font-size:1.2rem;">dashboard</span>-->
+<!--      Dashboard-->
+<!--    </a>-->
+
+<!--    @if (esParque) {-->
+<!--      <a [routerLink]="'/admin/park'"-->
+<!--         routerLinkActive="fw-semibold"-->
+<!--         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"-->
+<!--         style="font-size:0.9rem; transition:background 0.15s; color:#475569;">-->
+<!--        <span class="material-symbols-outlined" style="font-size:1.2rem;">map</span>-->
+<!--        Gestión del Parque de Atracciones-->
+<!--      </a>-->
+
+<!--      <a [routerLink]="'/admin/reservas-parque'"-->
+<!--         routerLinkActive="fw-semibold"-->
+<!--         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"-->
+<!--         style="font-size:0.9rem; transition:background 0.15s; color:#475569;">-->
+<!--        <span class="material-symbols-outlined" style="font-size:1.2rem;">confirmation_number</span>-->
+<!--        Reservas de Parque-->
+<!--      </a>-->
+<!--    }-->
+
+<!--    @if (esRestaurante) {-->
+<!--      <a [routerLink]="'/admin/reservas-restaurante'"-->
+<!--         routerLinkActive="fw-semibold"-->
+<!--         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"-->
+<!--         style="font-size:0.9rem; transition:background 0.15s; color:#475569;">-->
+<!--        <span class="material-symbols-outlined" style="font-size:1.2rem;">restaurant</span>-->
+<!--        Reservas de Restaurante-->
+<!--      </a>-->
+<!--    }-->
+
+<!--    @if (esAdmin) {-->
+<!--      <a [routerLink]="'/admin/precios'"-->
+<!--         routerLinkActive="fw-semibold"-->
+<!--         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"-->
+<!--         style="font-size:0.9rem; transition:background 0.15s; color:#475569;">-->
+<!--        <span class="material-symbols-outlined" style="font-size:1.2rem;">payments</span>-->
+<!--        Configuración Precios-->
+<!--      </a>-->
+<!--    }-->
+
+<!--  </nav>-->
+<!--</aside>-->
+<aside class="d-flex flex-column bg-white border-end"
+       style="width:220px; min-height:100vh; position:sticky; top:0;">
+
+  <nav class="flex-grow-1 p-3 d-flex flex-column gap-1 overflow-auto pt-4">
+
+    <a [routerLink]="'/admin'"
+       routerLinkActive="fw-semibold"
+       [routerLinkActiveOptions]="{ exact: true }"
+       class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"
+       style="font-size:0.9rem; color:#475569;">
+      <span class="material-symbols-outlined" style="font-size:1.2rem;">dashboard</span>
+      Dashboard
+    </a>
+
+    @if (esParque) {
+
+      <!-- Botón desplegable parque -->
+      <button class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 fw-medium w-100 border-0 bg-transparent text-start"
+              style="font-size:0.9rem; color:#475569; cursor:pointer;"
+              (click)="toggleParque()">
+        <span class="material-symbols-outlined" style="font-size:1.2rem;">map</span>
+        <span class="flex-grow-1">Gestión del Parque</span>
+        <span class="material-symbols-outlined"
+              style="font-size:1rem; transition:transform 0.2s;"
+              [style.transform]="parqueAbierto() ? 'rotate(180deg)' : 'rotate(0deg)'">
+          expand_more
+        </span>
+      </button>
+
+      <!-- Subitems -->
+      @if (parqueAbierto()) {
+        <div class="d-flex flex-column gap-1 ps-3">
+          <a [routerLink]="'/admin/park'"
+             routerLinkActive="fw-semibold"
+             [routerLinkActiveOptions]="{ exact: true }"
+             class="d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-decoration-none fw-medium"
+             style="font-size:0.85rem; color:#475569;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">attractions</span>
+            Ver Parque
+          </a>
+          <a [routerLink]="'/admin/park/bookings'"
+             routerLinkActive="fw-semibold"
+             class="d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-decoration-none fw-medium"
+             style="font-size:0.85rem; color:#475569;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">confirmation_number</span>
+            Reservas
+          </a>
+        </div>
+      }
+
+    }
+
+    @if (esRestaurante) {
+      <a [routerLink]="'/admin/reservas-restaurante'"
+         routerLinkActive="fw-semibold"
+         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"
+         style="font-size:0.9rem; color:#475569;">
+        <span class="material-symbols-outlined" style="font-size:1.2rem;">restaurant</span>
+        Reservas de Restaurante
+      </a>
+    }
+
+    @if (esAdmin) {
+      <a [routerLink]="'/admin/precios'"
+         routerLinkActive="fw-semibold"
+         class="d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none fw-medium"
+         style="font-size:0.9rem; color:#475569;">
+        <span class="material-symbols-outlined" style="font-size:1.2rem;">payments</span>
+        Configuración Precios
+      </a>
+    }
+
+  </nav>
+</aside>

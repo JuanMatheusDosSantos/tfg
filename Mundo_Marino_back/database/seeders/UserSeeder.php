@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         ]);
         User::factory()->create([
             "name" => "park",
-            "email" => "park@gmail.com",
+            "email" => "park@yahoo.com",
             "password" => bcrypt("12345678"),
             "role" => "park",
 //            "park_id"=>1,

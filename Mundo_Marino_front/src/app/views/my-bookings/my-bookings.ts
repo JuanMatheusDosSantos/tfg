@@ -2,7 +2,7 @@ import {Component, computed, inject, signal} from '@angular/core';
 import {Park_reservationService} from '../../components/park_reservation';
 import {RestaurantReservationService} from '../../components/restaurant_reservation';
 import {AuthService} from '../../auth/auth';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
@@ -15,8 +15,10 @@ import {HttpClient} from '@angular/common/http';
   styleUrl: './my-bookings.css',
 })
 export class MyBookings {
-  bookingPark = inject(Park_reservationService)
-  bookingRestaurant = inject(RestaurantReservationService)
+  bookingPark = inject(Park_reservationService);
+  bookingRestaurant = inject(RestaurantReservationService);
+
+  private router = inject(Router);
 
   public authService = inject(AuthService);
   private route = inject(ActivatedRoute);
@@ -147,4 +149,11 @@ export class MyBookings {
   getQrUrl(id: number): string {
     return `${this.apiUrl}/reservation/${id}/qr`;
   }
+  irAlDetalle(res: any) {
+    if (res.category === 'Parque') {
+      this.router.navigate(['my-booking/park', res.id]);
+    } else {
+      this.router.navigate(['my-booking/restaurant', res.id]);
+    }
+}
 }

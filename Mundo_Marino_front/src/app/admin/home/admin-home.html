@@ -1,0 +1,242 @@
+<div class="d-flex flex-column" style="min-height:100vh;">
+
+  <!-- Header superior -->
+  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />
+
+  <!-- Body: sidebar + contenido -->
+  <div class="d-flex flex-grow-1">
+
+    <!-- Sidebar izquierdo -->
+    <app-admin-sidebar />
+
+    <!-- Main content -->
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      @if (cargando()) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+        </div>
+      } @else if (error()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      } @else {
+
+        <!-- ═══ STATS ═══ -->
+        <div class="row g-4 mb-4">
+
+          @if (isAdmin()||isPark()) {
+            <div class="col-12 col-sm-6 col-xl-3">
+              <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background:rgba(12,192,168,0.1);">
+                    <span class="material-symbols-outlined" style="color:#0cc0a8;">groups</span>
+                  </div>
+                  <span class="small fw-bold d-flex align-items-center gap-1"
+                        [class]="variacionClass(stats().visitantes_variacion)">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">{{ variacionIcon(stats().visitantes_variacion) }}</span>
+                    {{ stats().visitantes_variacion }}%
+                  </span>
+                </div>
+                <p class="text-muted small mb-1">Visitantes del Mes</p>
+                <h3 class="fw-bold fs-4 mb-0">{{ stats().visitantes_mes | number }}</h3>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+              <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background:rgba(238,95,43,0.1);">
+                    <span class="material-symbols-outlined" style="color:#ee5f2b;">book_online</span>
+                  </div>
+                  <span class="small fw-bold d-flex align-items-center gap-1"
+                        [class]="variacionClass(stats().reservas_activas_parque_variacion)">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">{{ variacionIcon(stats().reservas_activas_parque_variacion) }}</span>
+                    {{ stats().reservas_activas_parque_variacion }}%
+                  </span>
+                </div>
+                <p class="text-muted small mb-1">Reservas Activas Parque</p>
+                <h3 class="fw-bold fs-4 mb-0">{{ stats().reservas_activas_parque }}</h3>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+              <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background:rgba(238,95,43,0.1);">
+                    <span class="material-symbols-outlined" style="color:#ee5f2b;">monetization_on</span>
+                  </div>
+                  <span class="small fw-bold d-flex align-items-center gap-1"
+                        [class]="variacionClass(stats().media_diaria_variacion)">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">{{ variacionIcon(stats().media_diaria_variacion) }}</span>
+                    {{ stats().media_diaria_variacion }}%
+                  </span>
+                </div>
+                <p class="text-muted small mb-1">Media Diaria (mes)</p>
+                <h3 class="fw-bold fs-4 mb-0">{{ stats().media_diaria | currency:'EUR':'symbol':'1.2-2' }}</h3>
+              </div>
+            </div>
+          }
+
+          @if (isAdmin()||isRestaurant()) {
+            <div class="col-12 col-sm-6 col-xl-3">
+              <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background:rgba(12,192,168,0.1);">
+                    <span class="material-symbols-outlined" style="color:#0cc0a8;">restaurant_menu</span>
+                  </div>
+                  <span class="small fw-bold d-flex align-items-center gap-1"
+                        [class]="variacionClass(stats().reservas_restaurante_variacion)">
+                    <span class="material-symbols-outlined" style="font-size:0.9rem;">{{ variacionIcon(stats().reservas_restaurante_variacion) }}</span>
+                    {{ stats().reservas_restaurante_variacion }}%
+                  </span>
+                </div>
+                <p class="text-muted small mb-1">Reservas Restaurante</p>
+                <h3 class="fw-bold fs-4 mb-0">{{ stats().reservas_restaurante_mes }}</h3>
+              </div>
+            </div>
+          }
+
+        </div>
+
+        <!-- ═══ TABLAS ═══ -->
+
+        @if (isAdmin()||isPark()) {
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between py-3 px-4">
+              <h5 class="fw-bold mb-0">Últimas Reservas de Parque</h5>
+              @if (fechaFiltro()) {
+                <span class="badge rounded-pill text-bg-light text-muted">{{ fechaFiltro() }}</span>
+              }
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-muted" style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+                  <tr>
+                    <th class="px-4 py-3">Cliente</th>
+                    <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Adultos</th>
+                    <th class="px-4 py-3">Niños</th>
+                    <th class="px-4 py-3">Fecha</th>
+                    <th class="px-4 py-3">Estado</th>
+                    <th class="px-4 py-3">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (r of reservasParqueFiltradas(); track r.id) {
+                    <tr>
+                      <td class="px-4 py-3">
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                               style="width:32px;height:32px;font-size:0.75rem;flex-shrink:0;background:#0cc0a8;">
+                            {{ iniciales(r.user?.name ?? '') }}
+                          </div>
+                          <span class="fw-medium small">{{ r.user?.name ?? 'N/A' }}</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 small">#MM-{{ r.id.toString().padStart(7,'0') }}</td>
+                      <td class="px-4 py-3 small">{{ r.adults }}</td>
+                      <td class="px-4 py-3 small">{{ r.child }}</td>
+                      <td class="px-4 py-3 small">{{ r.reservation_date | date:'dd MMM, yyyy' }}</td>
+                      <td class="px-4 py-3">
+                        <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(r.status)">
+                          {{ statusLabel(r.status) }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 small fw-bold">
+                        {{ (+r.adult_price_total + +r.child_price_total) * (1 + +r.applied_tax / 100) | currency:'EUR':'symbol':'1.2-2' }}
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="text-center text-muted py-4 small">No hay reservas para mostrar</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+
+        @if (isAdmin()||isRestaurant()) {
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between py-3 px-4">
+              <h5 class="fw-bold mb-0">Últimas Reservas de Restaurante</h5>
+              @if (fechaFiltro()) {
+                <span class="badge rounded-pill text-bg-light text-muted">{{ fechaFiltro() }}</span>
+              }
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-muted" style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+                  <tr>
+                    <th class="px-4 py-3">Cliente</th>
+                    <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Comensales</th>
+                    <th class="px-4 py-3">Fecha</th>
+                    <th class="px-4 py-3">Hora</th>
+                    <th class="px-4 py-3">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (r of reservasRestauranteFiltradas(); track r.id) {
+                    <tr>
+                      <td class="px-4 py-3">
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                               style="width:32px;height:32px;font-size:0.75rem;flex-shrink:0;background:#0cc0a8;">
+                            {{ iniciales(r.user?.name ?? '') }}
+                          </div>
+                          <span class="fw-medium small">{{ r.user?.name ?? 'N/A' }}</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 small">#MM-{{ r.id.toString().padStart(7,'0') }}</td>
+                      <td class="px-4 py-3 small">{{ r.party_size }}</td>
+                      <td class="px-4 py-3 small">{{ r.reservation_date | date:'dd MMM, yyyy' }}</td>
+                      <td class="px-4 py-3 small">{{ r.reservation_hour?.substring(0,5) }}</td>
+                      <td class="px-4 py-3">
+                        <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(r.status)">
+                          {{ statusLabel(r.status) }}
+                        </span>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4 small">No hay reservas para mostrar</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+
+        @if (isAdmin() && stats().actividad_reciente?.length) {
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            <div class="card-header bg-white border-bottom py-3 px-4">
+              <h5 class="fw-bold mb-0">Actividad Reciente</h5>
+            </div>
+            <div class="card-body p-4 d-flex flex-column gap-4">
+              @for (log of stats().actividad_reciente; track log.id) {
+                <div class="d-flex gap-3">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                       style="width:32px;height:32px;background:rgba(12,192,168,0.15);">
+                    <span class="material-symbols-outlined" style="font-size:1rem;color:#0cc0a8;">manage_history</span>
+                  </div>
+                  <div>
+                    <p class="mb-0 small fw-medium">
+                      {{ log.user?.name ?? 'Sistema' }} — {{ log.action }}
+                      <span class="text-muted ms-1" style="font-size:0.75rem;">({{ log.affected_zone }})</span>
+                    </p>
+                    <p class="text-muted mb-0" style="font-size:0.72rem;">
+                      {{ log.created_at | date:'dd MMM, HH:mm' }}
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      }
+    </main>
+  </div>
+</div>

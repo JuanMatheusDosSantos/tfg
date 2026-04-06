@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('park_reservation_type', function (Blueprint $table) {
+        Schema::create('park_reservation_prices', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("description")->nullable();
-            $table->integer("min_age")->nullable();
-            $table->integer("max_age")->nullable();
+            $table->foreignId("park_id")->constrained("parks");
+            $table->foreignId("park_reservation_type_id")->constrained("park_reservation_types");
+            $table->decimal("price",12,4);
             $table->timestamps();
+
         });
     }
 

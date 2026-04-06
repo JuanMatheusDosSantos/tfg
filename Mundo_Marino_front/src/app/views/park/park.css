@@ -1,0 +1,7 @@
+.attraction-card { transition: box-shadow 0.3s ease; }
+.attraction-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important; }
+.attraction-img { transition: transform 0.5s ease; }
+.attraction-card:hover .attraction-img { transform: scale(1.05); }
+.attr-btn { background-color: #f1f5f9; color: #334155; }
+.attr-btn:hover { background-color: #FF7E54 !important; color: #fff !important; }
+.form-switch .form-check-input:checked { background-color: #FF7E54; border-color: #FF7E54; }

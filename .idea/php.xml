@@ -246,6 +246,17 @@
       <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/composer" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/barryvdh/laravel-dompdf" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/simplesoftwareio/simple-qrcode" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/thecodingmachine/safe" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/dasprid/enum" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/bacon/bacon-qr-code" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/dompdf/php-font-lib" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/dompdf/php-svg-lib" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/Mundo_Marino_back/vendor/stripe/stripe-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

@@ -29,35 +29,74 @@ class Park_reservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+//    public function store(Request $request)
+//    {
+//        try {
+//            $request->validate([
+//                "user_id" => "required|exists:users,id",
+//                "park_id"=>"required|exists:parks,id",
+//                "reservation_date"=>"required|date",
+//                "adults"=>"required|integer",
+//                "child"=>"nullable|integer"
+//            ]);
+//        }catch (\Exception $e){
+////            return response()->json(["por favor, rellene las cosas correctamente"],400);
+//            return response()->json($e->getMessage(),400);
+//        }
+//        try {
+//            Park_reservation::create([
+//                "user_id" => $request->user_id,
+//                "park_id" => $request->park_id,
+//                "reservation_date" => $request->reservation_date,
+//                "adults" => $request->adults,
+//                "child" => $request->child,
+//            ]);
+//        } catch (\Exception $e) {
+//            return response()->json(["message" => $e->getMessage()], 400);
+////            return response()->json([$request->user_id], 400);
+//        }
+//        return response()->json(["message" => "se ha guardado correctamente"], 200);
+//    }
     public function store(Request $request)
     {
         try {
             $request->validate([
-                "user_id" => "required|exists:users,id",
-                "park_id"=>"required|exists:parks,id",
-                "reservation_date"=>"required|date",
-                "adults"=>"required|integer",
-                "child"=>"nullable|integer"
+                "user_id"                  => "required|exists:users,id",
+                "park_id"                  => "required|exists:parks,id",
+                "reservation_date"         => "required|date",
+                "adults"                   => "required|integer",
+                "child"                    => "nullable|integer",
+                "tax_id"                   => "required|exists:taxes,id",
+                "park_reservation_type_id" => "required|exists:park_reservation_types,id",
+                "adult_price_total"        => "required|numeric",
+                "child_price_total"        => "required|numeric",
+                "applied_tax"              => "required|numeric",
             ]);
-        }catch (\Exception $e){
-//            return response()->json(["por favor, rellene las cosas correctamente"],400);
-            return response()->json($e->getMessage(),400);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
         }
+
         try {
             Park_reservation::create([
-                "user_id" => $request->user_id,
-                "park_id" => $request->park_id,
-                "reservation_date" => $request->reservation_date,
-                "adults" => $request->adults,
-                "child" => $request->child,
+                "user_id"                  => $request->user_id,
+                "park_id"                  => $request->park_id,
+                "reservation_date"         => $request->reservation_date,
+                "adults"                   => $request->adults,
+                "child"                    => $request->child ?? 0,
+                "codigo_qr"                => \Str::uuid(),
+                "status"                   => "pending",
+                "tax_id"                   => $request->tax_id,
+                "park_reservation_type_id" => $request->park_reservation_type_id,
+                "adult_price_total"        => $request->adult_price_total,
+                "child_price_total"        => $request->child_price_total,
+                "applied_tax"              => $request->applied_tax,
             ]);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 400);
-//            return response()->json([$request->user_id], 400);
         }
+
         return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
-
     /**
      * Display the specified resource.
      */
@@ -67,7 +106,7 @@ class Park_reservationController extends Controller
             $reservation=Park_reservation::findOrFail($id);
             return response()->json($reservation);
         }catch (\Exception $e){
-            return response()->json(["ha habido un fallo al intentar mostrar la reserva"],400);
+            return response()->json(["ha habido un fallo al intentar mostrar la reserva del parque"],400);
         }
     }
 

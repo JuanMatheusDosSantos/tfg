@@ -1,0 +1,254 @@
+<!--<div class="my-5">-->
+<!--  @if (loading()) {-->
+<!--    <div class="flex items-center justify-center py-20">-->
+<!--      <div class="spinner-border text-primary" role="status"></div>-->
+<!--    </div>-->
+<!--  } @else if (error()) {-->
+<!--    <div class="alert alert-danger">{{ error() }}</div>-->
+<!--  } @else if (reserva(); as r) {-->
+
+<!--    &lt;!&ndash; Ticket Card &ndash;&gt;-->
+<!--    <div class="card border-0 shadow-lg overflow-hidden rounded-4" style="max-width:860px; margin:0 auto;">-->
+<!--      <div class="row g-0">-->
+
+<!--        &lt;!&ndash; LEFT: QR &ndash;&gt;-->
+<!--        <div class="col-md-5 d-flex flex-column align-items-center justify-content-center p-5 gap-4"-->
+<!--             style="background:#0f172a; position:relative; overflow:hidden;">-->
+<!--          &lt;!&ndash; Decorative blobs &ndash;&gt;-->
+<!--          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;-->
+<!--                    background:rgba(249,116,21,0.15);border-radius:50%;filter:blur(40px);"></div>-->
+<!--          <div style="position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;-->
+<!--                    background:rgba(14,165,233,0.1);border-radius:50%;filter:blur(30px);"></div>-->
+
+<!--          &lt;!&ndash; QR &ndash;&gt;-->
+<!--          <div class="bg-white rounded-3 p-3 shadow position-relative" style="z-index:1;">-->
+<!--            <img [src]="'http://127.0.0.1:8000/api/reservation/' + r.id + '/qr'"-->
+<!--                 alt="QR Reserva"-->
+<!--                 width="200" height="200"-->
+<!--                 class="d-block"/>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Pass ID &ndash;&gt;-->
+<!--          <div class="text-center position-relative" style="z-index:1;">-->
+<!--            <p class="text-uppercase fw-bold mb-1"-->
+<!--               style="font-size:0.6rem;letter-spacing:0.25em;color:#64748b;">Pass ID Reference</p>-->
+<!--            <p class="text-white fw-bold font-monospace" style="letter-spacing:0.15em;">-->
+<!--              #MM-{{ r.id.toString().padStart(7, '0') }}-->
+<!--            </p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Divider notch (desktop) &ndash;&gt;-->
+<!--        <div class="d-none d-md-block" style="width:1px;background:#f1f5f9;position:relative;">-->
+<!--          <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);-->
+<!--                    width:32px;height:32px;background:#f8fafc;border-radius:50%;-->
+<!--                    border:1px solid #e0f2fe;"></div>-->
+<!--          <div style="position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);-->
+<!--                    width:32px;height:32px;background:#f8fafc;border-radius:50%;-->
+<!--                    border:1px solid #e0f2fe;"></div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; RIGHT: Details &ndash;&gt;-->
+<!--        <div class="col-md flex-1 p-5 d-flex flex-column gap-4">-->
+
+<!--          &lt;!&ndash; Header &ndash;&gt;-->
+<!--          <div>-->
+<!--            <div class="d-flex align-items-center gap-2 mb-2">-->
+<!--            <span class="badge rounded-pill px-3 py-1 fw-bold"-->
+<!--                  style="font-size:0.65rem;letter-spacing:0.1em;background:#fff7ed;color:#f97415;">-->
+<!--              Official Pass-->
+<!--            </span>-->
+<!--              <span class="badge rounded-pill px-3 py-1 fw-bold {{ statusColor }}"-->
+<!--                    style="font-size:0.65rem;letter-spacing:0.1em;">-->
+<!--              {{ statusLabel }}-->
+<!--            </span>-->
+<!--            </div>-->
+<!--            <h2 class="fw-extrabold mb-1" style="font-size:1.6rem;color:#0f172a;">-->
+<!--              {{ r.park?.name ?? 'Parque Mundo Marino' }}-->
+<!--            </h2>-->
+<!--            <p class="text-muted small mb-0">-->
+<!--              {{ r.type?.name ?? 'Entrada' }} &bull; {{ r.park?.location ?? '' }}-->
+<!--            </p>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Data Grid &ndash;&gt;-->
+<!--          <div class="row g-4">-->
+<!--            <div class="col-6">-->
+<!--              <p class="text-uppercase fw-bold text-muted mb-1"-->
+<!--                 style="font-size:0.6rem;letter-spacing:0.2em;">Fecha de la Reserva</p>-->
+<!--              <div class="d-flex align-items-center gap-2">-->
+<!--                <span class="fw-bold small" style="color:#1e293b;">-->
+<!--                {{ r.reservation_date | date:'dd MMM, yyyy' }}-->
+<!--              </span>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-6">-->
+<!--              <p class="text-uppercase fw-bold text-muted mb-1"-->
+<!--                 style="font-size:0.6rem;letter-spacing:0.2em;">Hora de Acceso</p>-->
+<!--              <div class="d-flex align-items-center gap-2">-->
+<!--                <span class="fw-bold small" style="color:#1e293b;">-->
+<!--                {{ r.park?.opening_time ?? '&#45;&#45;:&#45;&#45;' }}-->
+<!--              </span>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-12">-->
+<!--              <p class="text-uppercase fw-bold text-muted mb-1"-->
+<!--                 style="font-size:0.6rem;letter-spacing:0.2em;">Asistentes</p>-->
+<!--              <div class="d-flex align-items-center gap-4">-->
+<!--                <div class="d-flex align-items-center gap-2">-->
+<!--                  <span class="material-symbols-outlined text-muted" style="font-size:1.1rem;">Adultos</span>-->
+<!--                  <span class="fw-bold small" style="color:#1e293b;">{{ r.adults }}</span>-->
+<!--                </div>-->
+<!--                @if (r.child > 0) {-->
+<!--                  <div class="d-flex align-items-center gap-2">-->
+<!--                    <span class="material-symbols-outlined text-muted" style="font-size:1.1rem;">niños</span>-->
+<!--                    <span class="fw-bold small" style="color:#1e293b;">{{ r.child }}</span>-->
+<!--                  </div>-->
+<!--                }-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Actions &ndash;&gt;-->
+<!--    <div class="d-flex gap-3 mt-4 justify-content-center" style="max-width:860px;margin:0 auto;">-->
+<!--      <button class="btn btn-primary fw-bold px-5 py-3 d-flex align-items-center gap-2 flex-grow-1"-->
+<!--              style="background:#f97415;border:none;border-radius:1rem;box-shadow:0 8px 20px rgba(249,116,21,0.25);"-->
+<!--              (click)="descargarPDF()">-->
+<!--        <span class="material-symbols-outlined">Descargar Ticket</span>-->
+<!--      </button>-->
+<!--      <button class="btn btn-light fw-bold px-4 py-3 d-flex align-items-center gap-2"-->
+<!--              style="border-radius:1rem;border:1px solid #e0f2fe;">-->
+<!--        <span class="material-symbols-outlined text-secondary">share</span>-->
+<!--        Compartir-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--  }-->
+<!--</div>-->
+<div class="my-5">
+  @if (loading()) {
+    <div class="d-flex align-items-center justify-content-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  } @else if (reserva(); as r) {
+
+    <!-- Ticket Card -->
+    <div class="card border-0 shadow-lg overflow-hidden rounded-4" style="max-width:860px; margin:0 auto;">
+      <div class="row g-0">
+
+        <!-- LEFT: Icono restaurante + ID -->
+        <div class="col-md-5 d-flex flex-column align-items-center justify-content-center p-5 gap-4"
+             style="background:#0f172a; position:relative; overflow:hidden;">
+          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;
+                      background:rgba(249,116,21,0.15);border-radius:50%;filter:blur(40px);"></div>
+          <div style="position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;
+                      background:rgba(14,165,233,0.1);border-radius:50%;filter:blur(30px);"></div>
+
+          <!-- Icono restaurante -->
+<!--          <div class="bg-white rounded-3 p-4 shadow position-relative d-flex align-items-center justify-content-center"-->
+<!--               style="z-index:1; width:140px; height:140px;">-->
+            <div class="bg-transparent rounded-3 p-4 shadow position-relative d-flex align-items-center justify-content-center"
+                 style="z-index:1; width:140px; height:140px;">
+<!--            <span class="material-symbols-outlined" style="font-size:5rem;color:#f97415;">restaurant</span>-->
+          </div>
+
+          <!-- Pass ID -->
+          <div class="text-center position-relative" style="z-index:1;">
+            <p class="text-uppercase fw-bold mb-1"
+               style="font-size:0.6rem;letter-spacing:0.25em;color:#64748b;">Reserva ID</p>
+            <p class="text-white fw-bold font-monospace" style="letter-spacing:0.15em;">
+              #MM-{{ r.id?.toString()?.padStart(7, '0') }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Divider notch (desktop) -->
+        <div class="d-none d-md-block" style="width:1px;background:#f1f5f9;position:relative;">
+          <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+                      width:32px;height:32px;background:#f8fafc;border-radius:50%;
+                      border:1px solid #e0f2fe;"></div>
+          <div style="position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);
+                      width:32px;height:32px;background:#f8fafc;border-radius:50%;
+                      border:1px solid #e0f2fe;"></div>
+        </div>
+
+        <!-- RIGHT: Details -->
+        <div class="col-md flex-1 p-5 d-flex flex-column gap-4">
+
+          <!-- Header -->
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge rounded-pill px-3 py-1 fw-bold"
+                    style="font-size:0.65rem;letter-spacing:0.1em;background:#fff7ed;color:#f97415;">
+                Reserva Restaurante
+              </span>
+              <span class="badge rounded-pill px-3 py-1 fw-bold"
+                    [ngClass]="statusColor"
+                    style="font-size:0.65rem;letter-spacing:0.1em;">
+                {{ statusLabel }}
+              </span>
+            </div>
+            <h2 class="fw-extrabold mb-1" style="font-size:1.6rem;color:#0f172a;">
+              {{ r.restaurant?.name ?? 'Restaurante Mundo Marino' }}
+            </h2>
+<!--            <p class="text-muted small mb-0">-->
+<!--              {{ r.restaurant?.location ?? '' }}-->
+<!--            </p>-->
+          </div>
+
+          <!-- Data Grid -->
+          <div class="row g-4">
+
+            <div class="col-6">
+              <p class="text-uppercase fw-bold text-muted mb-1"
+                 style="font-size:0.6rem;letter-spacing:0.2em;">Fecha de la Reserva</p>
+              <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold small" style="color:#1e293b;">
+                  {{ r.reservation_date | date:'dd MMM, yyyy' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <p class="text-uppercase fw-bold text-muted mb-1"
+                 style="font-size:0.6rem;letter-spacing:0.2em;">Hora de la Reserva</p>
+              <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold small" style="color:#1e293b;">
+                  {{ r.reservation_hour?.substring(0, 5) ?? '--:--' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <p class="text-uppercase fw-bold text-muted mb-1"
+                 style="font-size:0.6rem;letter-spacing:0.2em;">Comensales</p>
+              <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold small" style="color:#1e293b;">{{ r.party_size }} Personas</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex gap-3 mt-4 justify-content-center" style="max-width:860px;margin:0 auto;">
+      <button class="btn btn-light fw-bold px-4 py-3 d-flex align-items-center gap-2"
+              style="border-radius:1rem;border:1px solid #e0f2fe;">
+        <span class="material-symbols-outlined text-secondary">share</span>
+        Compartir
+      </button>
+    </div>
+
+  }
+</div>

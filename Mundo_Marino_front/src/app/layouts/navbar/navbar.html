@@ -24,7 +24,9 @@
     <!-- Links -->
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav mx-auto gap-md-4">
-        <li class="nav-item"><a class="nav-link fw-semibold" href="/">Home</a></li>
+        @if (isLoggedIn()&&(isAdmin()||isPark()||isRestaurant())) {
+          <li class="nav-item"><a class="nav-link fw-semibold" href="/admin">Dashboard</a></li>
+        }
         <li class="nav-item"><a class="nav-link fw-semibold" href="/park">Parque</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold" href="/restaurant">Restaurante</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold" href="#">Horarios</a></li>

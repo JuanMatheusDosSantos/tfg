@@ -1,0 +1,23 @@
+<header class="bg-white border-bottom px-4 d-flex align-items-center justify-content-end"
+        style="height:64px; position:sticky; top:0; z-index:100;">
+
+  <!-- Centro: filtro por fecha -->
+  <div class="d-flex align-items-center gap-2">
+    <label class="text-muted small mb-0">Filtrar por fecha:</label>
+    <input type="date"
+           class="form-control form-control-sm"
+           style="width:180px;"
+           (change)="onFechaChange($any($event.target).value)" />
+  </div>
+
+  <!-- Derecha: notificaciones + usuario -->
+  <div class="d-flex align-items-center gap-3">
+    <button class="btn btn-light rounded-3 d-flex align-items-center justify-content-center p-2">
+      <span >notificaciones</span>
+    </button>
+    <button class="btn btn-light rounded-3 d-flex align-items-center justify-content-center p-2">
+      <span>Calendario de Hoy</span>
+    </button>
+  </div>
+
+</header>

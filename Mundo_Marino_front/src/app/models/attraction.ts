@@ -1,12 +1,20 @@
 import {Park} from './park';
 
 export interface Attraction {
-  id?:number,
-  name?:string,
-  type?:string,
-  duration?:number,
-  max_capacity?:number,
-  park_id?:number,
+  // id?:number,
+  // name?:string,
+  // type?:string,
+  // duration?:number,
+  // max_capacity?:number,
+  // park_id?:number,
 
-  park?:Park
+
+  id: number;
+  name: string;
+  type: string;
+  duration: number;
+  max_capacity: number;
+  status: 'operational' | 'maintenance' | 'closed';
+  min_height: number;
+  park?: Park
 }

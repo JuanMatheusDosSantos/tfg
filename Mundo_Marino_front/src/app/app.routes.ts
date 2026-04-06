@@ -8,6 +8,14 @@ import {Login} from './pages/login/login';
 import {Register} from './pages/register/register';
 import {MyBookings} from './views/my-bookings/my-bookings';
 import {EditBookings} from './views/edit-bookings/edit-bookings';
+import {ShowBookingPark} from './views/show-booking-park/show-booking-park';
+import {ShowBookingRestaurant} from './views/show-booking-restaurant/show-booking-restaurant';
+import {AdminHome} from './admin/home/admin-home';
+import {adminGuard} from './components/admin-guard';
+import {AdminPark} from './admin/admin-park/admin-park';
+import {AdminParkBookings} from './admin/admin-park-bookings/admin-park-bookings';
+import {AdminEditParkBooking} from './admin/admin-edit-park-booking/admin-edit-park-booking';
+import {ShowAttraction} from './views/show-attraction/show-attraction';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -18,10 +26,17 @@ export const routes: Routes = [
   {path:"register",component:Register},
   {path:"myBookings",component:MyBookings},
   {path:"editBooking",component:EditBookings},
+  {path:"my-booking/park/:id",component: ShowBookingPark},
+  {path:"my-booking/restaurant/:id",component: ShowBookingRestaurant},
+  { path: 'attraction/:id', component: ShowAttraction },
   {path:"twitter",
     canActivate: [() => {
       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
       return false;
     }],component: Home},
+  {path:"admin",component:AdminHome,canActivate:[adminGuard]},
+  {path:"admin/park",component:AdminPark,canActivate:[adminGuard]},
+  {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[adminGuard]},
+  {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];

@@ -1,7 +1,10 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, tap} from 'rxjs';
-import {Park_reservation} from '../models/park_reservation';
+import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, tap } from 'rxjs';
+import { Park_reservation } from '../models/park_reservation';
+import { ReservationPrice } from '../models/reservation-price';
+import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/stripe-js';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +12,17 @@ import {Park_reservation} from '../models/park_reservation';
 export class Park_reservationService {
   private http = inject(HttpClient);
   private readonly API_URL = 'http://localhost:8000/api/park_reservation';
+  private readonly BASE_URL = 'http://localhost:8000/api';
 
   #park_reservations = signal<Park_reservation[]>([]);
   loading = signal<boolean>(false);
+  precios = signal<ReservationPrice[]>([]);
+
+  stripeReady = signal<boolean>(false);
+
+  private stripe: Stripe | null = null;
+  private elements: StripeElements | null = null;
+  private cardElement: StripeCardElement | null = null;
 
   fetchPark_reservations() {
     this.loading.set(true);
@@ -60,6 +71,89 @@ export class Park_reservationService {
         this.#park_reservations.update(list => list.filter(p => p.id !== id));
       })
     );
+  }
+
+  fetchPrecios() {
+    return this.http.get<ReservationPrice[]>(
+      `http://localhost:8000/api/park_reservation_prices`
+    ).pipe(
+      tap(data => this.precios.set(data))
+    );
+  }
+
+  // ══════════════════════════════════════
+  // STRIPE
+  // ══════════════════════════════════════
+
+  async initStripe() {
+    if (this.stripe) return; // ya inicializado
+    this.stripe = await loadStripe(environment.stripeKey);
+    if (!this.stripe) return;
+
+    this.elements = this.stripe.elements();
+    this.cardElement = this.elements.create('card', {
+      style: {
+        base: {
+          fontSize: '16px',
+          color: '#32325d',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          '::placeholder': { color: '#aab7c4' },
+        },
+        invalid: { color: '#fa755a' },
+      },
+      hidePostalCode: true,
+    });
+    this.cardElement.mount('#stripe-card-element');
+    this.stripeReady.set(true);
+  }
+
+  async crearPaymentIntent(payload: {
+    amount: number;
+    adults: number;
+    child: number;
+    reservation_date: string;
+    park_id: number;
+    park_reservation_type_id: number;
+    tax_id: number;
+    adult_price_total: number;
+    child_price_total: number;
+    applied_tax: number;
+  }): Promise<{ client_secret: string } | null> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return new Promise((resolve) => {
+      this.http.post<{ client_secret: string }>(
+        `${this.BASE_URL}/stripe/payment-intent`,
+        payload,
+        { headers }
+      ).subscribe({
+        next: (res) => resolve(res),
+        error: (err) => {
+          console.error('422 errors:', err.error?.errors); // ← esto muestra qué campos fallan
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  async confirmarPago(clientSecret: string, cardHolder: string): Promise<{ success: boolean; error?: string }> {
+    if (!this.stripe || !this.cardElement) {
+      return { success: false, error: 'Stripe no está listo.' };
+    }
+
+    const result = await this.stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: this.cardElement,
+        billing_details: { name: cardHolder },
+      },
+    });
+
+    if (result.error) {
+      return { success: false, error: result.error.message };
+    }
+
+    return { success: result.paymentIntent?.status === 'succeeded' };
   }
 }
 

@@ -12,7 +12,9 @@ class Attraction extends Model
         "type",
         "duration",
         "max_capacity",
-        "park_id"
+        "park_id",
+        "status",
+        "min_height",
     ];
 
     function park()

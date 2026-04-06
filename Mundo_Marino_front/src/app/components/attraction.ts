@@ -13,7 +13,7 @@ export class AttractionService {
 
   fetchAttractions() {
     this.loading.set(true);
-    return this.http.get<any>(this.API_URL).pipe(
+    return this.http.get<any>(this.API_URL+"s").pipe(
       map(res => {
         const rawData = res.data ?? res;
         const data = Array.isArray(rawData) ? rawData : [];

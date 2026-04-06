@@ -9,13 +9,13 @@ import {Router} from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  private authService = inject(AuthService);
+  private auth = inject(AuthService);
 
-  public currentUser = this.authService.currentUser;
-  public isLoggedIn = this.authService.isLoggedIn;
+  public currentUser = this.auth.currentUser;
+  public isLoggedIn = this.auth.isLoggedIn;
   private router:  Router = inject(Router);
   logout() {
-    this.authService.logout().subscribe({
+    this.auth.logout().subscribe({
       next: () => {
         // Solo navegamos CUANDO el servidor responda que el logout fue OK
         this.router.navigate(['/']);
@@ -30,5 +30,16 @@ export class Navbar {
   alertLogin() {
     alert('¡Atención! Tienes que iniciar sesión para poder realizar una reserva.');
     this.router.navigate(['/login']);
+  }
+  isAdmin(){
+    return this.auth.isAdmin
+  }
+
+  isPark(){
+    return this.auth.isPark
+  }
+
+  isRestaurant(){
+    return this.auth.isRestaurant
   }
 }

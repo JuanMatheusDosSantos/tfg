@@ -167,8 +167,12 @@ return [
             "driver"=>"single",
             "path"=>storage_path('logs/admin_log_errors.log'),
             "level"=>"error",
-        ]
-
+        ],
+'payments' => [
+    'driver' => 'single',
+    'path'   => storage_path('logs/payments_log/payments.log'),
+    'level'  => 'debug',
+],
     ],
 
 ];

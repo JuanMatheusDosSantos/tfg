@@ -64,12 +64,12 @@ class Restaurant_reservationController extends Controller
     public function show(string $id)
     {
         try {
-            $reservation = Restaurant_reservation::findOrFail($id);
+            $reservation = Restaurant_reservation::with("restaurant")->findOrFail($id);
             return response()->json($reservation);
         } catch (\Exception $e) {
             return response()->json(["message" =>
-//                $e->getMessage()
-                "no se ha podido encontrar la reservación"
+                $e->getMessage()
+//                "no se ha podido encontrar la reserva del restaurante"
             ],
                 400);
         }

@@ -1,10 +1,20 @@
-export interface Park {
-  id?:number,
-  name?:string,
-  location?:number,
-  opening_time?:string,
-  closing_time?:string,
+import {Attraction} from './attraction';
 
-  // created_at?: string;
-  // updated_at?: string;
+export interface Park {
+  // id?:number,
+  // name?:string,
+  // location?:number,
+  // opening_time?:string,
+  // closing_time?:string,
+  id: number;
+  name: string;
+  location: string;
+  opening_time: string;
+  closing_time: string;
+  attractions_count: number;
+  operational_count: number;
+  maintenance_count: number;
+  closed_count: number;
+
+  attractions: Attraction[];
 }

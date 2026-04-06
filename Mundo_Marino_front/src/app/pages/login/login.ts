@@ -38,7 +38,12 @@ export class Login implements OnInit {
 
     this.auth.login(credentials).subscribe({
       next: () => {
-        this.router.navigate(['/'])
+        if (this.auth.isAdmin||this.auth.isPark||this.auth.isRestaurant){
+          this.router.navigate(["admin"])
+        }
+        else {
+          this.router.navigate(['/'])
+        }
       },
       error: (err) => {
         this.errorMessage = 'Credenciales incorrectas o error de conexión';

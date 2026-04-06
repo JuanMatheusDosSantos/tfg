@@ -1,0 +1,82 @@
+@if (loading()) {
+  <div class="d-flex align-items-center justify-content-center py-5">
+    <div class="spinner-border" style="color:#FF7E54;" role="status"></div>
+  </div>
+} @else if (error()) {
+  <div class="container-xl py-5">
+    <div class="alert alert-danger">{{ error() }}</div>
+  </div>
+} @else if (atraccion(); as a) {
+
+  <!-- HEADER -->
+  <header class="py-5 bg-white border-bottom">
+    <div class="container-xl">
+      <button class="btn btn-link p-0 text-decoration-none d-flex align-items-center gap-1 mb-4"
+              style="color:#FF7E54;"
+              (click)="volver()">
+        <span class="material-icons" style="font-size:1.1rem;">arrow_back</span>
+        Volver a Atracciones
+      </button>
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <h1 class="display-6 fw-bold mb-0" style="color:#005696;">{{ a.name }}</h1>
+        <span class="badge rounded-pill fw-bold px-3 py-2"
+              [style]="tipoStyle"
+              style="font-size:0.75rem;letter-spacing:1px;">
+          {{ tipoLabel }}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="container-xl py-5">
+    <div class="row g-5">
+
+      <!-- Imagen -->
+      <div class="col-12 col-lg-6">
+        <div class="rounded-4 overflow-hidden shadow-sm" style="height:380px;">
+          <img [src]="imagen" [alt]="a.name" class="w-100 h-100 object-fit-cover" />
+        </div>
+      </div>
+
+      <!-- Detalles -->
+      <div class="col-12 col-lg-6 d-flex flex-column justify-content-center gap-4">
+
+        <!-- Info -->
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="bg-white rounded-4 border shadow-sm p-4 text-center">
+              <span class="material-icons d-block mb-2" style="color:#FF7E54;font-size:2rem;">timer</span>
+              <p class="text-muted small mb-1">Duración</p>
+              <h4 class="fw-bold mb-0">{{ a.duration }} min</h4>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="bg-white rounded-4 border shadow-sm p-4 text-center">
+              <span class="material-icons d-block mb-2" style="color:#FF7E54;font-size:2rem;">groups</span>
+              <p class="text-muted small mb-1">Capacidad</p>
+              <h4 class="fw-bold mb-0">{{ a.max_capacity }} personas</h4>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="bg-white rounded-4 border shadow-sm p-4 text-center">
+              <span class="material-icons d-block mb-2" style="color:#FF7E54;font-size:2rem;">straighten</span>
+              <p class="text-muted small mb-1">Altura mínima</p>
+              <h4 class="fw-bold mb-0">
+                @if (a.min_height&&a.min_height>0) { {{ a.min_height  }} m } @else { Sin restricción }
+              </h4>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="bg-white rounded-4 border shadow-sm p-4 text-center">
+              <span class="material-icons d-block mb-2" style="color:#FF7E54;font-size:2rem;">bolt</span>
+              <p class="text-muted small mb-1">Intensidad</p>
+              <h4 class="fw-bold mb-0">{{ tipoLabel }}</h4>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+}

@@ -5,7 +5,7 @@ export interface Restaurant_reservation {
   user_id?:number,
   restaurant_id?:number,
   reservation_date?:string
-  time_reservation?:string,
+  reservation_hour?:string,
   status?:string,
   party_size?:number,
 

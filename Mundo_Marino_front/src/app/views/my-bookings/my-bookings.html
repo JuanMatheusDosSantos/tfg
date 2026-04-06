@@ -195,8 +195,10 @@
 
           <!-- Entrada ACTIVA -->
           @for (res of reservasFiltradas(); track res.category + '_' + res.id) {
-            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm">
-
+<!--            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm">-->
+            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm"
+                 style="cursor:pointer;"
+                 (click)="irAlDetalle(res)">
               <div class="ticket-img overflow-hidden position-relative">
                 <img
                   [src]="res.category === 'Parque' ?
@@ -243,10 +245,13 @@
                     </div>
                   </div>
                   @if(res.category==="Parque"){
+<!--                    <div class="bg-white p-2 rounded-3 border shadow-sm"-->
+<!--                         style="cursor:pointer;"-->
+<!--                         (click)="abrirQR(res)"-->
+<!--                    >-->
                     <div class="bg-white p-2 rounded-3 border shadow-sm"
                          style="cursor:pointer;"
-                         (click)="abrirQR(res)"
-                    >
+                         (click)="$event.stopPropagation(); abrirQR(res)">
                       <img
                         [src]="getQrUrl(res.id)"
                         alt="QR Code" style="width:96px;height:96px;"/>
@@ -257,14 +262,19 @@
 
                 @if(res.category==="Parque"){
                   <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                    <button
-                      class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">
+<!--                    <button-->
+<!--                      class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">-->
+                    <button class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small"
+                            (click)="$event.stopPropagation()">
                       <span class="material-icons-round" style="font-size:1.1rem;">share</span>
                       Compartir
                     </button>
+<!--                    <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"-->
+<!--                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"-->
+<!--                            (click)="descargarPDF(res)">-->
                     <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
                             style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"
-                            (click)="descargarPDF(res)">
+                            (click)="$event.stopPropagation(); descargarPDF(res)">
                       <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
                       Descargar PDF
                     </button>
