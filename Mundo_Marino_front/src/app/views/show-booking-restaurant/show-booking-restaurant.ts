@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 import { Restaurant_reservation } from '../../models/restaurant_reservation';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-show-booking-restaurant',
@@ -15,6 +16,8 @@ export class ShowBookingRestaurant {
   loading = signal(true);
   error = signal<string | null>(null);
 
+  private router = inject(Router);
+
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit() {
@@ -22,7 +25,7 @@ export class ShowBookingRestaurant {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http.get<Restaurant_reservation>(`http://127.0.0.1:8000/api/restaurant_reservation/${id}`, { headers })
+    this.http.get<Restaurant_reservation>(`${environment.apiUrl}/restaurant_reservation/${id}`, { headers })
       .subscribe({
         next: (data) => {
           this.reserva.set(data);
@@ -61,4 +64,9 @@ export class ShowBookingRestaurant {
     };
     return map[this.reserva()?.status ?? ''] ?? 'text-secondary';
   }
+
+  editarReserva() {
+    this.router.navigate(['/editRestaurantBooking', this.reserva()?.id]);
+  }
+
 }

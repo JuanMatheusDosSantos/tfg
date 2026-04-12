@@ -6,11 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Park_reservation extends Model
 {
-    protected $fillable=[
-        "user_id",
-        "park_id",
-        "reservation_date",
-        "max_persons"
+    protected $fillable = [
+        'user_id',
+        'park_id',
+        'reservation_date',
+        'adults',
+        'child',
+        'status',
+        'codigo_qr',
+        'tax_id',
+        'adult_price_total',
+        'child_price_total',
+        'applied_tax',
+        'park_reservation_type_id',
     ];
     function user()
     {

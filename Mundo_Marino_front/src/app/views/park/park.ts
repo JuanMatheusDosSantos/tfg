@@ -100,8 +100,8 @@ export class Park {
   // Alturas únicas disponibles en las atracciones cargadas
   alturasDisponibles = computed(() => {
     const alturas = this.atracciones()
-      .map(a => a.min_height)
-      .filter((h): h is number => h !== null && h !== undefined&& h > 0);
+      .map(a => a.min_height !== null && a.min_height !== undefined ? Number(a.min_height) : null)
+      .filter((h): h is number => h !== null && h > 0);
     return [...new Set(alturas)].sort((a, b) => a - b);
   });
 

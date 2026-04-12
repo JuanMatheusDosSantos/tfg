@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-restaurant',
@@ -8,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class Restaurant {
 
+  private authService = inject(AuthService);
+  isLoggedIn = this.authService.isLoggedIn;
 }
+

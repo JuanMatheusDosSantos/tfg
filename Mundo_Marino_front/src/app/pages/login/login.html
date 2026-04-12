@@ -89,7 +89,11 @@
         </div>
         @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
           <div class="invalid-feedback d-block" style="font-size:0.78rem;">
-            La contraseña es obligatoria.
+            @if (loginForm.get('password')?.hasError('required')) {
+              La contraseña es obligatoria.
+            } @else if (loginForm.get('password')?.hasError('minlength')) {
+              La contraseña debe tener mínimo 8 caracteres.
+            }
           </div>
         }
       </div>

@@ -7,7 +7,6 @@ import {Twitter} from './views/twitter/twitter';
 import {Login} from './pages/login/login';
 import {Register} from './pages/register/register';
 import {MyBookings} from './views/my-bookings/my-bookings';
-import {EditBookings} from './views/edit-bookings/edit-bookings';
 import {ShowBookingPark} from './views/show-booking-park/show-booking-park';
 import {ShowBookingRestaurant} from './views/show-booking-restaurant/show-booking-restaurant';
 import {AdminHome} from './admin/home/admin-home';
@@ -16,6 +15,9 @@ import {AdminPark} from './admin/admin-park/admin-park';
 import {AdminParkBookings} from './admin/admin-park-bookings/admin-park-bookings';
 import {AdminEditParkBooking} from './admin/admin-edit-park-booking/admin-edit-park-booking';
 import {ShowAttraction} from './views/show-attraction/show-attraction';
+import {EditParkBooking} from './views/edit-bookings/edit-park-booking';
+import {EditRestaurantBooking} from './views/edit-restaurant-booking/edit-restaurant-booking';
+import {ProfileComponent} from './pages/profile/profile';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -23,9 +25,11 @@ export const routes: Routes = [
   {path:"restaurant", component:Restaurant},
   {path:"booking",component:Booking},
   {path:"login",component:Login},
+  {path:"profile",component:ProfileComponent},
   {path:"register",component:Register},
   {path:"myBookings",component:MyBookings},
-  {path:"editBooking",component:EditBookings},
+  {path:"editParkBooking/:id",component:EditParkBooking},
+  {path:"editRestaurantBooking/:id",component:EditRestaurantBooking},
   {path:"my-booking/park/:id",component: ShowBookingPark},
   {path:"my-booking/restaurant/:id",component: ShowBookingRestaurant},
   { path: 'attraction/:id', component: ShowAttraction },

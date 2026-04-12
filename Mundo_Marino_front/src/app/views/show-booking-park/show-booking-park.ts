@@ -1,8 +1,9 @@
-import {Component, OnInit, signal} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Park_reservation} from '../../models/park_reservation';
 import {CurrencyPipe, DatePipe} from '@angular/common';
+import {environment} from '../../../environments/environment';
 
 
 
@@ -20,6 +21,8 @@ export class ShowBookingPark implements OnInit{
   loading = signal(true);
   error = signal<string | null>(null);
 
+  private router = inject(Router);
+
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit() {
@@ -27,7 +30,7 @@ export class ShowBookingPark implements OnInit{
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http.get<Park_reservation>(`http://127.0.0.1:8000/api/park_reservation/${id}`, { headers })
+    this.http.get<Park_reservation>(`${environment.apiUrl}/park_reservation/${id}`, { headers })
       .subscribe({
         next: (data) => {
           this.reserva.set(data);
@@ -81,9 +84,16 @@ export class ShowBookingPark implements OnInit{
 
   descargarPDF() {
     const id = this.reserva()?.id;
-    window.open(`http://127.0.0.1:8000/api/reservation/${id}/pdf`, '_blank');
+    window.open(`${environment.apiUrl}/reservation/${id}/pdf`, '_blank');
   }
 
   protected readonly Number = Number;
+
+  editarReserva() {
+    this.router.navigate(['/editParkBooking', this.reserva()?.id]);
+  }
+  getQrUrl(id: number): string {
+    return `${environment.apiUrl}/reservation/${id}/qr`;
+  }
 }
 

@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8000/api',
+  production: true,
+  apiUrl: 'https://mundo-marino.duckdns.org/api',
 
   stripeKey:"pk_test_51TJDPSCRWRqiDPvAUtEHl4SvqySnsjg6zKKYJxuu3Wp8pE5gvzc0aCHHGMYo7OfxPOuVsiv4uVJeO4XY85TLsh0Q00A3t19EpA",
 };

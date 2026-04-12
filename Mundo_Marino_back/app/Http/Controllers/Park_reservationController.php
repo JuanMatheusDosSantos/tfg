@@ -6,6 +6,7 @@ use App\Models\Park;
 use App\Models\Park_reservation;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Park_reservationController extends Controller
@@ -25,7 +26,19 @@ class Park_reservationController extends Controller
             ],500);
         }
     }
-
+    public function userReservation()
+    {
+        try {
+            $userID=Auth::id();
+            $parks=Park_reservation::where("user_id",$userID)->with("user")->get();
+            return response()->json($parks);
+        }catch (\Exception $e){
+            \Log::channel("park_reservation")->error("".$e->getMessage());
+            return response()->json([
+                "ha habido un error a la hora de mostrar los parques, por favor intentelo mas tarde"
+            ],500);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */

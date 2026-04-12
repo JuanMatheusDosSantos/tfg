@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Restaurant } from '../models/restaurant';
 import { map, tap } from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class RestaurantService {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8000/api/restaurant';
+  private readonly API_URL = `${environment.apiUrl}/restaurant`;
 
   #restaurants = signal<Restaurant[]>([]);
   loading = signal<boolean>(false);

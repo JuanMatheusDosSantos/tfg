@@ -431,12 +431,13 @@
 
 <!-- ═══════════════════════════ FAB RESERVAR ═══════════════════════════ -->
 <div class="position-fixed bottom-0 end-0 p-4" style="z-index: 60;">
-  <button class="btn d-flex align-items-center fw-bold text-white rounded-pill shadow-lg fab-btn"
-          style="background-color: #FF7E54; padding: 0.5rem 0.5rem 0.5rem 1.5rem;">
+  <a class="btn d-flex align-items-center fw-bold text-white rounded-pill shadow-lg fab-btn"
+     style="background-color: #FF7E54; padding: 0.5rem 0.5rem 0.5rem 1.5rem;"
+     [href]="isLoggedIn() ? '/booking' : '/register'">
     <span class="me-3" style="letter-spacing: 1px;">Reservar Mesa</span>
     <div class="rounded-circle d-flex align-items-center justify-content-center"
          style="width: 48px; height: 48px; background-color: rgba(255,255,255,0.2);">
       <span class="material-icons-round">calendar_month</span>
     </div>
-  </button>
+  </a>
 </div>

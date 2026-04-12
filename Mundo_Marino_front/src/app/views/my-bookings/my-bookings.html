@@ -153,29 +153,10 @@
               </div>
             </div>
 
-            <!-- Tipo de Ticket -->
-<!--            <div>-->
-<!--              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de-->
-<!--                Ticket</p>-->
-<!--              <div class="d-flex flex-column gap-2">-->
-<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
-<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
-<!--                  <span class="text-muted small">Entrada General</span>-->
-<!--                </label>-->
-<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
-<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
-<!--                  <span class="text-muted small">Pase VIP</span>-->
-<!--                </label>-->
-<!--                <label class="d-flex align-items-center gap-2 filter-label">-->
-<!--                  <input type="checkbox" class="form-check-input" style="accent-color:#FF7E54;"/>-->
-<!--                  <span class="text-muted small">Restaurante</span>-->
-<!--                </label>-->
-<!--              </div>-->
-<!--            </div>-->
             <div class="mb-4">
               <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de Ticket</p>
               <div class="d-flex flex-column gap-2">
-                @for (tipo of tiposTicket; track tipo) {
+                @for (tipo of tiposTicket(); track tipo) {
                   <label class="d-flex align-items-center gap-2 filter-label">
                     <input type="checkbox" class="form-check-input"
                            style="accent-color:#FF7E54;"
@@ -192,9 +173,16 @@
 
         <!-- ═══ LISTADO DE ENTRADAS ═══ -->
         <div class="col-12 col-lg-9 d-flex flex-column gap-4">
-
+          @if (reservasFiltradas().length === 0) {
+            <div class="d-flex flex-column align-items-center justify-content-center py-5 text-center">
+              <span class="material-icons-round mb-3" style="font-size:3rem;color:#CBD5E1;">confirmation_number</span>
+              <h4 class="fw-semibold mb-1" style="color:#005696;">No tienes ninguna reserva</h4>
+              <p class="text-muted small">Cuando realices una reserva aparecerá aquí.</p>
+            </div>
+          }@else{
           <!-- Entrada ACTIVA -->
           @for (res of reservasFiltradas(); track res.category + '_' + res.id) {
+
 <!--            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm">-->
             <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm"
                  style="cursor:pointer;"
@@ -283,7 +271,7 @@
               </div>
             </div>
           }
-
+}
 
         </div>
       </div>

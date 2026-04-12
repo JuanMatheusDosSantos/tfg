@@ -10,7 +10,7 @@ class Park_reservationPrice extends Model
 
     public function type()
     {
-        return $this->belongsTo(Park_reservationtype::class, 'park_reservation_type_id');
+        return $this->belongsTo(Park_reservationType::class, 'park_reservation_type_id');
     }
 
     public function park()

@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-my-bookings',
@@ -35,7 +36,7 @@ export class MyBookings {
   public isLoggedIn = this.authService.isLoggedIn;
 
   public currentUser: any | null = null;
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = `${environment.apiUrl}`;
 
   ngOnInit(): void {
     this.authService.loadUserIfNeeded();
@@ -73,7 +74,11 @@ export class MyBookings {
       });
     });
   }
-  tiposTicket = ['Parque', 'Restaurante'];
+  // tiposTicket = ['Parque', 'Restaurante'];
+  tiposTicket = computed(() =>
+    [...new Set(this.allReservations().map(r => 'park_id' in r ? 'Parque' : 'Restaurante'))]
+  );
+
   filtroTipo = signal<string[]>([]);
 
   toggleTipo(tipo: string) {
@@ -108,7 +113,9 @@ export class MyBookings {
 
   limpiarFiltros() {
     this.filtroStatus.set([]);
+    this.filtroTipo.set([]);
   }
+
 
   qrModal = signal<{ visible: boolean; url: string | null; reserva: any | null }>({
     visible: false,

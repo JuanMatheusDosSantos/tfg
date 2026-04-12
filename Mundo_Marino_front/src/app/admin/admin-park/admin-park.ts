@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Park} from '../../models/park';
 import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-park',
@@ -15,7 +16,7 @@ import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 })
 export class AdminPark {
   private http = inject(HttpClient);
-  private apiUrl = 'http://127.0.0.1:8000/api/admin';
+  private apiUrl = `${environment.apiUrl}/admin`;
 
   park = signal<Park | null>(null);
   cargando = signal(true);

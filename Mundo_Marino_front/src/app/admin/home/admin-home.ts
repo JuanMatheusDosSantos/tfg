@@ -4,6 +4,7 @@ import {AuthService} from '../../auth/auth';
 import {CommonModule, CurrencyPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 export class AdminHome {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = `${environment.apiUrl}`;
 
   stats = signal<any>(null);
   cargando = signal(true);

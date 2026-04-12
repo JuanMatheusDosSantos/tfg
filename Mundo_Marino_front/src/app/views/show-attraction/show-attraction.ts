@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Attraction } from '../../models/attraction';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-show-attraction',
@@ -23,7 +24,7 @@ export class ShowAttraction {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.http.get<Attraction>(`http://127.0.0.1:8000/api/attraction/${id}`)
+    this.http.get<Attraction>(`${environment.apiUrl}/attraction/${id}`)
       .subscribe({
         next: (data) => {
           this.atraccion.set(data);

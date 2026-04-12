@@ -11,8 +11,8 @@ import { environment } from '../../environments/environment';
 })
 export class Park_reservationService {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8000/api/park_reservation';
-  private readonly BASE_URL = 'http://localhost:8000/api';
+  private readonly API_URL = `${environment.apiUrl}/park_user_reservation`;
+  private readonly BASE_URL = `${environment.apiUrl}`;
 
   #park_reservations = signal<Park_reservation[]>([]);
   loading = signal<boolean>(false);
@@ -75,7 +75,7 @@ export class Park_reservationService {
 
   fetchPrecios() {
     return this.http.get<ReservationPrice[]>(
-      `http://localhost:8000/api/park_reservation_prices`
+      `${environment.apiUrl}/park_reservation_prices`
     ).pipe(
       tap(data => this.precios.set(data))
     );
@@ -119,10 +119,10 @@ export class Park_reservationService {
     child_price_total: number;
     applied_tax: number;
   }): Promise<{ client_secret: string } | null> {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    return new Promise((resolve) => {
+    return new Promise((resolve,reject) => {
       this.http.post<{ client_secret: string }>(
         `${this.BASE_URL}/stripe/payment-intent`,
         payload,
@@ -130,8 +130,9 @@ export class Park_reservationService {
       ).subscribe({
         next: (res) => resolve(res),
         error: (err) => {
-          console.error('422 errors:', err.error?.errors); // ← esto muestra qué campos fallan
-          resolve(null);
+          console.error('Error completo:', err);
+          console.error('Mensaje:', err.error?.message);
+          reject(err);
         }
       });
     });

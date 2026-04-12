@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { map, tap } from 'rxjs';
 import {Attraction} from '../models/attraction';
+import {environment} from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AttractionService {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8000/api/attraction';
+  private readonly API_URL = `${environment.apiUrl}/attraction`;
 
   #attractions = signal<Attraction[]>([]);
   loading = signal<boolean>(false);

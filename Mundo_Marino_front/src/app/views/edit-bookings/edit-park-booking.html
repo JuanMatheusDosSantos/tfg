@@ -1,0 +1,161 @@
+<div class="d-flex flex-column" style="min-height:100vh;">
+  <div class="d-flex flex-grow-1">
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      @if (cargando()) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+        </div>
+      } @else if (error() && !reserva()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      } @else {
+
+        <!-- Cabecera -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <button class="btn btn-light rounded-3 d-flex align-items-center gap-1" (click)="volver()">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">arrow_back</span>
+          </button>
+          <div>
+            <h1 class="fw-bold mb-0" style="font-size:1.6rem;">Editar Reserva</h1>
+            <p class="text-muted small mb-0">
+              #MM-{{ reserva()?.id?.toString()?.padStart(7,'0') }} —
+              {{ reserva()?.user?.name ?? 'N/A' }}
+            </p>
+          </div>
+        </div>
+
+        @if (exito()) {
+          <div class="alert alert-success d-flex align-items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span>
+            {{ exito() }}
+          </div>
+        }
+        @if (error()) {
+          <div class="alert alert-danger">{{ error() }}</div>
+        }
+
+        <div class="row g-4">
+
+          <!-- Formulario -->
+          <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+              <h5 class="fw-bold mb-4">Datos de la Reserva</h5>
+
+              <!-- Fecha -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Fecha de Reserva</label>
+                <input type="date"
+                       class="form-control rounded-3"
+                       [value]="reservation_date()"
+                       (change)="reservation_date.set($any($event.target).value)" />
+              </div>
+
+              <!-- Tipo de entrada -->
+<!--              <div class="mb-4">-->
+<!--                <label class="form-label fw-semibold small text-uppercase text-muted"-->
+<!--                       style="font-size:0.65rem;letter-spacing:0.1em;">Tipo de Entrada</label>-->
+<!--                <select class="form-select rounded-3"-->
+<!--                        [value]="park_reservation_type_id()"-->
+<!--                        (change)="park_reservation_type_id.set(+$any($event.target).value)">-->
+<!--                  @for (p of precios(); track p.id) {-->
+<!--                    <option [value]="p.park_reservation_type_id">-->
+<!--                      {{ p.type?.name }} — {{ p.price | currency:'EUR':'symbol':'1.2-2' }} / adulto-->
+<!--                    </option>-->
+<!--                  }-->
+<!--                </select>-->
+<!--              </div>-->
+
+              <!-- Adultos y niños -->
+              <div class="row g-3 mb-4">
+                <div class="col-6">
+                  <label class="form-label fw-semibold small text-uppercase text-muted"
+                         style="font-size:0.65rem;letter-spacing:0.1em;">Adultos</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="decrementAdults()">−</button>
+                    <input type="number"
+                           class="form-control rounded-3 text-center fw-bold"
+                           style="width:70px;"
+                           [value]="adults()"
+                           (change)="adults.set(Math.max(1, +$any($event.target).value))"
+                           min="1" />
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="increaseAdults()">+</button>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label fw-semibold small text-uppercase text-muted"
+                         style="font-size:0.65rem;letter-spacing:0.1em;">Niños</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="decrementChild()">−</button>
+                    <input type="number"
+                           class="form-control rounded-3 text-center fw-bold"
+                           style="width:70px;"
+                           [value]="child()"
+                           (change)="child.set(Math.max(0, +$any($event.target).value))"
+                           min="0" />
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="increaseChild()">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="d-flex gap-3 mt-2">
+                <button class="btn fw-bold px-5 py-2 text-white rounded-3"
+                        style="background:#0cc0a8;"
+                        [disabled]="guardando()"
+                        (click)="guardar()">
+                  @if (guardando()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                  }
+                  Guardar Cambios
+                </button>
+                <button class="btn btn-light fw-medium px-4 py-2 rounded-3"
+                        (click)="volver()">
+                  Cancelar
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Resumen de precio -->
+          <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+              <h5 class="fw-bold mb-4">Resumen de Precio</h5>
+
+              <div class="d-flex justify-content-between small text-muted mb-2">
+                <span>{{ adults() }} Adulto(s) × {{ precioUnitario() | currency:'EUR':'symbol':'1.2-2' }}</span>
+                <span>{{ adult_price_total() | currency:'EUR':'symbol':'1.2-2' }}</span>
+              </div>
+
+              @if (child() > 0) {
+                <div class="d-flex justify-content-between small text-muted mb-2">
+                  <span>{{ child() }} Niño(s) × {{ precioNino() | currency:'EUR':'symbol':'1.2-2' }}</span>
+                  <span>{{ child_price_total() | currency:'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+              }
+
+              <div class="d-flex justify-content-between small text-muted mb-3 pb-3 border-bottom">
+                <span>IVA ({{ applied_tax() }}%)</span>
+                <span>{{ (adult_price_total() + child_price_total()) * applied_tax() / 100 | currency:'EUR':'symbol':'1.2-2' }}</span>
+              </div>
+
+              <div class="d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span style="color:#0cc0a8; font-size:1.2rem;">
+                    {{ total() | currency:'EUR':'symbol':'1.2-2' }}
+                  </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      }
+    </main>
+  </div>
+</div>

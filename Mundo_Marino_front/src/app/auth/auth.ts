@@ -3,12 +3,13 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, catchError, finalize, of, tap} from 'rxjs';
 import {LoginResponse, User} from './auth.model';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private api = 'http://localhost:8000/api';
+  private api = environment.apiUrl;
   private userSubject = new BehaviorSubject<User | null>(null);
   private router = inject(Router);
 
@@ -59,7 +60,7 @@ export class AuthService {
   }
 
   private storeTokens(res: LoginResponse) {
-    console.log('LO QUE LLEGA DEL SERVIDOR:', res);
+    // console.log('LO QUE LLEGA DEL SERVIDOR:', res);
     localStorage.setItem('access_token', res.access_token);
 // 2. ACTUALIZACIÓN: Avisamos al signal de que ya estamos dentro
     this.isLoggedIn.set(true);

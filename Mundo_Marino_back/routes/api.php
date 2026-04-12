@@ -48,6 +48,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete("park/{id}",[ParkController::class,"delete"]);
 
     Route::get("park_reservations",[Park_reservationController::class,"index"]);
+    Route::get("park_user_reservations",[Park_reservationController::class,"userReservation"]);
     Route::get("park_reservation/{id}",[Park_reservationController::class,"show"]);
 
     Route::post("park_reservation",[Park_reservationController::class,"store"]);
@@ -56,22 +57,27 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post("park_reservation/userLimit",[Park_reservationController::class,"setUserLimit"]);
 
+    Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);
+
     Route::post("restaurant_reservation/userLimit/{id}",[Restaurant_reservationController::class,"setUserLimit"]);
 
     Route::get("restaurant_reservations",[Restaurant_reservationController::class,"index"]);
+    Route::get("restaurant_user_reservations",[Restaurant_reservationController::class,"userReservation"]);
     Route::get("restaurant_reservation/{id}",[Restaurant_reservationController::class,"show"]);
 
     Route::post("restaurant_reservation",[Restaurant_reservationController::class,"store"]);
     Route::put("restaurant_reservation/{id}",[Restaurant_reservationController::class,"edit"]);
     Route::delete("restaurant_reservation/{id}",[Restaurant_reservationController::class,"delete"]);
 
-    Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);
 
     Route::get("admin_logs",[Admin_logController::class,"index"]);
     Route::get("admin_log/{id}",[Admin_logController::class,"show"]);
     Route::post("admin_log",[Admin_logController::class,"store"]);
 
     Route::post('stripe/payment-intent', [StripeController::class, 'createPaymentIntent']);
+    Route::get('taxes', [AdminTaxController::class, 'index']);
+    Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);
+
 });
 
 

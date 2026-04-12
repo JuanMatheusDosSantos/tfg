@@ -14,6 +14,9 @@ import {Router} from '@angular/router';
 import {RestaurantReservationService} from '../../components/restaurant_reservation';
 import {Park_reservationService} from '../../components/park_reservation';
 import {ReservationPrice} from '../../models/reservation-price';
+import {Tax} from '../../models/tax';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-booking',
@@ -32,7 +35,8 @@ export class Booking {
 
   private authServices = inject(AuthService);
 
-  errorMessage = "";
+  errorMessage = signal('');
+
   bookingForm!: FormGroup;
 
   private bookingRestaurantService = inject(RestaurantReservationService)
@@ -40,8 +44,10 @@ export class Booking {
   private fb = inject(FormBuilder);
   public router = inject(Router);
 
+  private http = inject(HttpClient);
+
   precios = computed(() => {
-    const data=this.bookingParkService.precios()
+    const data = this.bookingParkService.precios()
     return Array.isArray(data) ? data : [];
   });
 
@@ -50,38 +56,30 @@ export class Booking {
   loading = signal<boolean>(false);
 
   adults = signal(1);  // ← añadir
-  child  = signal(0);
+  child = signal(0);
+
+  taxes = signal<Tax[]>([]);
+
+  taxActivo = computed(() => this.taxes().find(t => t.active) ?? null);
+
+  applied_tax = computed(() => this.taxActivo()?.percentage ?? 0);
+  tax_id = computed(() => this.taxActivo()?.id ?? 1);
+
+  precioTotalConIva = computed(() => {
+    return this.precioTotal() * (1 + this.applied_tax() / 100);
+  });
+
+  ivaImporte = computed(() => this.precioTotal() * this.applied_tax() / 100);
 
   ngOnInit() {
-    // this.bookingForm = this.fb.group({
-    //   bookingType: ["", [Validators.required]],
-    //   adult: [0, [Validators.required]],
-    //   child: [0, [Validators.required]],
-    //   date: [null],
-    //   restaurantDate: [null,[this.customDateValidator()]],
-    //   cardHolder: ["", [Validators.required, Validators.minLength(3)]],
-    //   cardNumber: ["", [
-    //     Validators.required,
-    //     Validators.pattern('^[0-9]{16}$') // Solo 16 números
-    //   ]],
-    //   expiryDate: ["", [
-    //     Validators.required,
-    //     Validators.pattern('^(0[1-9]|1[0-2])\/?([0-9]{2})$') // Formato MM/YY
-    //   ]],
-    //   cvv: ["", [
-    //     Validators.required,
-    //     Validators.pattern('^[0-9]{3,4}$') // 3 o 4 dígitos
-    //   ]],
-    //   park_reservation_type_id: [null],
-    // });
 
     this.bookingForm = this.fb.group({
-      bookingType:              ['', [Validators.required]],
-      adult:                    [1, [Validators.required, Validators.min(1)]],
-      child:                    [0, [Validators.required]],
-      date:                     [null],
-      restaurantDate:           [null, [this.customDateValidator()]],
-      cardHolder:               [''], // sin validators por defecto, se añaden dinámicamente
+      bookingType: ['', [Validators.required]],
+      adult: [1, [Validators.required, Validators.min(1)]],
+      child: [0, [Validators.required]],
+      date: [null],
+      restaurantDate: [null, [this.customDateValidator()]],
+      cardHolder: [''], // sin validators por defecto, se añaden dinámicamente
       park_reservation_type_id: [null],
     });
 
@@ -103,155 +101,57 @@ export class Booking {
       }
       this.bookingForm.get('restaurantDate')?.updateValueAndValidity();
     });
-  }
+    this.bookingParkService.fetchPrecios().subscribe();
 
-  // onSubmit() {
-  //   if (this.bookingForm.invalid) return;
-  //
-  //   this.loading.set(true);
-  //
-  //   const fdPark = new FormData();
-  //
-  //   const fdRest = new FormData();
-  //
-  //   const values = this.bookingForm.value;
-  //
-  //   if (this.bookingForm.get("bookingType")?.value === "restaurant") {
-  //     const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
-  //
-  //     const fecha = partes[0];
-  //     const hora = partes[1];
-  //
-  //     // 3. Lo añadimos al FormData con los nombres de tus columnas en BD
-  //     fdRest.append('reservation_date', fecha);
-  //     fdRest.append('reservation_hour', hora);
-  //     fdRest.append('status', 'pending');
-  //     fdRest.append("user_id", this.currentUser()?.id.toString())
-  //     fdRest.append("restaurant_id", "1")
-  //     let total = Number(this.bookingForm.get("adult")?.value ?? 0) + Number(this.bookingForm.get("child")?.value ?? 0);
-  //     fdRest.append('party_size', total.toString());
-  //
-  //     this.bookingRestaurantService.create(fdRest).subscribe({
-  //       next: (res) => {
-  //         console.log('¡Petición creada con éxito!', res);
-  //         this.router.navigate(['/']);
-  //       },
-  //       error: (err) => {
-  //         this.loading.set(false);
-  //         // Mostramos el mensaje de error en la UI
-  //         this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
-  //         console.error('Error de Laravel:', err.error);
-  //       }
-  //     });
-  //   } else if (this.bookingForm.get("bookingType")?.value === "park") {
-  //     fdPark.append("user_id", this.currentUser()?.id.toString())
-  //     fdPark.append("park_id", "1")
-  //     fdPark.append("reservation_date", values.date)
-  //     fdPark.append("adults", values.adult.toString())
-  //     fdPark.append("child", values.adult.toString())
-  //
-  //     this.bookingParkService.create(fdPark).subscribe({
-  //       next: (res) => {
-  //         console.log('¡Petición creada con éxito!', res);
-  //         this.router.navigate(['/']);
-  //       },
-  //       error: (err) => {
-  //         this.loading.set(false);
-  //         // Mostramos el mensaje de error en la UI
-  //         this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
-  //         console.error('Error de Laravel:', err.error);
-  //       }
-  //     });
-  //
-  //   } else {
-  //     const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
-  //
-  //     const fecha = partes[0];
-  //     const hora = partes[1];
-  //
-  //     //cosas del parque
-  //     fdPark.append("park_id", "1")
-  //     fdPark.append("adults", values.adult.toString())
-  //     fdPark.append("child", values.adult.toString())
-  //     fdPark.append('status', 'pending');
-  //     fdPark.append("user_id", this.currentUser()?.id.toString())
-  //     fdPark.append("reservation_date", fecha)
-  //
-  //     //cosas del restaurante
-  //     fdRest.append('reservation_hour', hora);
-  //     fdRest.append("restaurant_id", "1")
-  //     fdRest.append('status', 'pending');
-  //     fdRest.append("user_id", this.currentUser()?.id.toString())
-  //     fdRest.append("reservation_date", fecha)
-  //
-  //     let total = Number(this.bookingForm.get("adult")?.value ?? 0) + Number(this.bookingForm.get("child")?.value ?? 0);
-  //     fdRest.append('party_size', total.toString());
-  //
-  //     this.bookingParkService.create(fdPark).subscribe({
-  //       next: (res) => {
-  //         console.log('¡Petición creada con éxito!', res);
-  //         this.router.navigate(['/']);
-  //       },
-  //       error: (err) => {
-  //         this.loading.set(false);
-  //         // Mostramos el mensaje de error en la UI
-  //         this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
-  //         console.error('Error de Laravel:', err.error);
-  //       }
-  //     });
-  //
-  //     this.bookingRestaurantService.create(fdRest).subscribe({
-  //       next: (res) => {
-  //         console.log('¡Petición creada con éxito!', res);
-  //         this.router.navigate(['/']);
-  //       },
-  //       error: (err) => {
-  //         this.loading.set(false);
-  //
-  //         // Mostramos el mensaje de error en la UI
-  //         this.errorMessage = err.error?.message || 'Error al crear la petición. Revisa los datos.';
-  //         console.error('Error de Laravel:', err.error);
-  //       }
-  //     });
-  //
-  //   }
-  // }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    this.http.get<Tax[]>(`${environment.apiUrl}/taxes`, { headers }).subscribe({
+      next: (data) => this.taxes.set(data),
+    });
+
+
+  }
 
   async onSubmit() {
     if (this.bookingForm.invalid) return;
     this.loading.set(true);
-    this.errorMessage = '';
-
+    // this.errorMessage = '';
+    this.errorMessage.set("")
     const tipo = this.bookingForm.get('bookingType')?.value;
 
     if (tipo === 'restaurant') {
       await this.crearReservaRestaurante();
+      this.router.navigate(['/myBookings']);
     } else if (tipo === 'park') {
-      await this.pagarYReservarParque();
+      await this.pagarYReservarParque(false);
     } else if (tipo === 'park_restaurant') {
-      await this.pagarYReservarParque();
+      await this.pagarYReservarParque(true);
       await this.crearReservaRestaurante();
+      setTimeout(() => this.router.navigate(['/myBookings']), 3000);
     }
   }
-  private async crearReservaRestaurante() {
-    const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
-    const fdRest = new FormData();
-    fdRest.append('reservation_date', partes[0]);
-    fdRest.append('reservation_hour', partes[1]);
-    fdRest.append('status', 'pending');
-    fdRest.append('user_id', this.currentUser()?.id.toString());
-    fdRest.append('restaurant_id', '1');
-    fdRest.append('party_size', (this.adults() + this.child()).toString());
 
-    this.bookingRestaurantService.create(fdRest).subscribe({
-      next: () => this.router.navigate(['/']),
-      error: (err) => {
-        this.loading.set(false);
-        this.errorMessage = err.error?.message || 'Error al crear la reserva de restaurante.';
-      }
+  private crearReservaRestaurante(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const partes = this.bookingForm.get('restaurantDate')?.value.split('T');
+      const fdRest = new FormData();
+      fdRest.append('reservation_date', partes[0]);
+      fdRest.append('reservation_hour', partes[1]);
+      fdRest.append('status', 'pending');
+      fdRest.append('user_id', this.currentUser()?.id.toString());
+      fdRest.append('restaurant_id', '1');
+      fdRest.append('party_size', (this.adults() + this.child()).toString());
+
+      this.bookingRestaurantService.create(fdRest).subscribe({
+        next: () => resolve(),
+        error: (err) => {
+          this.loading.set(false);
+          this.errorMessage.set(err.error?.message || 'Error al crear la reserva de restaurante.');
+          reject(err);
+        }
+      });
     });
   }
-
   protected readonly fechaMinimaPark = this.minDatePark();
   protected readonly fechaMinimaRestaurant = this.minDateRestaurant();
 
@@ -265,22 +165,16 @@ export class Booking {
 
 //esta funcion, lo que hace es que, si es parque, hace que el los datos bancarios sean obligatorios
   private actualizarValidadoresPago(type: string) {
-    const camposPago = ['cardHolder', 'cardNumber', 'expiryDate', 'cvv'];
-
-    camposPago.forEach(nombreCampo => {
-      const control = this.bookingForm.get(nombreCampo);
-      if (type === 'park' || type === "park_restaurant") {
-        // SI ES PARQUE: Añadimos validadores
-        control?.setValidators([Validators.required]);
-      } else {
-        // SI NO ES PARQUE: Quitamos validadores y limpiamos el campo
-        control?.clearValidators();
-        control?.setValue("");
-      }
-      // IMPORTANTE: Decirle a Angular que re-calcule si el campo es válido
-      control?.updateValueAndValidity();
-    });
+    const control = this.bookingForm.get('cardHolder');
+    if (type === 'park' || type === 'park_restaurant') {
+      control?.setValidators([Validators.required, Validators.minLength(3)]);
+    } else {
+      control?.clearValidators();
+      control?.setValue('');
+    }
+    control?.updateValueAndValidity();
   }
+
   private minDateRestaurant(): string {
     const ahora = new Date();
     // Sumamos las 2 horas de margen
@@ -288,10 +182,11 @@ export class Booking {
 
     // Usamos el truco de la "Suecia" (sv-SE) porque formatea en ISO pero mantiene TU hora local
     // Resultado: "2026-02-22 17:46:00" -> cambiamos el espacio por 'T' y cortamos
-    return ahora.toLocaleString('sv-SE', { hour12: false })
+    return ahora.toLocaleString('sv-SE', {hour12: false})
       .replace(' ', 'T')
       .slice(0, 16);
   }
+
   private customDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value;
@@ -301,16 +196,17 @@ export class Booking {
       }
 
       const fechaSeleccionada = new Date(valor).getTime();
-      const ahoraMasDosHoras = new Date().getTime() + (1 * 60 * 60 * 1000+59*60*1000);
+      const ahoraMasDosHoras = new Date().getTime() + (1 * 60 * 60 * 1000 + 59 * 60 * 1000);
 
       // Solo aplicamos el error si es Restaurante o Ambos y no cumple el tiempo
       if (fechaSeleccionada < ahoraMasDosHoras) {
-        return { horaInvalida: true };
+        return {horaInvalida: true};
       }
 
       return null;
     };
   }
+
   precioUnitario = computed(() => {
     const precio = this.precios().find(
       p => p.park_reservation_type_id === this.park_reservation_type_id()
@@ -328,46 +224,56 @@ export class Booking {
     await this.bookingParkService.initStripe();
   }
 
-  private async pagarYReservarParque() {
+  private async pagarYReservarParque(esCombinado=false) {
+
     if (!this.park_reservation_type_id()) {
-      this.errorMessage = 'Por favor selecciona un tipo de entrada.';
+      this.errorMessage.set( 'Por favor selecciona un tipo de entrada.');
       this.loading.set(false);
       return;
     }
 
-    if (!this.bookingForm.get('date')?.value) {
-      this.errorMessage = 'Por favor selecciona una fecha.';
+    const fechaParque = this.bookingForm.get('date')?.value
+      ?? this.bookingForm.get('restaurantDate')?.value?.split('T')[0];
+
+    if (!fechaParque) {
+      this.errorMessage.set('Por favor selecciona una fecha.');
       this.loading.set(false);
       return;
     }
     const totalConIva = this.precioTotal() * 1.10;
+    try {
+      const intent = await this.bookingParkService.crearPaymentIntent({
+        amount:                   this.precioTotalConIva(),
+        adults:                   this.adults(),
+        child:                    this.child(),
+        reservation_date:         fechaParque,
+        park_id:                  1,
+        park_reservation_type_id: this.park_reservation_type_id(),
+        tax_id:                   this.tax_id(),
+        adult_price_total:        this.precioUnitario() * this.adults(),
+        child_price_total:        this.precioNino() * this.child(),
+        applied_tax:              this.applied_tax(),
+      });
 
-    const intent = await this.bookingParkService.crearPaymentIntent({
-      amount:                   totalConIva,
-      adults:                   this.adults(),
-      child:                    this.child(),
-      reservation_date:         this.bookingForm.get('date')?.value,
-      park_id:                  1,
-      park_reservation_type_id: this.park_reservation_type_id(),
-      tax_id:                   1,
-      adult_price_total:        this.precioUnitario() * this.adults(),
-      child_price_total:        this.precioNino() * this.child(),
-      applied_tax:              10,
-    });
+      if (!intent) {
+        this.errorMessage.set('Error al iniciar el pago.');
+        this.loading.set(false);
+        return;
+      }
 
-    if (!intent) {
-      this.errorMessage = 'Error al iniciar el pago.';
-      this.loading.set(false);
-      return;
-    }
+      const cardHolder = this.bookingForm.get('cardHolder')?.value;
+      const result = await this.bookingParkService.confirmarPago(intent.client_secret, cardHolder);
 
-    const cardHolder = this.bookingForm.get('cardHolder')?.value;
-    const result = await this.bookingParkService.confirmarPago(intent.client_secret, cardHolder);
-
-    if (result.success) {
-      this.router.navigate(['/mis-entradas']);
-    } else {
-      this.errorMessage = result.error ?? 'Error al procesar el pago.';
+      if (result.success) {
+        if (!esCombinado) {
+          setTimeout(() => this.router.navigate(['/myBookings']), 3000);
+        }
+      } else {
+        this.errorMessage .set (result.error ?? 'Error al procesar el pago.');
+        this.loading.set(false);
+      }
+    } catch (err: any) {
+      this.errorMessage.set( err.error?.message ?? 'Error al procesar el pago.');
       this.loading.set(false);
     }
   }

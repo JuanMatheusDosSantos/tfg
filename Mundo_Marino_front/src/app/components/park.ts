@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { map, tap } from 'rxjs';
 import {Park} from '../models/park';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ParkService {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8000/api/park';
+  private readonly API_URL = `${environment.apiUrl}/park`
 
   #parks = signal<Park[]>([]);
   loading = signal<boolean>(false);

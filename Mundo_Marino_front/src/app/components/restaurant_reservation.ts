@@ -2,20 +2,21 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, tap} from 'rxjs';
 import {Restaurant_reservation} from '../models/restaurant_reservation';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestaurantReservationService {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8000/api/restaurant_reservation';
+  private readonly API_URL = `${environment.apiUrl}/restaurant_reservation`;
 
   #restaurant_reservations = signal<Restaurant_reservation[]>([]);
   loading = signal<boolean>(false);
 
   fetchRestaurant_reservations() {
     this.loading.set(true);
-    return this.http.get<any>(`${this.API_URL}s`).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/restaurant_user_reservations`).pipe(
       map(res => {
         const rawData = res.data ?? res;
         const data = Array.isArray(rawData) ? rawData : [];

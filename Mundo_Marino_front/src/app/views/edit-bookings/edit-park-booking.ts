@@ -1,31 +1,28 @@
 import {Component, computed, inject, signal} from '@angular/core';
+import {CurrencyPipe, DatePipe} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Park_reservation} from '../../models/park_reservation';
 import {ActivatedRoute, Router} from '@angular/router';
-import {forkJoin} from 'rxjs';
+import {Park_reservation} from '../../models/park_reservation';
 import {Tax} from '../../models/tax';
 import {ReservationPrice} from '../../models/reservation-price';
-import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
-import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
-import {CurrencyPipe} from '@angular/common';
+import {forkJoin} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 @Component({
-  selector: 'app-admin-edit-park-booking',
+  selector: 'app-edit-bookings',
   imports: [
-    AdminNavbar,
-    AdminSidebar,
-    CurrencyPipe
+    CurrencyPipe,
+    ReactiveFormsModule,
   ],
-  templateUrl: './admin-edit-park-booking.html',
-  styleUrl: './admin-edit-park-booking.css',
+  templateUrl: './edit-park-booking.html',
+  styleUrl: './edit-park-booking.css',
 })
-export class AdminEditParkBooking {
-
+export class EditParkBooking {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private apiUrl = `${environment.apiUrl}/admin`;
+  private apiUrl = `${environment.apiUrl}`;
 
   cargando = signal(true);
   guardando = signal(false);
@@ -126,7 +123,7 @@ export class AdminEditParkBooking {
       next: () => {
         this.exito.set('Reserva actualizada correctamente.');
         this.guardando.set(false);
-        setTimeout(() => this.router.navigate(['/admin/park/bookings']), 1500);
+        setTimeout(() => this.router.navigate(['/park/bookings']), 1500);
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al guardar la reserva');
@@ -136,10 +133,8 @@ export class AdminEditParkBooking {
   }
 
   volver() {
-    this.router.navigate(['/admin/park/bookings']);
+    this.router.navigate(['/park/bookings']);
   }
-
-  onFechaFiltro(_fecha: string) {}
 
   protected readonly Math = Math;
   increaseAdults() {
@@ -156,3 +151,4 @@ export class AdminEditParkBooking {
   }
 
 }
+

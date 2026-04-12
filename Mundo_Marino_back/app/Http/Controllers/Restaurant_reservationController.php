@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Restaurant_reservationController extends Controller
 {
@@ -16,7 +17,12 @@ class Restaurant_reservationController extends Controller
         $reservations = Restaurant_reservation::with("user")->get();
         return response()->json($reservations);
     }
-
+    public function userReservation()
+    {
+        $userID=Auth::id();
+        $reservations = Restaurant_reservation::where("user_id",$userID)->with("user")->get();
+        return response()->json($reservations);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -33,6 +39,21 @@ class Restaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 400);
         }
+
+        // Comprobar reserva duplicada
+        $reservaExistente = Restaurant_reservation::where('user_id', $request->user_id)
+            ->where('restaurant_id', $request->restaurant_id)
+            ->where('reservation_date', $request->reservation_date)
+            ->where('reservation_hour', $request->reservation_hour)
+            ->whereNotIn('status', ['cancelled'])
+            ->first();
+
+        if ($reservaExistente) {
+            return response()->json([
+                'message' => 'Ya tienes una reserva en este restaurante para ese día y hora.'
+            ], 422);
+        }
+
         $this->userLimit($request);
         try {
             Restaurant_reservation::create([
@@ -43,8 +64,7 @@ class Restaurant_reservationController extends Controller
                 "party_size" => $request->party_size,
             ]);
         } catch (\Exception $e) {
-//            return response()->json(["message" => $e->getMessage()], 400);
-            return response()->json([$request->user_id], 400);
+            return response()->json(["message" => $e->getMessage()], 400);
 
         }
         return response()->json(["message" => "se ha guardado correctamente"], 200);
