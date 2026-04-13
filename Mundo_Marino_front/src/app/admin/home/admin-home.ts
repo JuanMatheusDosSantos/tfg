@@ -35,12 +35,13 @@ export class AdminHome {
   }
 
   cargarStats() {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.get(`${this.apiUrl}/admin/stats`, { headers }).subscribe({
       next: (data) => {
         this.stats.set(data);
+        console.log(data)
         this.cargando.set(false);
       },
       error: (err) => {
@@ -83,26 +84,28 @@ export class AdminHome {
 
   statusClass(status: string): string {
     const map: Record<string, string> = {
-      accepted:   'text-bg-success',
-      completed:  'text-bg-info',
       pending:    'text-bg-warning',
-      cancelled:  'text-bg-danger',
+      accepted:   'text-bg-success',
       checked_in: 'text-bg-success',
       late:       'text-bg-warning',
       no_show:    'text-bg-secondary',
+      cancelled:  'text-bg-danger',
+      completed:  'text-bg-info',
+      paid:"text-bg-success"
     };
     return map[status] ?? 'text-bg-secondary';
   }
 
   statusLabel(status: string): string {
     const map: Record<string, string> = {
-      accepted:   'Aceptada',
-      completed:  'Completada',
       pending:    'Pendiente',
-      cancelled:  'Cancelada',
+      accepted:   'Aceptada',
       checked_in: 'En Parque',
       late:       'Tarde',
       no_show:    'No Presentado',
+      cancelled:  'Cancelada',
+      completed:  'Completada',
+      paid:"Pagado"
     };
     return map[status] ?? status;
   }

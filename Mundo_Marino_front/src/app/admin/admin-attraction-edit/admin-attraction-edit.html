@@ -1,0 +1,143 @@
+<div class="d-flex flex-column" style="min-height:100vh;">
+  <div class="d-flex flex-grow-1">
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      @if (cargando()) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+        </div>
+      } @else if (error() && !reserva()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      } @else {
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <button class="btn btn-light rounded-3 d-flex align-items-center gap-1" (click)="volver()">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">arrow_back</span>
+          </button>
+          <div>
+            <h1 class="fw-bold mb-0" style="font-size:1.6rem;">Editar Atracción</h1>
+            <p class="text-muted small mb-0">{{ reserva()?.name }}</p>
+          </div>
+        </div>
+
+        @if (exito()) {
+          <div class="alert alert-success d-flex align-items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span>
+            {{ exito() }}
+          </div>
+        }
+        @if (error()) {
+          <div class="alert alert-danger">{{ error() }}</div>
+        }
+
+        <div class="row g-4">
+          <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+              <h5 class="fw-bold mb-4">Datos de la Atracción</h5>
+
+              <!-- Nombre -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Nombre</label>
+                <input type="text" class="form-control rounded-3"
+                       [value]="name()"
+                       (input)="name.set($any($event.target).value)" />
+              </div>
+
+              <!-- Tipo -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Tipo / Intensidad</label>
+                <select class="form-select rounded-3"
+                        [value]="type()"
+                        (change)="type.set($any($event.target).value)">
+                  <option value="suave">Suave</option>
+                  <option value="moderado">Moderado</option>
+                  <option value="intenso">Intenso</option>
+                </select>
+              </div>
+
+              <!-- Duración y Capacidad -->
+              <div class="row g-3 mb-4">
+                <div class="col-6">
+                  <label class="form-label fw-semibold small text-uppercase text-muted"
+                         style="font-size:0.65rem;letter-spacing:0.1em;">Duración (min)</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="duration.set(Math.max(1, duration() - 1))">−</button>
+                    <input type="number" class="form-control rounded-3 text-center fw-bold"
+                           style="width:70px;"
+                           [value]="duration()"
+                           (change)="duration.set(Math.max(1, +$any($event.target).value))"
+                           min="1" />
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="duration.set(duration() + 1)">+</button>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label fw-semibold small text-uppercase text-muted"
+                         style="font-size:0.65rem;letter-spacing:0.1em;">Capacidad máx.</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="max_capacity.set(Math.max(1, max_capacity() - 1))">−</button>
+                    <input type="number" class="form-control rounded-3 text-center fw-bold"
+                           style="width:70px;"
+                           [value]="max_capacity()"
+                           (change)="max_capacity.set(Math.max(1, +$any($event.target).value))"
+                           min="1" />
+                    <button class="btn btn-light rounded-3 px-3"
+                            (click)="max_capacity.set(max_capacity() + 1)">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Altura mínima -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Altura mínima (m)</label>
+                <input type="number" class="form-control rounded-3"
+                       step="0.01" min="0"
+                       [value]="min_height() ?? ''"
+                       (input)="min_height.set($any($event.target).value ? +$any($event.target).value : null)"
+                       placeholder="Sin restricción" />
+              </div>
+
+              <!-- Estado -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Estado</label>
+                <select class="form-select rounded-3"
+                        [value]="status()"
+                        (change)="status.set($any($event.target).value)">
+                  <option value="operational">Operativa</option>
+                  <option value="maintenance">En mantenimiento</option>
+                  <option value="closed">Cerrada</option>
+                  <option value="permanently_closed">Cerrada permanentemente</option>
+                </select>
+              </div>
+
+              <!-- Botones -->
+              <div class="d-flex gap-3 mt-2">
+                <button class="btn fw-bold px-5 py-2 text-white rounded-3"
+                        style="background:#0cc0a8;"
+                        [disabled]="guardando()"
+                        (click)="guardar()">
+                  @if (guardando()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                  }
+                  Guardar Cambios
+                </button>
+                <button class="btn btn-light fw-medium px-4 py-2 rounded-3"
+                        (click)="volver()">
+                  Cancelar
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      }
+    </main>
+  </div>
+</div>

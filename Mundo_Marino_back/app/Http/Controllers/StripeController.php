@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservaMail;
 use App\Models\Park_reservation;
 use App\Models\Payment;
 use App\Models\Tax;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -112,7 +115,7 @@ class StripeController extends Controller
                     'reservation_date' => $metadata->reservation_date,
                     'adults' => $metadata->adults,
                     'child' => $metadata->child,
-                    'status' => 'accepted',
+                    'status' => 'paid',
                     'codigo_qr' => Str::uuid(),
                     'tax_id' => $metadata->tax_id,
                     'adult_price_total' => $metadata->adult_price_total,
@@ -139,6 +142,10 @@ class StripeController extends Controller
                 \Log::channel('payments')->error('Error: ' . $e->getMessage());
                 return response()->json(['error' => $e->getMessage()], 500);
             }
+
+            $user = User::findOrFail($metadata->user_id);
+            Mail::to($user->email)->send(new ReservaMail($reservation, 'parque'));
+
         }
         if ($event->type === 'payment_intent.payment_failed') {
             $pi = $event->data->object;

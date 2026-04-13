@@ -4,12 +4,15 @@ import {Park} from '../../models/park';
 import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {environment} from '../../../environments/environment';
+import {RouterLink} from '@angular/router';
+import {Attraction} from '../../models/attraction';
 
 @Component({
   selector: 'app-admin-park',
   imports: [
     AdminNavbar,
-    AdminSidebar
+    AdminSidebar,
+    RouterLink
   ],
   templateUrl: './admin-park.html',
   styleUrl: './admin-park.css',
@@ -23,6 +26,7 @@ export class AdminPark {
   error = signal<string | null>(null);
   filtroStatus = signal<string>('all');
   busqueda = signal<string>('');
+
 
   ngOnInit() {
     const token = localStorage.getItem('access_token');
@@ -54,7 +58,8 @@ export class AdminPark {
     }
     const q = this.busqueda().toLowerCase();
     if (q) {
-      lista = lista.filter(a => a.name.toLowerCase().includes(q));
+      lista = lista.filter(a => a.name.toLowerCase().includes(q)||a.type.toLowerCase().includes(q)||
+        (a.duration.toString()+" min").toLowerCase().includes(q)||(a.max_capacity.toString()+" personas").toLowerCase().includes(q));
     }
     return lista;
   });
@@ -72,6 +77,7 @@ export class AdminPark {
       operational: 'text-bg-success',
       maintenance: 'text-bg-warning',
       closed:      'text-bg-danger',
+      permanently_closed:"text-bg-danger"
     };
     return map[status] ?? 'text-bg-secondary';
   }
@@ -104,4 +110,53 @@ export class AdminPark {
   }
 
   onFechaFiltro(_fecha: string) {}
+
+  cambiarStatus(atraccion: Attraction, nuevoStatus: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.put(`${this.apiUrl}/attraction/${atraccion.id}`,
+      {
+        name: atraccion.name,
+        type: atraccion.type,
+        duration: atraccion.duration,
+        max_capacity: atraccion.max_capacity,
+        park_id: atraccion.park?.id ?? 1,
+        status: nuevoStatus
+      },
+      { headers }
+    ).subscribe({
+      next: () => {
+        this.park.update(p => {
+          if (!p) return p;
+          return {
+            ...p,
+            attractions: p.attractions.map(a =>
+              a.id === atraccion.id ? { ...a, status: nuevoStatus as any } : a
+            )
+          };
+        });
+      },
+      error: (err) => console.error('Error al cambiar status:', err)
+    });
+  }
+  delete(a: Attraction) {
+    if (!confirm(`¿Eliminar la atracción ${a.name}?`)) return;
+
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.delete(`${this.apiUrl}/attraction/${a.id}`, { headers }).subscribe({
+      next: () => {
+        this.park.update(p => {
+          if (!p) return p;
+          return {
+            ...p,
+            attractions: p.attractions.filter(att => att.id !== a.id)
+          };
+        });
+      },
+      error: (err) => console.error('Error al eliminar:', err)
+    });
+  }
 }

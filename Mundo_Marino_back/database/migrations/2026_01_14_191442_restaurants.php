@@ -11,10 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        Schema::create('restaurants', function (Blueprint $table) {
+//            $table->id();
+//            $table->string("name");
+//            $table->unsignedInteger("max_capacity");
+//            $table->foreignId("park_id")
+//                ->references("id")
+//                ->on("parks")
+//                ->cascadeOnDelete();
+//            $table->unique(["park_id","name"]);
+//            $table->timestamps();
+//        });
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->unsignedInteger("max_capacity");
+            $table->time('opening_time');
+            $table->time('closing_time');
             $table->foreignId("park_id")
                 ->references("id")
                 ->on("parks")
@@ -22,6 +35,7 @@ return new class extends Migration
             $table->unique(["park_id","name"]);
             $table->timestamps();
         });
+
     }
 
     /**

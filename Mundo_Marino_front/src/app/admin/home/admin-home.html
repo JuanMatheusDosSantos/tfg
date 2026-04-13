@@ -71,7 +71,7 @@
                   </span>
                 </div>
                 <p class="text-muted small mb-1">Media Diaria (mes)</p>
-                <h3 class="fw-bold fs-4 mb-0">{{ stats().media_diaria | currency:'EUR':'symbol':'1.2-2' }}</h3>
+                <h3 class="fw-bold fs-4 mb-0">{{ stats().media_diaria }} €</h3>
               </div>
             </div>
           }
@@ -142,7 +142,7 @@
                         </span>
                       </td>
                       <td class="px-4 py-3 small fw-bold">
-                        {{ (+r.adult_price_total + +r.child_price_total) * (1 + +r.applied_tax / 100) | currency:'EUR':'symbol':'1.2-2' }}
+                        {{ (+r.adult_price_total + +r.child_price_total) * (1 + +r.applied_tax / 100)}} €
                       </td>
                     </tr>
                   } @empty {

@@ -25,7 +25,9 @@ return new class extends Migration
 //            $table->integer("max_persons");
             $table->integer("adults")->default(1);
             $table->integer("child")->default(0);
-            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending","accepted"])->default("pending");
+            $table->enum("status",["checked_in","late","no_show","cancelled","completed","pending",
+//                "accepted",
+                "paid"])->default("pending");
             $table->string('codigo_qr')->unique();
 
             $table->foreignId("tax_id")->constrained("taxes");

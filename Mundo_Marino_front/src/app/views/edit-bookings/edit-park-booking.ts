@@ -123,7 +123,7 @@ export class EditParkBooking {
       next: () => {
         this.exito.set('Reserva actualizada correctamente.');
         this.guardando.set(false);
-        setTimeout(() => this.router.navigate(['/park/bookings']), 1500);
+        setTimeout(() => this.router.navigate([`/my-booking/park/${id}`]), 1500);
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al guardar la reserva');
@@ -133,7 +133,8 @@ export class EditParkBooking {
   }
 
   volver() {
-    this.router.navigate(['/park/bookings']);
+    const id = this.reserva()?.id;
+    this.router.navigate([`/my-booking/park/${id}`]);
   }
 
   protected readonly Math = Math;

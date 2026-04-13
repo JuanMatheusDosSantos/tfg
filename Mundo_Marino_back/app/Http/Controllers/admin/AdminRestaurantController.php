@@ -85,4 +85,31 @@ class AdminRestaurantController extends Controller
             return response()->json(["no se ha encontrado el restaurante"], 400);
         }
     }
+    public function editCapacity(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                "max_capacity" => "required|integer|min:1"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
+
+        try {
+            $restaurant = Restaurant::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["No se ha encontrado el restaurante"], 400);
+        }
+
+        try {
+            if ($restaurant->max_capacity != $request->max_capacity) {
+                $restaurant->max_capacity = $request->max_capacity;
+                $restaurant->save();
+                return response()->json(["se ha cambiado correctamente la capacidad"]);
+            }
+            return response()->json([""]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
+    }
 }

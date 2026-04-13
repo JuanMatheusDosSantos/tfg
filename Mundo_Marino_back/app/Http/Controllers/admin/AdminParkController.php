@@ -26,6 +26,7 @@ class AdminParkController extends Controller
                 'attractions as operational_count' => fn($q) => $q->where('status', 'operational'),
                 'attractions as maintenance_count'  => fn($q) => $q->where('status', 'maintenance'),
                 'attractions as closed_count'       => fn($q) => $q->where('status', 'closed'),
+                'attractions as permanently_closed'       => fn($q) => $q->where('status', 'permanently_closed'),
             ])->findOrFail($id);
             return response()->json($park);
         } catch (\Exception $e) {

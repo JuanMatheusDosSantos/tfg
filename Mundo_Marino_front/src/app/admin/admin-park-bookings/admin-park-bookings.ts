@@ -48,7 +48,7 @@ export class AdminParkBookings implements OnInit {
   }
 
   get totalPendientes() { return this.reservas().filter(r => r.status === 'pending').length; }
-  get totalAceptadas()  { return this.reservas().filter(r => r.status === 'accepted').length; }
+  get totalPagadas()  { return this.reservas().filter(r => r.status !== 'cancelled'&&r.status!=="pending").length; }
   get totalHoy() {
     const hoy = new Date().toISOString().split('T')[0];
     return this.reservas().filter(r => r.reservation_date === hoy).length;
@@ -86,7 +86,8 @@ export class AdminParkBookings implements OnInit {
     if (q) {
       lista = lista.filter(r =>
         r.user?.name.toLowerCase().includes(q) ||
-        r.id.toString().includes(q)||r.user?.email.includes(q)
+        r.id.toString().includes(q)||r.user?.email.includes(q)||(r.child_price_total+r.adult_price_total+" €").toString().includes(q)||
+        r.adults.toString().includes(q)||r.child.toString().includes(q)
       );
     }
 
@@ -129,6 +130,7 @@ export class AdminParkBookings implements OnInit {
       no_show:    'text-bg-secondary',
       cancelled:  'text-bg-danger',
       completed:  'text-bg-info',
+      paid:"text-bg-success"
     };
     return map[status] ?? 'text-bg-secondary';
   }
@@ -142,6 +144,7 @@ export class AdminParkBookings implements OnInit {
       no_show:    'No Presentado',
       cancelled:  'Cancelada',
       completed:  'Completada',
+      paid:"Pagado"
     };
     return map[status] ?? status;
   }

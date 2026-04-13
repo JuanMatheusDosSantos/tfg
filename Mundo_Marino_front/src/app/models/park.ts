@@ -15,6 +15,7 @@ export interface Park {
   operational_count: number;
   maintenance_count: number;
   closed_count: number;
+  permanently_closed:number
 
   attractions: Attraction[];
 }

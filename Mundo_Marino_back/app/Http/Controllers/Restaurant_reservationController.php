@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservaMail;
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Restaurant_reservationController extends Controller
 {
@@ -56,7 +59,7 @@ class Restaurant_reservationController extends Controller
 
         $this->userLimit($request);
         try {
-            Restaurant_reservation::create([
+            $reservation= Restaurant_reservation::create([
                 "user_id" => $request->user_id,
                 "restaurant_id" => $request->restaurant_id,
                 "reservation_date" => $request->reservation_date,
@@ -67,6 +70,8 @@ class Restaurant_reservationController extends Controller
             return response()->json(["message" => $e->getMessage()], 400);
 
         }
+        $user = User::findOrFail($request->user_id);
+        Mail::to($user->email)->send(new ReservaMail($reservation, 'restaurante'));
         return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 

@@ -24,6 +24,6 @@ class Attraction extends Model
 
     function attraction_reservation()
     {
-        return $this->hasMany(Attraction_reservation::class);
+//        return $this->hasMany(Attraction_reservation::class);
     }
 }

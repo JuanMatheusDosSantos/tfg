@@ -29,41 +29,6 @@ class AdminAttractionController extends Controller
         }
     }
 
-    function filterByType($type)
-    {
-        try {
-            $attraction=Attraction::where("type",$type)->get();
-            if ($attraction->count()==0){
-                return response()->json(["no hay ninguna atraccion de este tipo"],
-//                    204
-                    200
-                );
-            }
-            return response()->json($attraction,200);
-        }catch (\Exception){
-            return response()->json(["ha habido un error, comprueba que el typo sigue existiendo"],404);
-        }
-    }
-
-    function filterByPark($id)
-    {
-        try {
-            $parks=Park::findOrFail($id);
-            $attraction=$parks->attractions;
-            if ($attraction->count()==0){
-                return response()->json(["no hay ninguna atraccion de este tipo"],
-//                    204
-                    200
-                );
-            }
-            return response()->json($attraction,200);
-        }catch (\Exception){
-            return response()->json(["ha habido un error, comprueba que el typo sigue existiendo"],404);
-        }
-
-
-    }
-
     function store(Request $request)
     {
         $request->validate([
@@ -117,10 +82,15 @@ class AdminAttractionController extends Controller
     function delete($id)
     {
         try {
-            Attraction::findOrFail($id)->delete();
-            return response()->json(["se ha eliminado correctamente la atraccion"],204);
+            $attraction=Attraction::findOrFail($id);
+            $attraction->status="permanently_closed";
+            $attraction->save();
+            return response()->json(["se ha eliminado correctamente la atraccion"],200);
         }catch (\Exception $e){
-            return response()->json(["no se ha encontrado la atracción"],400);
+            return response()->json([
+//                "no se ha encontrado la atracción"
+            $e->getMessage()
+            ],400);
         }
     }
 }

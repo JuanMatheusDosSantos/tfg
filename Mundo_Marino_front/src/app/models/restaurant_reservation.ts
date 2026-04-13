@@ -1,4 +1,5 @@
 import {Restaurant} from './restaurant';
+import {User} from '../auth/auth.model';
 
 export interface Restaurant_reservation {
   id?:number,
@@ -13,4 +14,7 @@ export interface Restaurant_reservation {
 //
 //   created_at?: string;
 //   updated_at?: string;
+
+
+  user?:User
 }

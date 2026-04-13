@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Illuminate\Mail\Mailables\Attachment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -54,11 +55,22 @@ class ReservaMail extends Mailable
 
     public function attachments(): array
     {
+        \Log::info('ReservaMail tipo: ' . $this->tipo);
         // Solo el parque lleva PDF con QR
-        if ($this->tipo === 'restaurante') return [];
+        if ($this->tipo === 'restaurante') {
+            $pdf = Pdf::loadView('pdfs.entrada_restaurante', [
+                'reservation' => $this->reservation,
+            ]);
+
+            return [
+                Attachment::fromData(
+                    fn () => $pdf->output(),
+                    'reserva-restaurante-'.$this->reservation->id.'.pdf'
+                )->withMime('application/pdf')
+            ];
+        }
 
         $qrSvg = base64_encode(QrCode::size(200)->generate($this->reservation->codigo_qr));
-
         $pdf = Pdf::loadView('pdfs.entrada', [
             'reservation' => $this->reservation,
             'qrSvg'       => $qrSvg
@@ -67,7 +79,7 @@ class ReservaMail extends Mailable
         return [
             Attachment::fromData(
                 fn () => $pdf->output(),
-                'entrada-'.$this->reservation->id.'.pdf'
+                'entrada'.$this->reservation->id.'.pdf'
             )->withMime('application/pdf')
         ];
     }

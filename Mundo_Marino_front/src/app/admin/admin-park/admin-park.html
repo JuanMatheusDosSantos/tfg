@@ -61,7 +61,7 @@
                 <span class="text-muted small">Cerradas</span>
                 <span class="material-symbols-outlined text-danger">cancel</span>
               </div>
-              <h3 class="fw-bold fs-3 mb-0">{{ p.closed_count }}</h3>
+              <h3 class="fw-bold fs-3 mb-0">{{ p.closed_count+p.permanently_closed }}</h3>
             </div>
           </div>
         </div>
@@ -98,6 +98,11 @@
                     [style.background]="filtroStatus() === 'closed' ? '#ef4444' : '#fff'"
                     [style.border]="filtroStatus() === 'closed' ? 'none' : '1px solid #dee2e6'"
                     (click)="setFiltro('closed')">Cerradas</button>
+            <button class="btn btn-sm rounded-3 fw-medium px-3"
+                    [class.text-white]="filtroStatus() === 'permanently_closed'"
+                    [style.background]="filtroStatus() === 'permanently_closed' ? '#ef4444' : '#fff'"
+                    [style.border]="filtroStatus() === 'permanently_closed' ? 'none' : '1px solid #dee2e6'"
+                    (click)="setFiltro('permanently_closed')">Permanentemente Cerrada</button>
           </div>
         </div>
 
@@ -113,6 +118,7 @@
                   <th class="px-4 py-3">Duración</th>
                   <th class="px-4 py-3">Capacidad</th>
                   <th class="px-4 py-3">Estado</th>
+                  <th class="px-4 py-3">Cambiar Estado</th>
                   <th class="px-4 py-3 text-end">Acciones</th>
                 </tr>
               </thead>
@@ -140,14 +146,27 @@
                         {{ statusLabel(a.status) }}
                       </span>
                     </td>
+                    <td class="px-4 py-3">
+                      <select class="form-select form-select-sm rounded-3"
+                              style="width:170px;"
+                              [value]="a.status"
+                              (change)="cambiarStatus(a, $any($event.target).value)">
+                        <option value="operational">Operativa</option>
+                        <option value="maintenance">En mantenimiento</option>
+                        <option value="closed">Cerrada</option>
+                        <option value="permanently_closed">Cerrada permanentemente</option>
+                      </select>
+                    </td>
                     <td class="px-4 py-3 text-end">
                       <div class="d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
-                                title="Editar">
+                        <a class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
+                           [routerLink]="['/admin/Attraction', a.id, 'edit']"
+                           title="Editar">
                           <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
-                        </button>
+                        </a>
                         <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1 text-danger"
-                                title="Eliminar">
+                                title="Eliminar"
+                                (click)="delete(a)">
                           <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
                         </button>
                       </div>

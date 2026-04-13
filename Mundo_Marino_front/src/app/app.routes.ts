@@ -18,6 +18,8 @@ import {ShowAttraction} from './views/show-attraction/show-attraction';
 import {EditParkBooking} from './views/edit-bookings/edit-park-booking';
 import {EditRestaurantBooking} from './views/edit-restaurant-booking/edit-restaurant-booking';
 import {ProfileComponent} from './pages/profile/profile';
+import {AdminAttractionEdit} from './admin/admin-attraction-edit/admin-attraction-edit';
+import {AdminRestaurant} from './admin/admin-restaurant/admin-restaurant';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -42,5 +44,7 @@ export const routes: Routes = [
   {path:"admin/park",component:AdminPark,canActivate:[adminGuard]},
   {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[adminGuard]},
   {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[adminGuard]},
+  {path:"admin/Attraction/:id/edit",component:AdminAttractionEdit,canActivate:[adminGuard]},
+  {path:"admin/restaurant",component:AdminRestaurant,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];

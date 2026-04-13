@@ -15,9 +15,11 @@ class RestaurantSeeder extends Seeder
     {
         DB::table('restaurants')->insert([
             "id" => 1,
-            "name"=>"prueba",
+            "name" => "El Arrecife",
             "max_capacity" => 20,
-            "park_id"=>1
+            "opening_time" => "12:00:00",
+            "closing_time" => "23:00:00",
+            "park_id" => 1
         ]);
     }
 }

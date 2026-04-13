@@ -123,6 +123,52 @@ class AdminPark_reservationController extends Controller
         }
 
     }
+    public function editStatus(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                "status" => "required"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                    $e->getMessage()
+//                "ha habido un error en la validacion, introduce correctamente los campos"
+            ], 400);
+        }
+
+        try {
+            $reservation = Park_reservation::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["ha habido un fallo al buscar la reserva"], 400);
+        }
+        try {
+            $cambios = [];
+            if ($reservation->reservation_date != $request->reservation_date&&!is_null($request->reservation_date)) {
+                $reservation->reservation_date = $request->reservation_date;
+                $cambios[] = "dia de la reserva";
+            }
+            if ($reservation->max_persons != $request->max_persons) {
+                $reservation->max_persons = $request->max_persons;
+                $cambios[] = "tamaño de la reserva";
+            }
+            if ($reservation->status != $request->status) {
+                $cambios[] = "estado de la reserva";
+                $reservation->status = $request->status;
+            }
+            $reservation->save();
+            if ($cambios > 0) {
+                return response()->json(["se ha cambiado correctamente " . implode(", ", $cambios)]);
+            } else {
+                return response()->json([""]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                    $e->getMessage()
+//                "ha habido un error ha la hora de editar la reserva, introduce correctamente los campos"
+            ], 400);
+        }
+
+    }
 
 
     /**

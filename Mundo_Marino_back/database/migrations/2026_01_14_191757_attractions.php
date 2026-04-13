@@ -39,7 +39,7 @@ return new class extends Migration {
                 ->constrained("parks")
                 ->cascadeOnDelete();
 
-            $table->enum('status', ['operational', 'maintenance', 'closed'])
+            $table->enum('status', ['operational', 'maintenance', 'closed',"permanently_closed"])
                 ->default('operational');
 
             $table->decimal('min_height', 3, 2)->nullable();

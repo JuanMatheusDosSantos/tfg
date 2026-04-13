@@ -30,8 +30,8 @@
           </div>
           <div class="col-6 col-lg-3">
             <div class="card border-0 shadow-sm rounded-4 p-3">
-              <p class="text-muted small mb-1">Aceptadas</p>
-              <h4 class="fw-bold mb-0 text-success">{{ totalAceptadas }}</h4>
+              <p class="text-muted small mb-1">Pagadas</p>
+              <h4 class="fw-bold mb-0 text-success">{{ totalPagadas }}</h4>
             </div>
           </div>
           <div class="col-6 col-lg-3">
@@ -66,12 +66,13 @@
                     (change)="filtroStatus.set($any($event.target).value)">
               <option value="all">Todos</option>
               <option value="pending">Pendiente</option>
-              <option value="accepted">Aceptada</option>
+<!--              <option value="accepted">Aceptada</option>-->
               <option value="checked_in">En Parque</option>
               <option value="late">Tarde</option>
               <option value="no_show">No Presentado</option>
               <option value="cancelled">Cancelada</option>
               <option value="completed">Completada</option>
+              <option value="paid">Pagada</option>
             </select>
           </div>
 
@@ -130,7 +131,7 @@
                     <td class="px-4 py-3 small">{{ r.adults }}</td>
                     <td class="px-4 py-3 small">{{ r.child }}</td>
                     <td class="px-4 py-3 small fw-bold">
-                      {{ total(r) | currency:'EUR':'symbol':'1.2-2' }}
+                      {{ total(r)  }}€
                     </td>
                     <td class="px-4 py-3">
                       <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(r.status)">
@@ -149,6 +150,7 @@
                         <option value="no_show">No Presentado</option>
                         <option value="cancelled">Cancelada</option>
                         <option value="completed">Completada</option>
+                        <option value="paid">Pagada</option>
                       </select>
                     </td>
                     <td class="px-4 py-3 text-end">

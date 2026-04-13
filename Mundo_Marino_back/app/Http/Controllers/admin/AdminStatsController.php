@@ -27,12 +27,12 @@ class AdminStatsController extends Controller
             $stats = [];
 
             if ($user->role === 'admin' || $user->role === 'park') {
-                $reservasParqueMes = Park_reservation::whereIn('status', ['accepted', 'completed'])
+                $reservasParqueMes = Park_reservation::whereNotIn('status', ['cancelled',"pending"])
                     ->whereDate('reservation_date', '>=', $inicioMes)
                     ->whereDate('reservation_date', '<=', $now)
                     ->get();
 
-                $reservasParqueMesAnterior = Park_reservation::whereIn('status', ['accepted', 'completed'])
+                $reservasParqueMesAnterior = Park_reservation::whereNotIn('status', ['cancelled', 'pending',"no_show"])
                     ->whereDate('reservation_date', '>=', $inicioMesAnterior)
                     ->whereDate('reservation_date', '<=', $finMesAnterior)
                     ->get();

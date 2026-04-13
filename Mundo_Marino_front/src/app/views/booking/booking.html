@@ -134,7 +134,7 @@
                                        [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
                                   <span class="fw-bold small">{{ p.type?.name }}</span>
                                   <span class="fw-bold" style="color:#FF7E54;">
-                                      {{ p.price | currency:'EUR':'symbol':'1.2-2' }} / adulto
+                                      {{ p.price }}€ / adulto
                                     </span>
                                 </label>
                               </div>
@@ -162,7 +162,7 @@
                                        [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
                                   <span class="fw-bold small">{{ p.type?.name }}</span>
                                   <span class="fw-bold" style="color:#FF7E54;">
-                        {{ p.price | currency:'EUR':'symbol':'1.2-2' }} / adulto
+                        {{ p.price }} € / adulto
                       </span>
                                 </label>
                               </div>
@@ -364,18 +364,18 @@
                   <div class="border-top pt-3 mt-1 d-flex flex-column gap-2">
                     <div class="d-flex justify-content-between small text-muted">
                       <span>{{ bookingForm.value.adult }}
-                        Adulto(s) × {{ precioUnitario() | currency:'EUR':'symbol':'1.2-2' }}</span>
+                        Adulto(s) × {{ precioUnitario() }} €</span>
                       <span class="fw-semibold text-dark">
-                {{ precioUnitario() * bookingForm.value.adult | currency:'EUR':'symbol':'1.2-2' }}
+                {{ precioUnitario() * bookingForm.value.adult }} €
               </span>
                     </div>
 
                     @if (bookingForm.value.child > 0) {
                       <div class="d-flex justify-content-between small text-muted">
                         <span>{{ bookingForm.value.child }}
-                          Niño(s) × {{ precioNino() | currency:'EUR':'symbol':'1.2-2' }}</span>
+                          Niño(s) × {{ precioNino() }} €</span>
                         <span class="fw-semibold text-dark">
-                  {{ precioNino() * bookingForm.value.child | currency:'EUR':'symbol':'1.2-2' }}
+                  {{ precioNino() * bookingForm.value.child }} €
                 </span>
                       </div>
                     }
@@ -383,7 +383,7 @@
                     <div class="d-flex justify-content-between small text-muted border-top pt-2">
                       <span>IVA ({{ applied_tax() }}%)</span>
                         <span class="fw-semibold text-dark">
-                          {{ ivaImporte() | currency:'EUR':'symbol':'1.2-2' }}
+                          {{ ivaImporte() }} €
                         </span>
                     </div>
                   </div>
