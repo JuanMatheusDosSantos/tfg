@@ -32,7 +32,7 @@ class AdminRestaurantController extends Controller
     {
         $request->validate([
             "name" => "required|string|max:255",
-            "max_capacity" => "required|integer|min:1|max:15",
+            "max_capacity" => "required|integer|min:1",
             "park_id" => "required|integer|exists:parks,id"
         ]);
 

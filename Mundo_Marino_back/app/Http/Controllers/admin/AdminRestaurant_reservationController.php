@@ -66,7 +66,7 @@ class AdminRestaurant_reservationController extends Controller
     public function show(string $id)
     {
         try {
-            $reservation = Restaurant_reservation::findOrFail($id);
+            $reservation = Restaurant_reservation::with(["user","restaurant"])->findOrFail($id);
             return response()->json($reservation);
         } catch (\Exception $e) {
             return response()->json(["message" =>
@@ -194,5 +194,30 @@ class AdminRestaurant_reservationController extends Controller
             return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
         }
         return response()->json(["se ha borrado correctamente la reserva"]);
+    }
+
+    public function editStatus(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                "status" => "required|in:pending,accepted,checked_in,late,no_show,cancelled,completed"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
+
+        try {
+            $reservation = Restaurant_reservation::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json(["No se ha encontrado la reserva"], 400);
+        }
+
+        try {
+            $reservation->status = $request->status;
+            $reservation->save();
+            return response()->json(["Estado actualizado correctamente"]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
     }
 }

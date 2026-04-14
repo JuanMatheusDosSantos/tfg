@@ -24,7 +24,13 @@ export class AdminSidebar {
 
   parqueAbierto = signal(false);
 
+  restauranteAbierto = signal(false);
+
   toggleParque() {
     this.parqueAbierto.update(v => !v);
+  }
+
+  toggleRestaurante() {
+    this.restauranteAbierto.update(v => !v);
   }
 }

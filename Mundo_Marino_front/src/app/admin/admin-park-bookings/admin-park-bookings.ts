@@ -106,7 +106,7 @@ export class AdminParkBookings implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http.put(`${this.apiUrl}/park_reservation/${reserva.id}`, { status: nuevoStatus }, { headers })
+    this.http.put(`${this.apiUrl}/park_reservation/status/${reserva.id}`, { status: nuevoStatus }, { headers })
       .subscribe({
         next: () => {
           this.reservas.update(lista =>

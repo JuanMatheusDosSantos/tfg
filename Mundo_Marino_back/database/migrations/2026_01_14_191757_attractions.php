@@ -43,7 +43,7 @@ return new class extends Migration {
                 ->default('operational');
 
             $table->decimal('min_height', 3, 2)->nullable();
-
+            $table->text('image')->nullable();
             $table->unique(["name", "park_id"]);
             $table->timestamps();
         });

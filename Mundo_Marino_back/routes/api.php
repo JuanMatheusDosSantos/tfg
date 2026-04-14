@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\AdminAttractionController;
 use App\Http\Controllers\admin\AdminPark_reservationController;
 use App\Http\Controllers\admin\AdminPark_reservationPriceController;
 use App\Http\Controllers\admin\AdminParkController;
+use App\Http\Controllers\admin\AdminRestaurant_reservationController;
 use App\Http\Controllers\admin\AdminRestaurantController;
 use App\Http\Controllers\admin\AdminStatsController;
 use App\Http\Controllers\admin\AdminTaxController;
@@ -96,14 +97,15 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
 
     Route::get("atracciones",[AdminAttractionController::class,"index"]);
     Route::get("atraccion/{id}",[AdminAttractionController::class,"show"]);
+    Route::put("attraction/status/{id}", [AdminAttractionController::class, "editStatus"]);
 
     Route::get("restaurants", [AdminRestaurantController::class, "index"]);
     Route::put("restaurant/capacity/{id}", [AdminRestaurantController::class, "editCapacity"]);
 
     Route::post("restaurant",[AdminRestaurantController::class,"store"]);
+    Route::get("restaurant/{id}", [AdminRestaurantController::class, "show"]);
     Route::put("restaurant/{id}",[AdminRestaurantController::class,"update"]);
     Route::delete("restaurant/{id}",[AdminRestaurantController::class,"delete"]);
-
 
     Route::get("park_reservations",[AdminPark_reservationController::class,"index"]);
     Route::get("park_reservation/{id}",[AdminPark_reservationController::class,"show"]);
@@ -114,6 +116,11 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::delete("park_reservation/{id}",[AdminPark_reservationController::class,"delete"]);
 
     Route::post("park_reservation/userLimit",[AdminPark_reservationController::class,"setUserLimit"]);
+
+    Route::get("restaurant_reservations",[AdminRestaurant_reservationController::class,"index"]);
+    Route::get("restaurant_reservation/{id}",[AdminRestaurant_reservationController::class,"show"]);
+
+    Route::put("restaurant_reservation/status/{id}", [AdminRestaurant_reservationController::class, "editStatus"]);
 
     Route::get('taxes', [AdminTaxController::class, 'index']);
     Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);

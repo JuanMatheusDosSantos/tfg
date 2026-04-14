@@ -14,25 +14,6 @@ class AttractionsSeeder extends Seeder
      */
     public function run(): void
     {
-//        DB::table("attractions")->insert([
-//            [
-//                "id" => 1,
-//                "name" => "El SurcaOlas",
-//                "type" => 1,
-//                "duration" => 5,
-//                "max_capacity" => 20,
-//                "park_id" => 1,
-//            ],
-//            [
-//                "id" => 2,
-//                "name" => "El Remolino",
-//                "type" => 2,
-//                "duration" => 5,
-//                "max_capacity" => 20,
-//                "park_id" => 2,
-//            ]
-//        ]);
-
         DB::table("attractions")->insert([
             //parque 1
             // --- SUAVES ---
@@ -45,8 +26,9 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.00,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://mundo-marino.duckdns.org/storage/attractions/atraccion1.png",
                 "created_at" => "2026-03-20 10:00:00",
-                "updated_at" => "2026-03-20 10:00:00", // <--- FECHA FIJA COMPARTIDA
+                "updated_at" => "2026-03-20 10:00:00",
             ],
             [
                 "name" => "Paseo en Góndola",
@@ -57,6 +39,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.90,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://mundo-marino.duckdns.org/storage/attractions/atraccion2.png",
                 "created_at" => "2026-03-25 11:30:00",
                 "updated_at" => "2026-03-25 11:30:00",
             ],
@@ -69,11 +52,10 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.80,
                 "status" => "maintenance",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-01 09:15:00",
                 "updated_at" => "2026-04-01 09:15:00",
             ],
-
-            // --- MODERADOS ---
             [
                 "name" => "El SurcaOlas",
                 "type" => "moderado",
@@ -83,8 +65,9 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.10,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-20 10:00:00",
-                "updated_at" => "2026-03-20 10:00:00", // <--- FECHA FIJA COMPARTIDA
+                "updated_at" => "2026-03-20 10:00:00",
             ],
             [
                 "name" => "Rápidos del Río",
@@ -95,6 +78,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.20,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-28 14:20:00",
                 "updated_at" => "2026-03-28 14:20:00",
             ],
@@ -107,11 +91,10 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.15,
                 "status" => "closed",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-03 17:45:00",
                 "updated_at" => "2026-04-03 17:45:00",
             ],
-
-            // --- INTENSOS ---
             [
                 "name" => "El Remolino",
                 "type" => "intenso",
@@ -121,8 +104,9 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.40,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-20 10:00:00",
-                "updated_at" => "2026-03-20 10:00:00", // <--- FECHA FIJA COMPARTIDA
+                "updated_at" => "2026-03-20 10:00:00",
             ],
             [
                 "name" => "Tifón Infernal",
@@ -133,6 +117,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.50,
                 "status" => "maintenance",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-30 12:00:00",
                 "updated_at" => "2026-03-30 12:00:00",
             ],
@@ -145,10 +130,10 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.45,
                 "status" => "operational",
                 "park_id" => 1,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-05 16:30:00",
                 "updated_at" => "2026-04-05 16:30:00",
             ],
-            //parque 2
             [
                 "name" => "Gran Carrusel Real",
                 "type" => "suave",
@@ -158,6 +143,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.00,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-20 10:00:00",
                 "updated_at" => "2026-03-20 10:00:00",
             ],
@@ -170,6 +156,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.90,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-25 11:30:00",
                 "updated_at" => "2026-03-25 11:30:00",
             ],
@@ -182,6 +169,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 0.80,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-01 09:15:00",
                 "updated_at" => "2026-04-01 09:15:00",
             ],
@@ -194,6 +182,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.20,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-20 10:00:00",
                 "updated_at" => "2026-03-20 10:00:00",
             ],
@@ -206,6 +195,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.20,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-28 14:20:00",
                 "updated_at" => "2026-03-28 14:20:00",
             ],
@@ -218,6 +208,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.15,
                 "status" => "closed",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-03 17:45:00",
                 "updated_at" => "2026-04-03 17:45:00",
             ],
@@ -230,6 +221,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.40,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-20 10:00:00",
                 "updated_at" => "2026-03-20 10:00:00",
             ],
@@ -242,6 +234,7 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.50,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-03-30 12:00:00",
                 "updated_at" => "2026-03-30 12:00:00",
             ],
@@ -254,9 +247,10 @@ class AttractionsSeeder extends Seeder
                 "min_height" => 1.45,
                 "status" => "operational",
                 "park_id" => 2,
+                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
                 "created_at" => "2026-04-05 16:30:00",
                 "updated_at" => "2026-04-05 16:30:00",
-            ]
+            ],
         ]);
 
     }

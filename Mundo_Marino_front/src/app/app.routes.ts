@@ -20,6 +20,9 @@ import {EditRestaurantBooking} from './views/edit-restaurant-booking/edit-restau
 import {ProfileComponent} from './pages/profile/profile';
 import {AdminAttractionEdit} from './admin/admin-attraction-edit/admin-attraction-edit';
 import {AdminRestaurant} from './admin/admin-restaurant/admin-restaurant';
+import {AdminRestaurantEdit} from './admin/admin-restaurant-edit/admin-restaurant-edit';
+import {AdminRestaurantBookings} from './admin/admin-restaurant-bookings/admin-restaurant-bookings';
+import {AdminEditRestaurantBooking} from './admin/admin-edit-restaurant-booking/admin-edit-restaurant-booking';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -44,7 +47,10 @@ export const routes: Routes = [
   {path:"admin/park",component:AdminPark,canActivate:[adminGuard]},
   {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[adminGuard]},
   {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[adminGuard]},
-  {path:"admin/Attraction/:id/edit",component:AdminAttractionEdit,canActivate:[adminGuard]},
+  {path:"admin/attraction/:id/edit",component:AdminAttractionEdit,canActivate:[adminGuard]},
   {path:"admin/restaurant",component:AdminRestaurant,canActivate:[adminGuard]},
+  {path:"admin/restaurant/:id/edit",component:AdminRestaurantEdit,canActivate:[adminGuard]},
+  {path:"admin/restaurant/bookings",component:AdminRestaurantBookings,canActivate:[adminGuard]},
+  {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];

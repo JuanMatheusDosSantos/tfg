@@ -115,7 +115,7 @@ export class AdminPark {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http.put(`${this.apiUrl}/attraction/${atraccion.id}`,
+    this.http.put(`${this.apiUrl}/attraction/status/${atraccion.id}`,
       {
         name: atraccion.name,
         type: atraccion.type,

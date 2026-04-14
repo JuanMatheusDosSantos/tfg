@@ -65,7 +65,7 @@ class AdminPark_reservationController extends Controller
     public function show($id)
     {
         try {
-            $reservation=Park_reservation::findOrFail($id);
+            $reservation=Park_reservation::with(["user","park"])->findOrFail($id);
             return response()->json($reservation);
         }catch (\Exception $e){
             return response()->json(["ha habido un fallo al intentar mostrar la reserva del parque"],400);
