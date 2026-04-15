@@ -4,7 +4,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {environment} from '../../../environments/environment';
 
 interface ParkReservation {
@@ -25,7 +25,7 @@ interface ParkReservation {
 @Component({
   selector: 'app-admin-park-bookings',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, AdminNavbar, AdminSidebar],
+  imports: [CommonModule, DatePipe, FormsModule, AdminNavbar, AdminSidebar, RouterLink],
   templateUrl: './admin-park-bookings.html',
 })
 export class AdminParkBookings implements OnInit {

@@ -41,7 +41,7 @@ export class AdminHome {
     this.http.get(`${this.apiUrl}/admin/stats`, { headers }).subscribe({
       next: (data) => {
         this.stats.set(data);
-        console.log(data)
+        // console.log(data)
         this.cargando.set(false);
       },
       error: (err) => {

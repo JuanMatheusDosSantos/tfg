@@ -10,6 +10,7 @@ class Attraction extends Model
     protected $fillable = [
         "name",
         "type",
+        "description",
         "duration",
         "max_capacity",
         "park_id",

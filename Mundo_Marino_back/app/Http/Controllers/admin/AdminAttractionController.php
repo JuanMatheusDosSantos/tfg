@@ -32,29 +32,37 @@ class AdminAttractionController extends Controller
     function store(Request $request)
     {
         $request->validate([
-            "name"=>"required|string|max:255",
-            "type"=>"required|string",
-            "duration"=>"required|integer|min:1|max:99",
-            "max_capacity"=>"required|integer|min:1|max:15",
-            "park_id"=>"required|integer|exists:parks,id"
+            "name"         => "required|string|max:255",
+            "type"         => "required|string",
+            "duration"     => "required|integer|min:1|max:99",
+            "max_capacity" => "required|integer|min:1",
+            "park_id"      => "required|integer|exists:parks,id",
+            "description"  => "required|string",
         ]);
 
         try {
+            $image = null;
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('attractions', 'public');
+                $image = asset('storage/' . $path);
+            }
+
             Attraction::create([
-                "name"=>$request->get("name"),
-                "type"=>$request->get("type"),
-                "duration"=>$request->get("duration"),
-                "max_capacity"=>$request->get("max_capacity"),
-                "park_id"=>$request->get("park_id")
+                "name"         => $request->name,
+                "type"         => $request->type,
+                "duration"     => $request->duration,
+                "max_capacity" => $request->max_capacity,
+                "park_id"      => $request->park_id,
+                "description"  => $request->description,
+                "status"       => $request->status ?? 'operational',
+                "min_height"   => $request->min_height ?? null,
+                "image"        => $image,
             ]);
-            return response()->json(["se ha guardado correctamente la atracción"],201);
-        }
-        catch (\Exception $e){
-//            return response()->json(["ha ocurrido un error a la hora de guardar la atracción"],500);
-            return response()->json([$e->getMessage()],500);
+            return response()->json(["se ha guardado correctamente la atracción"], 201);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
         }
     }
-
 //    function update(Request $request, $id)
 //    {
 //        $request->validate([

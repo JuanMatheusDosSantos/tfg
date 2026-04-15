@@ -41,7 +41,15 @@ class AdminPark_reservationPriceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate(['price' => 'required|numeric|min:0']);
+            $precio = Park_reservationPrice::findOrFail($id);
+            $precio->price = $request->price;
+            $precio->save();
+            return response()->json(["Precio actualizado correctamente"]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
     }
 
     /**
@@ -49,6 +57,11 @@ class AdminPark_reservationPriceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Park_reservationPrice::findOrFail($id)->delete();
+            return response()->json(["Precio eliminado correctamente"]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
     }
 }

@@ -36,7 +36,7 @@ export class AdminPark {
     this.http.get<Park>(`${this.apiUrl}/park/1`, { headers }).subscribe({
       next: (data) => {
         this.park.set(data);
-        console.log(data)
+        // console.log(data)
         this.cargando.set(false);
       },
       error: (err) => {
@@ -49,8 +49,8 @@ export class AdminPark {
   atraccionesFiltradas = computed(() => {
     const park = this.park();
     if (!park) return [];
-    console.log('Status de atracciones:', park.attractions.map(a => a.status));
-    console.log('Filtro actual:', this.filtroStatus());
+    // console.log('Status de atracciones:', park.attractions.map(a => a.status));
+    // console.log('Filtro actual:', this.filtroStatus());
 
     let lista = park.attractions;
     if (this.filtroStatus() !== 'all') {

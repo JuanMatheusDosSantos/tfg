@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             ParkReservationTypesSeeder::class,
             ParkReservationPricesSeeder::class,
             Park_reservationSeeder::class,
+            AdminLogsSeeder::class,
         ]);
     }
 }

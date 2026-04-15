@@ -17,7 +17,7 @@ class Admin_logController extends Controller
     {
         try {
             $this->authorize('viewAny', Admin_log::class);
-            $logs=Admin_log::all();
+            $logs=Admin_log::with("user")->get();
             return response()->json($logs);
         }catch (AuthenticationException $e){
             return  response()->json(["no tienes permisos"],403);

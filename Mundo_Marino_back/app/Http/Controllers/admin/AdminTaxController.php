@@ -41,14 +41,26 @@ class AdminTaxController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate(['percentage' => 'required|numeric|min:0|max:100']);
+            $tax = Tax::findOrFail($id);
+            $tax->percentage = $request->percentage;
+            $tax->save();
+            return response()->json(["Tax actualizado correctamente"]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Tax::findOrFail($id)->delete();
+            return response()->json(["Impuesto eliminado correctamente"]);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
     }
 }

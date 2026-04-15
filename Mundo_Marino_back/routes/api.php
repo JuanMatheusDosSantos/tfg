@@ -72,7 +72,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete("restaurant_reservation/{id}",[Restaurant_reservationController::class,"delete"]);
 
 
-    Route::get("admin_logs",[Admin_logController::class,"index"]);
     Route::get("admin_log/{id}",[Admin_logController::class,"show"]);
     Route::post("admin_log",[Admin_logController::class,"store"]);
 
@@ -123,6 +122,14 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::put("restaurant_reservation/status/{id}", [AdminRestaurant_reservationController::class, "editStatus"]);
 
     Route::get('taxes', [AdminTaxController::class, 'index']);
+    Route::put('taxes/{id}', [AdminTaxController::class, 'update']);
+    Route::delete('taxes/{id}', [AdminTaxController::class, 'destroy']);
+
+
     Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);
+    Route::put('park_reservation_prices/{id}', [AdminPark_reservationPriceController::class, 'update']);
+    Route::delete('park_reservation_prices/{id}', [AdminPark_reservationPriceController::class, 'destroy']);
+
+    Route::get("admin_logs",[Admin_logController::class,"index"]);
 
 });

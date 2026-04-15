@@ -1,6 +1,6 @@
 <div class="d-flex flex-column" style="min-height:100vh;">
 
-  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />
+<!--  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />-->
 
   <div class="d-flex flex-grow-1">
     <app-admin-sidebar />
@@ -104,6 +104,13 @@
                     [style.border]="filtroStatus() === 'permanently_closed' ? 'none' : '1px solid #dee2e6'"
                     (click)="setFiltro('permanently_closed')">Permanentemente Cerrada</button>
           </div>
+        <a [routerLink]="['/admin/attraction']"
+           class="btn fw-bold px-4 py-2 text-white rounded-3 d-flex align-items-center gap-2"
+           style="background:#0cc0a8;white-space:nowrap;">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;">add</span>
+          Nueva Atracción
+        </a>
+
         </div>
 
         <!-- Tabla atracciones -->
@@ -160,7 +167,7 @@
                     <td class="px-4 py-3 text-end">
                       <div class="d-flex align-items-center justify-content-end gap-2">
                         <a class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
-                           [routerLink]="['/admin/Attraction', a.id, 'edit']"
+                           [routerLink]="['/admin/attraction', a.id, 'edit']"
                            title="Editar">
                           <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
                         </a>

@@ -1,0 +1,140 @@
+import {Component, computed, inject, signal} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {forkJoin} from 'rxjs';
+import {Tax} from '../../models/tax';
+import {ReservationPrice} from '../../models/reservation-price';
+import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
+import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
+import {CurrencyPipe} from '@angular/common';
+import {environment} from '../../../environments/environment';
+
+@Component({
+  selector: 'app-admin-new-park-booking',
+  imports: [AdminNavbar, AdminSidebar],
+  templateUrl: './admin-new-park-booking.html',
+  styleUrl: './admin-new-park-booking.css',
+})
+export class AdminNewParkBooking {
+
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private apiUrl = `${environment.apiUrl}/admin`;
+
+  cargando = signal(true);
+  guardando = signal(false);
+  error = signal<string | null>(null);
+  exito = signal<string | null>(null);
+
+  taxes = signal<Tax[]>([]);
+  precios = signal<ReservationPrice[]>([]);
+
+  // Campos del formulario
+  user_id = signal('');
+  reservation_date = signal('');
+  adults = signal(1);
+  child = signal(0);
+  status = signal('pending');
+  tax_id = signal(0);
+  park_reservation_type_id = signal(0);
+
+  precioUnitario = computed(() => {
+    const precio = this.precios().find(
+      p => p.park_reservation_type_id === this.park_reservation_type_id()
+    );
+    return precio ? Math.round(Number(precio.price) * 100) / 100 : 0;
+  });
+
+  precioNino = computed(() => Math.round(this.precioUnitario() * 0.67 * 100) / 100);
+  adult_price_total = computed(() =>
+    Math.round(this.precioUnitario() * this.adults() * 100) / 100
+  );
+
+  child_price_total = computed(() =>
+    Math.round(this.precioNino() * this.child() * 100) / 100
+  );
+
+  applied_tax = computed(() => {
+    const tax = this.taxes().find(t => t.id === this.tax_id());
+    return tax ? tax.percentage : 0;
+  });
+
+  total = computed(() => {
+    const subtotal = this.adult_price_total() + this.child_price_total();
+    return Math.round(subtotal * (1 + this.applied_tax() / 100) * 100) / 100;
+  });
+
+  ngOnInit() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    forkJoin({
+      taxes:   this.http.get<Tax[]>(`${this.apiUrl}/taxes`, { headers }),
+      precios: this.http.get<ReservationPrice[]>(`${this.apiUrl}/park_reservation_prices`, { headers }),
+    }).subscribe({
+      next: ({ taxes, precios }) => {
+        this.taxes.set(taxes);
+        this.precios.set(precios);
+        if (taxes.length) this.tax_id.set(taxes[0].id);
+        if (precios.length) this.park_reservation_type_id.set(precios[0].park_reservation_type_id);
+        this.cargando.set(false);
+      },
+      error: (err) => {
+        this.error.set(err.error?.message ?? 'Error al cargar datos');
+        this.cargando.set(false);
+      }
+    });
+  }
+
+  guardar() {
+    if (!this.user_id() || !this.reservation_date()) {
+      this.error.set('El usuario y la fecha son obligatorios.');
+      return;
+    }
+
+    this.guardando.set(true);
+    this.exito.set(null);
+    this.error.set(null);
+
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    const payload = {
+      user_id:                   this.user_id(),
+      reservation_date:          this.reservation_date(),
+      adults:                    this.adults(),
+      child:                     this.child(),
+      status:                    this.status(),
+      tax_id:                    this.tax_id(),
+      park_id:                   1,
+      park_reservation_type_id:  this.park_reservation_type_id(),
+      adult_price_total:         this.adult_price_total(),
+      child_price_total:         this.child_price_total(),
+      applied_tax:               this.applied_tax(),
+    };
+
+    this.http.post(`${this.apiUrl}/park_reservation`, payload, { headers }).subscribe({
+      next: () => {
+        this.exito.set('Reserva creada correctamente.');
+        this.guardando.set(false);
+        setTimeout(() => this.router.navigate(['/admin/park/bookings']), 1500);
+      },
+      error: (err) => {
+        this.error.set(err.error?.message ?? 'Error al crear la reserva');
+        this.guardando.set(false);
+      }
+    });
+  }
+
+  volver() {
+    this.router.navigate(['/admin/park/bookings']);
+  }
+
+  onFechaFiltro(_fecha: string) {}
+
+  protected readonly Math = Math;
+  increaseAdults() { this.adults.update(v => v + 1); }
+  decrementAdults() { this.adults.update(v => Math.max(1, v - 1)); }
+  increaseChild() { this.child.update(v => v + 1); }
+  decrementChild() { this.child.update(v => Math.max(0, v - 1)); }
+}

@@ -23,6 +23,10 @@ import {AdminRestaurant} from './admin/admin-restaurant/admin-restaurant';
 import {AdminRestaurantEdit} from './admin/admin-restaurant-edit/admin-restaurant-edit';
 import {AdminRestaurantBookings} from './admin/admin-restaurant-bookings/admin-restaurant-bookings';
 import {AdminEditRestaurantBooking} from './admin/admin-edit-restaurant-booking/admin-edit-restaurant-booking';
+import {AdminPrices} from './admin/admin-prices/admin-prices';
+import {AdminLogs} from './admin/admin-logs/admin-logs';
+import {AdminNewAttraction} from './admin/admin-new-attraction/admin-new-attraction';
+import {AdminNewParkBooking} from './admin/admin-new-park-booking/admin-new-park-booking';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -52,5 +56,9 @@ export const routes: Routes = [
   {path:"admin/restaurant/:id/edit",component:AdminRestaurantEdit,canActivate:[adminGuard]},
   {path:"admin/restaurant/bookings",component:AdminRestaurantBookings,canActivate:[adminGuard]},
   {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[adminGuard]},
+  {path:"admin/prices",component:AdminPrices,canActivate:[adminGuard]},
+  {path:"admin/logs",component:AdminLogs,canActivate:[adminGuard]},
+  {path:"admin/attraction",component:AdminNewAttraction,canActivate:[adminGuard]},
+  {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];

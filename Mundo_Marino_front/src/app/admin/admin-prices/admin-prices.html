@@ -1,0 +1,162 @@
+<div class="d-flex flex-column" style="min-height:100vh;">
+
+  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />
+
+  <div class="d-flex flex-grow-1">
+    <app-admin-sidebar />
+
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      <div class="mb-4">
+        <h1 class="fw-bold mb-1" style="font-size:1.8rem;">Gestión de Precios</h1>
+        <p class="text-muted mb-0 small">Modifica los precios de las entradas y los impuestos aplicados.</p>
+      </div>
+
+      @if (cargando()) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+        </div>
+      } @else if (error()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      } @else {
+
+        <!-- Tabla de Precios -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+          <div class="card-header bg-white border-bottom py-3 px-4">
+            <h5 class="fw-bold mb-0">Precios de Entradas</h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light text-muted"
+                     style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+                <tr>
+                  <th class="px-4 py-3">Tipo de Entrada</th>
+                  <th class="px-4 py-3">Precio / Adulto</th>
+                  <th class="px-4 py-3 text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of precios(); track p.id) {
+                  <tr>
+                    <td class="px-4 py-3 fw-medium">{{ p.type?.name }}</td>
+                    <td class="px-4 py-3">
+                      @if (editandoPrecioId() === p.id) {
+                        <input type="number"
+                               class="form-control form-control-sm rounded-3"
+                               style="width:120px;"
+                               [value]="valorTempPrecio()"
+                               (input)="valorTempPrecio.set(+$any($event.target).value)"
+                               min="0" step="0.01" />
+                      } @else {
+                        <span class="fw-bold" style="color:#005696;">{{ (+p.price).toFixed(2) }} €</span>
+                      }
+                    </td>
+                    <td class="px-4 py-3 text-end">
+                      @if (editandoPrecioId() === p.id) {
+                        <div class="d-flex justify-content-end gap-2">
+                          <button class="btn btn-sm btn-success rounded-3 fw-medium"
+                                  (click)="guardarPrecio(p)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">save</span>
+                          </button>
+                          <button class="btn btn-sm btn-light rounded-3 fw-medium"
+                                  (click)="cancelarPrecio()">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">undo</span>
+                          </button>
+                        </div>
+                      } @else {
+                        <div class="d-flex justify-content-end gap-2">
+                          <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                                  (click)="editarPrecio(p)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
+                          </button>
+                          <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center text-danger"
+                                  (click)="eliminarPrecio(p)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
+                          </button>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" class="text-center text-muted py-4 small">No hay precios para mostrar</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tabla de Taxes -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+          <div class="card-header bg-white border-bottom py-3 px-4">
+            <h5 class="fw-bold mb-0">Impuestos (IVA)</h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light text-muted"
+                     style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+                <tr>
+                  <th class="px-4 py-3">Nombre</th>
+                  <th class="px-4 py-3">Porcentaje</th>
+                  <th class="px-4 py-3 text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of taxes(); track t.id) {
+                  <tr>
+                    <td class="px-4 py-3 fw-medium">{{ t.name }}</td>
+                    <td class="px-4 py-3">
+                      @if (editandoTaxId() === t.id) {
+                        <input type="number"
+                               class="form-control form-control-sm rounded-3"
+                               style="width:120px;"
+                               [value]="valorTempTax()"
+                               (input)="valorTempTax.set(+$any($event.target).value)"
+                               min="0" max="100" step="0.1" />
+                      } @else {
+                        <span class="fw-bold" style="color:#005696;">{{ t.percentage }}%</span>
+                      }
+                    </td>
+                    <td class="px-4 py-3 text-end">
+                      @if (editandoTaxId() === t.id) {
+                        <div class="d-flex justify-content-end gap-2">
+                          <button class="btn btn-sm btn-success rounded-3 fw-medium"
+                                  (click)="guardarTax(t)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">save</span>
+                          </button>
+                          <button class="btn btn-sm btn-light rounded-3 fw-medium"
+                                  (click)="cancelarTax()">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">undo</span>
+                          </button>
+                        </div>
+                      } @else {
+                        <div class="d-flex justify-content-end gap-2">
+                          <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                                  (click)="editarTax(t)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
+                          </button>
+                          <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center text-danger"
+                                  [disabled]="t.name?.toLowerCase() === 'iva'"
+                                  [title]="t.name?.toLowerCase() === 'iva' ? 'No se puede eliminar el IVA' : 'Eliminar'"
+                                  (click)="t.name?.toLowerCase() !== 'iva' && eliminarTax(t)">
+                            <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
+                          </button>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" class="text-center text-muted py-4 small">No hay impuestos para mostrar</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      }
+    </main>
+  </div>
+</div>
