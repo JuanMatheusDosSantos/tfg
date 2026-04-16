@@ -10,10 +10,7 @@ class ParkPolicy
 {
     public function before(User $user, string $ability)
     {
-        if ($user->role == "admin") {
-            return true;
-        }
-        return null;
+        return $user->isAdmin()||$user->isParkManager();
     }
     /**
      * Determine whether the user can view any models.
@@ -36,7 +33,7 @@ class ParkPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isAdmin()||$user->isParkManager();
     }
 
     /**
@@ -44,7 +41,7 @@ class ParkPolicy
      */
     public function update(User $user, Park $park): bool
     {
-        return $user->isParkManager();
+        return $user->isParkManager()||$user->isAdmin();
     }
 
     /**
@@ -52,7 +49,7 @@ class ParkPolicy
      */
     public function delete(User $user, Park $park): bool
     {
-        return false;
+        return $user->isParkManager()||$user->isAdmin();
     }
 
     /**

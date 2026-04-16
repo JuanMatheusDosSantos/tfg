@@ -65,11 +65,13 @@ export class Booking {
   applied_tax = computed(() => this.taxActivo()?.percentage ?? 0);
   tax_id = computed(() => this.taxActivo()?.id ?? 1);
 
-  precioTotalConIva = computed(() => {
-    return this.precioTotal() * (1 + this.applied_tax() / 100);
-  });
+  precioTotalConIva = computed(() =>
+    Math.round(this.precioTotal() * (1 + this.applied_tax() / 100) * 100) / 100
+  );
 
-  ivaImporte = computed(() => this.precioTotal() * this.applied_tax() / 100);
+  ivaImporte = computed(() =>
+    Math.round(this.precioTotal() * this.applied_tax() / 100 * 100) / 100
+  );
 
   ngOnInit() {
 
@@ -207,18 +209,21 @@ export class Booking {
     };
   }
 
-  precioUnitario = computed(() => {
-    const precio = this.precios().find(
-      p => p.park_reservation_type_id === this.park_reservation_type_id()
-    );
-    return precio ? Number(precio.price) : 0;
-  });
+  precioSeleccionado = computed(() =>
+    this.precios().find(p => p.park_reservation_type_id === this.park_reservation_type_id()) ?? null
+  );
 
-  precioNino = computed(() => Math.round(this.precioUnitario() * 0.67 * 100) / 100);
+  precioUnitario = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.adult_price) * 100) / 100 : 0
+  );
 
-  precioTotal = computed(() => {
-    return this.precioUnitario() * this.adults() + this.precioNino() * this.child();
-  });
+  precioNino = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.child_price) * 100) / 100 : 0
+  );
+
+  precioTotal = computed(() =>
+    this.precioUnitario() * this.adults() + this.precioNino() * this.child()
+  );
 
   async initStripe() {
     await this.bookingParkService.initStripe();

@@ -31,24 +31,26 @@ class AdminRestaurantController extends Controller
     function store(Request $request)
     {
         $request->validate([
-            "name" => "required|string|max:255",
+            "name"         => "required|string|max:255",
             "max_capacity" => "required|integer|min:1",
-            "park_id" => "required|integer|exists:parks,id"
+            "park_id"      => "required|integer|exists:parks,id",
+            "opening_time" => "nullable|date_format:H:i",
+            "closing_time" => "nullable|date_format:H:i",
         ]);
 
         try {
             Restaurant::create([
-                "name" => $request->get("name"),
-                "max_capacity" => $request->get("max_capacity"),
-                "park_id" => $request->get("park_id")
+                "name"         => $request->name,
+                "max_capacity" => $request->max_capacity,
+                "park_id"      => $request->park_id,
+                "opening_time" => $request->opening_time,
+                "closing_time" => $request->closing_time,
             ]);
             return response()->json(["se ha guardado correctamente el restaurante"], 201);
         } catch (\Exception $e) {
-//            return response()->json(["ha ocurrido un error a la hora de guardar la atracción"],500);
             return response()->json([$e->getMessage()], 500);
         }
     }
-
     function update(Request $request, $id)
     {
         $request->validate([
@@ -71,18 +73,18 @@ class AdminRestaurantController extends Controller
         }
     }
 
-    function delete($id)
+    public function delete($id)
     {
-        $restaurant = Restaurant::findOrFail($id);
-
-        $this->authorize("delete", $restaurant);
-
         try {
-            $restaurant->Restaurant_reservations()->delete();
+            $restaurant = Restaurant::findOrFail($id);
+            $this->authorize("delete", $restaurant);
+            $restaurant->restaurant_reservation()->delete();
             $restaurant->delete();
-            return response()->json(["se ha eliminado correctamente el restaurante"], 204);
+            return response()->json(["se ha eliminado correctamente el restaurante"], 200);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json(["Sin permisos: " . $e->getMessage()], 403);
         } catch (\Exception $e) {
-            return response()->json(["no se ha encontrado el restaurante"], 400);
+            return response()->json([$e->getMessage()], 400);
         }
     }
     public function editCapacity(Request $request, $id)

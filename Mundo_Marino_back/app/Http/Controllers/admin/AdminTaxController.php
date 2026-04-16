@@ -25,7 +25,23 @@ class AdminTaxController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name'       => 'required|string|max:255',
+                'percentage' => 'required|numeric|min:0|max:100',
+                'active'     => 'boolean',
+            ]);
+
+            Tax::create([
+                'name'       => $request->name,
+                'percentage' => $request->percentage,
+                'active'     => $request->active ?? true,
+            ]);
+
+            return response()->json(['Impuesto creado correctamente'], 201);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
     }
 
     /**

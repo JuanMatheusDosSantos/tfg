@@ -69,7 +69,7 @@
                         (change)="park_reservation_type_id.set(+$any($event.target).value)">
                   @for (p of precios(); track p.id) {
                     <option [value]="p.park_reservation_type_id">
-                      {{ p.type?.name }} — {{ (+p.price).toFixed(2) }} € / adulto
+                      {{ p.type?.name }} — {{ (+p.adult_price).toFixed(2) }} € / adulto
                     </option>
                   }
                 </select>
@@ -164,25 +164,26 @@
 
               <div class="d-flex justify-content-between small text-muted mb-2">
                 <span>{{ adults() }} Adulto(s) × {{ precioUnitario() }} €</span>
-                <span>{{ adult_price_total() }} €</span>
+                <span>{{ adult_price_total().toFixed(2) }} €</span>
               </div>
 
               @if (child() > 0) {
                 <div class="d-flex justify-content-between small text-muted mb-2">
                   <span>{{ child() }} Niño(s) × {{ precioNino() }} €</span>
-                  <span>{{ child_price_total() }} €</span>
+                  <span>{{ child_price_total().toFixed(2) }} €</span>
                 </div>
               }
 
               <div class="d-flex justify-content-between small text-muted mb-3 pb-3 border-bottom">
                 <span>IVA ({{ applied_tax() }}%)</span>
-                <span>{{ (adult_price_total() + child_price_total()) * applied_tax() / 100 }} €</span>
+                <span>{{ ((adult_price_total() + child_price_total()) * applied_tax() / 100).toFixed(2) }} €</span>
               </div>
 
               <div class="d-flex justify-content-between fw-bold">
                 <span>Total</span>
-                <span style="color:#0cc0a8; font-size:1.2rem;">{{ total() }} €</span>
+                <span style="color:#0cc0a8; font-size:1.2rem;">{{ total().toFixed(2) }} €</span>
               </div>
+
             </div>
           </div>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\Admin_logController;
 use App\Http\Controllers\admin\AdminAttractionController;
 use App\Http\Controllers\admin\AdminPark_reservationController;
 use App\Http\Controllers\admin\AdminPark_reservationPriceController;
+use App\Http\Controllers\admin\AdminPark_reservationTypeController;
 use App\Http\Controllers\admin\AdminParkController;
 use App\Http\Controllers\admin\AdminRestaurant_reservationController;
 use App\Http\Controllers\admin\AdminRestaurantController;
@@ -122,13 +123,17 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::put("restaurant_reservation/status/{id}", [AdminRestaurant_reservationController::class, "editStatus"]);
 
     Route::get('taxes', [AdminTaxController::class, 'index']);
+    Route::post('tax', [AdminTaxController::class, 'store']);
     Route::put('taxes/{id}', [AdminTaxController::class, 'update']);
     Route::delete('taxes/{id}', [AdminTaxController::class, 'destroy']);
 
-
     Route::get('park_reservation_prices', [AdminPark_reservationPriceController::class, 'index']);
+    Route::post('park_reservation_price', [AdminPark_reservationPriceController::class, 'store']);
     Route::put('park_reservation_prices/{id}', [AdminPark_reservationPriceController::class, 'update']);
     Route::delete('park_reservation_prices/{id}', [AdminPark_reservationPriceController::class, 'destroy']);
+
+    Route::get("park_reservation_types",[AdminPark_reservationTypeController::class,"index"]);
+    Route::post("park_reservation_type",[AdminPark_reservationTypeController::class,"store"]);
 
     Route::get("admin_logs",[Admin_logController::class,"index"]);
 

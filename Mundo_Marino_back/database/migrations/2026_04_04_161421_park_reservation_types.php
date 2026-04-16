@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("description")->nullable();
-            $table->integer("min_age")->nullable();
-            $table->integer("max_age")->nullable();
+//            $table->integer("min_age")->nullable();
+//            $table->integer("max_age")->nullable();
             $table->timestamps();
         });
     }

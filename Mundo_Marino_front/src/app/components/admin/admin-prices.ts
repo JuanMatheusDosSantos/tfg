@@ -25,8 +25,11 @@ export class AdminPricesService {
     return this.http.get<ReservationPrice[]>(`${this.API_URL}/park_reservation_prices`, {
       headers: this.getHeaders()
     }).pipe(
-      // tap(data => this.precios.set(data))
-      tap(data => this.precios.set(data.map(p => ({ ...p, price: Number(p.price) }))))
+      tap(data => this.precios.set(data.map(p => ({
+        ...p,
+        adult_price: Number(p.adult_price),
+        child_price: Number(p.child_price ?? 0),
+      }))))
     );
   }
 
@@ -38,14 +41,14 @@ export class AdminPricesService {
     );
   }
 
-  updatePrecio(id: number, price: number) {
+  updatePrecio(id: number, adult_price: number, child_price: number) {
     return this.http.put(`${this.API_URL}/park_reservation_prices/${id}`,
-      { price },
+      { adult_price, child_price },
       { headers: this.getHeaders() }
     ).pipe(
       tap(() => {
         this.precios.update(lista =>
-          lista.map(p => p.id === id ? { ...p, price } : p)
+          lista.map(p => p.id === id ? { ...p, adult_price, child_price } : p)
         );
       })
     );

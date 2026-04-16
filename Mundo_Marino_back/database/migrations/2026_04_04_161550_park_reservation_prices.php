@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("park_id")->constrained("parks");
             $table->foreignId("park_reservation_type_id")->constrained("park_reservation_types");
-            $table->decimal("price",12,4);
+            $table->decimal('adult_price', 8, 2)->default(10);
+            $table->decimal('child_price', 8, 2)->default(5);
             $table->timestamps();
 
         });

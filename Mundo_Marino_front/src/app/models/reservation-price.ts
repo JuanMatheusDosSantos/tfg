@@ -4,6 +4,7 @@ export interface ReservationPrice {
   id: number;
   park_id: number;
   park_reservation_type_id: number;
-  price: number;
+  adult_price: number;
+  child_price:number
   type: ReservationType;
 }

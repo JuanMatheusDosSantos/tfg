@@ -16,7 +16,7 @@ class AdminPark_reservationPriceController extends Controller
         try {
             return response()->json(Park_reservationprice::with('type')->get());
         } catch (\Exception $e) {
-            return response()->json([$e->getMessage()], 500);
+            return response()->json([$e->getMessage()], 400);
         }
     }
 
@@ -25,7 +25,25 @@ class AdminPark_reservationPriceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'park_id'                  => 'required|integer|exists:parks,id',
+                'park_reservation_type_id' => 'required|integer|exists:park_reservation_types,id',
+                'adult_price'              => 'required|numeric|min:0',
+                'child_price'              => 'required|numeric|min:0',
+            ]);
+
+            Park_reservationPrice::create([
+                'park_id'                  => $request->park_id,
+                'park_reservation_type_id' => $request->park_reservation_type_id,
+                'adult_price'              => $request->adult_price,
+                'child_price'              => $request->child_price,
+            ]);
+
+            return response()->json(['Precio creado correctamente'], 201);
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
     }
 
     /**
@@ -42,9 +60,13 @@ class AdminPark_reservationPriceController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $request->validate(['price' => 'required|numeric|min:0']);
+            $request->validate([
+                'adult_price' => 'required|numeric|min:0',
+                'child_price' => 'required|numeric|min:0',
+            ]);
             $precio = Park_reservationPrice::findOrFail($id);
-            $precio->price = $request->price;
+            $precio->adult_price = $request->adult_price;
+            $precio->child_price = $request->child_price;
             $precio->save();
             return response()->json(["Precio actualizado correctamente"]);
         } catch (\Exception $e) {

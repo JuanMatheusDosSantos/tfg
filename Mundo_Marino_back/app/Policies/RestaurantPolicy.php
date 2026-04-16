@@ -29,7 +29,7 @@ class RestaurantPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin()||$user->isRestaurantManager();
     }
 
     /**
@@ -45,7 +45,7 @@ class RestaurantPolicy
      */
     public function delete(User $user, Restaurant $restaurant): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin()||$user->isRestaurantManager();
     }
 
     /**

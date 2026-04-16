@@ -77,8 +77,11 @@ export class Park_reservationService {
     return this.http.get<ReservationPrice[]>(
       `${environment.apiUrl}/park_reservation_prices`
     ).pipe(
-      // tap(data => this.precios.set(data))
-      tap(data => this.precios.set(data.map(p => ({ ...p, price: Number(p.price) }))))
+      tap(data => this.precios.set(data.map(p => ({
+        ...p,
+        adult_price: Number(p.adult_price),
+        child_price: Number(p.child_price ?? 0),
+      }))))
     );
   }
 

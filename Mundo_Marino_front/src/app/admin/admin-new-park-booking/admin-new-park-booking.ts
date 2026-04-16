@@ -38,14 +38,18 @@ export class AdminNewParkBooking {
   tax_id = signal(0);
   park_reservation_type_id = signal(0);
 
-  precioUnitario = computed(() => {
-    const precio = this.precios().find(
-      p => p.park_reservation_type_id === this.park_reservation_type_id()
-    );
-    return precio ? Math.round(Number(precio.price) * 100) / 100 : 0;
-  });
+  precioSeleccionado = computed(() =>
+    this.precios().find(p => p.park_reservation_type_id === this.park_reservation_type_id()) ?? null
+  );
 
-  precioNino = computed(() => Math.round(this.precioUnitario() * 0.67 * 100) / 100);
+  precioUnitario = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.adult_price) * 100) / 100 : 0
+  );
+
+  precioNino = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.child_price) * 100) / 100 : 0
+  );
+
   adult_price_total = computed(() =>
     Math.round(this.precioUnitario() * this.adults() * 100) / 100
   );

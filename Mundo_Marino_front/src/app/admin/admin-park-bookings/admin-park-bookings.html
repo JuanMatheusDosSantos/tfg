@@ -139,7 +139,7 @@
                     <td class="px-4 py-3 small">{{ r.adults }}</td>
                     <td class="px-4 py-3 small">{{ r.child }}</td>
                     <td class="px-4 py-3 small fw-bold">
-                      {{ total(r)  }}€
+                      {{ total(r).toFixed(2)  }}€
                     </td>
                     <td class="px-4 py-3">
                       <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(r.status)">

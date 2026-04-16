@@ -12,7 +12,6 @@ import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-edit-bookings',
   imports: [
-    CurrencyPipe,
     ReactiveFormsModule,
   ],
   templateUrl: './edit-park-booking.html',
@@ -42,18 +41,25 @@ export class EditParkBooking {
   park_reservation_type_id = signal(0);
 
   // Precio unitario del tipo seleccionado
-  precioUnitario = computed(() => {
-    const precio = this.precios().find(
-      p => p.park_reservation_type_id === this.park_reservation_type_id()
-    );
-    return precio ? Number(precio.price) : 0;
-  });
+  precioSeleccionado = computed(() =>
+    this.precios().find(p => p.park_reservation_type_id === this.park_reservation_type_id()) ?? null
+  );
 
-  // Precio niño = 2/3 del precio adulto (ajusta si tienes precio separado)
-  precioNino = computed(() => Math.round(this.precioUnitario() * 0.67 * 100) / 100);
+  precioUnitario = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.adult_price) * 100) / 100 : 0
+  );
 
-  adult_price_total = computed(() => this.precioUnitario() * this.adults());
-  child_price_total = computed(() => this.precioNino() * this.child());
+  precioNino = computed(() =>
+    this.precioSeleccionado() ? Math.round(Number(this.precioSeleccionado()!.child_price) * 100) / 100 : 0
+  );
+
+  adult_price_total = computed(() =>
+    Math.round(this.precioUnitario() * this.adults() * 100) / 100
+  );
+
+  child_price_total = computed(() =>
+    Math.round(this.precioNino() * this.child() * 100) / 100
+  );
 
   applied_tax = computed(() => {
     const tax = this.taxes().find(t => t.id === this.tax_id());
@@ -62,7 +68,7 @@ export class EditParkBooking {
 
   total = computed(() => {
     const subtotal = this.adult_price_total() + this.child_price_total();
-    return subtotal * (1 + this.applied_tax() / 100);
+    return Math.round(subtotal * (1 + this.applied_tax() / 100) * 100) / 100;
   });
 
   ngOnInit() {

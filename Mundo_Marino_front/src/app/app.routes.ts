@@ -27,6 +27,9 @@ import {AdminPrices} from './admin/admin-prices/admin-prices';
 import {AdminLogs} from './admin/admin-logs/admin-logs';
 import {AdminNewAttraction} from './admin/admin-new-attraction/admin-new-attraction';
 import {AdminNewParkBooking} from './admin/admin-new-park-booking/admin-new-park-booking';
+import {AdminNewTax} from './admin/admin-new-tax/admin-new-tax';
+import {AdminNewPrice} from './admin/admin-new-price/admin-new-price';
+import {AdminNewRestaurant} from './admin/admin-new-restaurant/admin-new-restaurant';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -60,5 +63,8 @@ export const routes: Routes = [
   {path:"admin/logs",component:AdminLogs,canActivate:[adminGuard]},
   {path:"admin/attraction",component:AdminNewAttraction,canActivate:[adminGuard]},
   {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[adminGuard]},
+  {path:"admin/prices/tax",component:AdminNewTax,canActivate:[adminGuard]},
+  {path:"admin/prices/price",component:AdminNewPrice,canActivate:[adminGuard]},
+  {path:"admin/restaurant/new",component:AdminNewRestaurant,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];

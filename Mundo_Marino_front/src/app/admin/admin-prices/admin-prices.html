@@ -22,9 +22,15 @@
 
         <!-- Tabla de Precios -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-          <div class="card-header bg-white border-bottom py-3 px-4">
-            <h5 class="fw-bold mb-0">Precios de Entradas</h5>
-          </div>
+        <div class="card-header bg-white border-bottom py-3 px-4 d-flex align-items-center justify-content-between">
+          <h5 class="fw-bold mb-0">Precios de Entradas</h5>
+          <a [routerLink]="['/admin/prices/price']"
+             class="btn btn-sm fw-bold text-white rounded-3 d-flex align-items-center gap-1"
+             style="background:#0cc0a8;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">add</span>
+            Nuevo Precio
+          </a>
+        </div>
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light text-muted"
@@ -32,6 +38,7 @@
                 <tr>
                   <th class="px-4 py-3">Tipo de Entrada</th>
                   <th class="px-4 py-3">Precio / Adulto</th>
+                  <th class="px-4 py-3">Precio / Niño</th>
                   <th class="px-4 py-3 text-end">Acciones</th>
                 </tr>
               </thead>
@@ -48,7 +55,19 @@
                                (input)="valorTempPrecio.set(+$any($event.target).value)"
                                min="0" step="0.01" />
                       } @else {
-                        <span class="fw-bold" style="color:#005696;">{{ (+p.price).toFixed(2) }} €</span>
+                        <span class="fw-bold" style="color:#005696;">{{ (+p.adult_price).toFixed(2) }} €</span>
+                      }
+                    </td>
+                    <td class="px-4 py-3">
+                      @if (editandoPrecioId() === p.id) {
+                        <input type="number"
+                               class="form-control form-control-sm rounded-3"
+                               style="width:120px;"
+                               [value]="valorTempPrecioChild()"
+                               (input)="valorTempPrecioChild.set(+$any($event.target).value)"
+                               min="0" step="0.01" />
+                      } @else {
+                        <span class="fw-bold" style="color:#005696;">{{ (+p.child_price).toFixed(2) }} €</span>
                       }
                     </td>
                     <td class="px-4 py-3 text-end">
@@ -89,9 +108,15 @@
 
         <!-- Tabla de Taxes -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-          <div class="card-header bg-white border-bottom py-3 px-4">
-            <h5 class="fw-bold mb-0">Impuestos (IVA)</h5>
-          </div>
+        <div class="card-header bg-white border-bottom py-3 px-4 d-flex align-items-center justify-content-between">
+          <h5 class="fw-bold mb-0">Impuestos</h5>
+          <a [routerLink]="['/admin/prices/tax']"
+             class="btn btn-sm fw-bold text-white rounded-3 d-flex align-items-center gap-1"
+             style="background:#0cc0a8;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">add</span>
+            Nuevo Impuesto
+          </a>
+        </div>
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light text-muted"

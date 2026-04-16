@@ -9,7 +9,9 @@ class Restaurant extends Model
     protected $fillable = [
         "name",
         "max_capacity",
-        "park_id"
+        "park_id",
+        "opening_time",
+        "closing_time",
     ];
     function park()
     {
