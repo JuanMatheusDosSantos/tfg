@@ -106,7 +106,7 @@ export class AdminEditParkBooking {
     this.exito.set(null);
     this.error.set(null);
 
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     const id = this.reserva()?.id;
 

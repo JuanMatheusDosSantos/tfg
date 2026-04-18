@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin_log;
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
 use Illuminate\Http\Request;
@@ -22,78 +23,252 @@ class AdminRestaurant_reservationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+//    public function store(Request $request)
+//    {
+//        try {
+//            $request->validate([
+//                "user_id" => "required|exists:users,id",
+//                'restaurant_id' => 'required|exists:restaurants,id',
+//                'reservation_date' => 'required|date|after_or_equal:today',
+//                "reservation_hour" => "required|date_format:H:i",
+//                "party_size" => "required|numeric|min:1",
+//            ]);
+//        } catch (\Exception $e) {
+//            return response()->json(["message" => $e->getMessage()], 400);
+//        }
+//        $this->userLimit($request);
+//        try {
+//            Restaurant_reservation::create([
+//                "user_id" => $request->user_id,
+//                "restaurant_id" => $request->restaurant_id,
+//                "reservation_date" => $request->reservation_date,
+//                "reservation_hour" => $request->reservation_hour,
+//                "party_size" => $request->party_size,
+//            ]);
+//        } catch (\Exception $e) {
+////            return response()->json(["message" => $e->getMessage()], 400);
+//            return response()->json([$request->user_id], 400);
+//
+//        }
+//        return response()->json(["message" => "se ha guardado correctamente"], 200);
+//    }
+//
+//    /**
+//     * Store a newly created resource in storage.
+//     */
+//
+//    /**
+//     * Display the specified resource.
+//     */
+//    public function show(string $id)
+//    {
+//        try {
+//            $reservation = Restaurant_reservation::with(["user","restaurant"])->findOrFail($id);
+//            return response()->json($reservation);
+//        } catch (\Exception $e) {
+//            return response()->json(["message" =>
+////                $e->getMessage()
+//                "no se ha podido encontrar la reservación"
+//            ],
+//                400);
+//        }
+//    }
+//
+//    /**
+//     * Show the form for editing the specified resource.
+//     */
+//    public function edit(Request $request, $id)
+//    {
+//        try {
+//            $request->validate([
+//                "reservation_date" => "required|date|after_or_equal:today",
+//                "reservation_hour" => "required|date_format:H:i",
+//                "party_size" => "required|numeric|min:1",
+//                "status" => "required|in:cancelled"
+//            ]);
+//        } catch (\Exception $e) {
+//            return response()->json([
+////                    $e->getMessage()
+//                "ha habido un error en la validacion, introduce correctamente los campos"
+//            ], 400);
+//        }
+//
+//        try {
+//            $reservation = Restaurant_reservation::findOrFail($id);
+//        } catch (\Exception $e) {
+//            return response()->json(["ha habido un fallo al buscar la reserva"], 400);
+//        }
+//        $this->authorize('update', $reservation);
+//        try {
+//            $cambios = [];
+//            if ($reservation->reservation_date != $request->reservation_date) {
+//                $reservation->reservation_date = $request->reservation_date;
+//                $cambios[] = "dia de la reserva";
+//            }
+//            if ($reservation->reservation_hour != $request->reservation_hour) {
+//                $reservation->reservation_hour = $request->reservation_hour;
+//                $cambios[] = "hora de la reserva";
+//            }
+//            if ($reservation->party_size != $request->party_size) {
+//                $reservation->party_size = $request->party_size;
+//                $cambios[] = "tamaño de la reserva";
+//            }
+//            if ($reservation->status != $request->status) {
+//                $cambios[] = "estado de la reserva";
+//                $reservation->status = $request->status;
+//            }
+//            $reservation->save();
+//            if ($cambios > 0) {
+//                return response()->json(["se ha cambiado correctamente " . implode(", ", $cambios)]);
+//            } else {
+//                return response()->json([""]);
+//            }
+//        } catch (\Exception $e) {
+//            return response()->json([
+////                    $e->getMessage()
+//                "ha habido un error ha la hora de editar la reserva, introduce correctamente los campos"
+//            ], 400);
+//        }
+//    }
+//
+//    public function userLimit(
+//        $request
+//    )
+//    {
+//        $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
+//        $party_size = $request->party_size;
+//        $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
+//            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
+//        if ($reservation + $party_size > $max) {
+//            return response()->json([
+//                "message" => "esta hora esta llena, pruebe con otra"
+//            ], 400);
+//        }
+//    }
+//
+//    public function setUserLimit(Request $request,$id){
+//        $new_max=$request->max_capacity;
+//        try{
+//            $old_max=Restaurant::findOrFail($id)->max_capacity;
+//        }catch (\Exception $e){
+//            return response()->json(["error"=>"no se ha podido encontrar el restaurante"],400);
+//        }
+//        if ($new_max!=$old_max){
+//            try{
+//                Restaurant::findOrFail($request->restaurant_id)->max_capacity=$new_max;
+//            }catch (\Exception $e){
+//                return response()->json(["error"=>"no se ha podido actualizar la capacidad del restaurante"],400);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Update the specified resource in storage.
+//     */
+//
+//    /**
+//     * Remove the specified resource from storage.
+//     */
+//    public function delete($id)
+//    {
+//        try {
+//            $restReserva = Restaurant_reservation::findOrFail($id);
+//        } catch (\Exception $e) {
+//            return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"], 400);
+//        }
+//        $this->authorize('delete', $restReserva);
+//        if ($restReserva->status == "check_in") {
+//            return response()->json(["no puedes borrar una reserva completa"]);
+//        }
+//        try {
+//            $restReserva->delete();
+//        } catch (\Exception $e) {
+//            return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
+//        }
+//        return response()->json(["se ha borrado correctamente la reserva"]);
+//    }
+//
+//    public function editStatus(Request $request, $id)
+//    {
+//        try {
+//            $request->validate([
+//                "status" => "required|in:pending,accepted,checked_in,late,no_show,cancelled,completed"
+//            ]);
+//        } catch (\Exception $e) {
+//            return response()->json([$e->getMessage()], 400);
+//        }
+//
+//        try {
+//            $reservation = Restaurant_reservation::findOrFail($id);
+//        } catch (\Exception $e) {
+//            return response()->json(["No se ha encontrado la reserva"], 400);
+//        }
+//
+//        try {
+//            $reservation->status = $request->status;
+//            $reservation->save();
+//            return response()->json(["Estado actualizado correctamente"]);
+//        } catch (\Exception $e) {
+//            return response()->json([$e->getMessage()], 400);
+//        }
+//    }
+
     public function store(Request $request)
     {
         try {
             $request->validate([
-                "user_id" => "required|exists:users,id",
-                'restaurant_id' => 'required|exists:restaurants,id',
+                "user_id"          => "required|exists:users,id",
+                'restaurant_id'    => 'required|exists:restaurants,id',
                 'reservation_date' => 'required|date|after_or_equal:today',
                 "reservation_hour" => "required|date_format:H:i",
-                "party_size" => "required|numeric|min:1",
+                "party_size"       => "required|numeric|min:1",
             ]);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage()], 400);
         }
+
         $this->userLimit($request);
+
         try {
-            Restaurant_reservation::create([
-                "user_id" => $request->user_id,
-                "restaurant_id" => $request->restaurant_id,
+            $reservation = Restaurant_reservation::create([
+                "user_id"          => $request->user_id,
+                "restaurant_id"    => $request->restaurant_id,
                 "reservation_date" => $request->reservation_date,
                 "reservation_hour" => $request->reservation_hour,
-                "party_size" => $request->party_size,
+                "party_size"       => $request->party_size,
             ]);
-        } catch (\Exception $e) {
-//            return response()->json(["message" => $e->getMessage()], 400);
-            return response()->json([$request->user_id], 400);
 
+            $this->log('insert', 'restaurant_reservations', '',
+                "user_id: {$reservation->user_id}, restaurant_id: {$reservation->restaurant_id}, date: {$reservation->reservation_date}, hour: {$reservation->reservation_hour}, party_size: {$reservation->party_size}"
+            );
+
+            return response()->json(["message" => "se ha guardado correctamente"], 200);
+        } catch (\Exception $e) {
+            return response()->json([$request->user_id], 400);
         }
-        return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-//    public function create(Request $request)
-//    {
-//        //
-//    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
-            $reservation = Restaurant_reservation::with(["user","restaurant"])->findOrFail($id);
+            $reservation = Restaurant_reservation::with(["user", "restaurant"])->findOrFail($id);
             return response()->json($reservation);
         } catch (\Exception $e) {
-            return response()->json(["message" =>
-//                $e->getMessage()
-                "no se ha podido encontrar la reservación"
-            ],
-                400);
+            return response()->json(["message" => "no se ha podido encontrar la reservación"], 400);
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, $id)
     {
         try {
             $request->validate([
                 "reservation_date" => "required|date|after_or_equal:today",
                 "reservation_hour" => "required|date_format:H:i",
-                "party_size" => "required|numeric|min:1",
-                "status" => "required|in:cancelled"
+                "party_size"       => "required|numeric|min:1",
+                "status"           => "required|in:cancelled"
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-//                    $e->getMessage()
-                "ha habido un error en la validacion, introduce correctamente los campos"
-            ], 400);
+            return response()->json(["ha habido un error en la validacion, introduce correctamente los campos"], 400);
         }
 
         try {
@@ -101,9 +276,13 @@ class AdminRestaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["ha habido un fallo al buscar la reserva"], 400);
         }
+
         $this->authorize('update', $reservation);
+
         try {
+            $old = "date: {$reservation->reservation_date}, hour: {$reservation->reservation_hour}, party_size: {$reservation->party_size}, status: {$reservation->status}";
             $cambios = [];
+
             if ($reservation->reservation_date != $request->reservation_date) {
                 $reservation->reservation_date = $request->reservation_date;
                 $cambios[] = "dia de la reserva";
@@ -117,66 +296,24 @@ class AdminRestaurant_reservationController extends Controller
                 $cambios[] = "tamaño de la reserva";
             }
             if ($reservation->status != $request->status) {
-                $cambios[] = "estado de la reserva";
                 $reservation->status = $request->status;
+                $cambios[] = "estado de la reserva";
             }
+
             $reservation->save();
-            if ($cambios > 0) {
+
+            if (count($cambios) > 0) {
+                $new = "date: {$reservation->reservation_date}, hour: {$reservation->reservation_hour}, party_size: {$reservation->party_size}, status: {$reservation->status}";
+                $this->log('update', 'restaurant_reservations', $old, $new);
                 return response()->json(["se ha cambiado correctamente " . implode(", ", $cambios)]);
-            } else {
-                return response()->json([""]);
             }
+
+            return response()->json([""]);
         } catch (\Exception $e) {
-            return response()->json([
-//                    $e->getMessage()
-                "ha habido un error ha la hora de editar la reserva, introduce correctamente los campos"
-            ], 400);
+            return response()->json(["ha habido un error ha la hora de editar la reserva, introduce correctamente los campos"], 400);
         }
     }
 
-    public function userLimit(
-        $request
-//    Request $request,
-    )
-    {
-        $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
-        $party_size = $request->party_size;
-        $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
-            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
-        if ($reservation + $party_size > $max) {
-            return response()->json([
-                "message" => "esta hora esta llena, pruebe con otra"
-            ], 400);
-        }
-    }
-
-    public function setUserLimit(Request $request,$id){
-        $new_max=$request->max_capacity;
-        try{
-            $old_max=Restaurant::findOrFail($id)->max_capacity;
-        }catch (\Exception $e){
-            return response()->json(["error"=>"no se ha podido encontrar el restaurante"],400);
-        }
-        if ($new_max!=$old_max){
-            try{
-                Restaurant::findOrFail($request->restaurant_id)->max_capacity=$new_max;
-            }catch (\Exception $e){
-                return response()->json(["error"=>"no se ha podido actualizar la capacidad del restaurante"],400);
-            }
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-//    public function update(Request $request, string $id)
-//    {
-//        //
-//    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function delete($id)
     {
         try {
@@ -184,15 +321,21 @@ class AdminRestaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["no se ha podido encontrar la reserva, por favor, revise la reserva"], 400);
         }
+
         $this->authorize('delete', $restReserva);
+
         if ($restReserva->status == "check_in") {
             return response()->json(["no puedes borrar una reserva completa"]);
         }
+
         try {
+            $old = "user_id: {$restReserva->user_id}, restaurant_id: {$restReserva->restaurant_id}, date: {$restReserva->reservation_date}, status: {$restReserva->status}";
             $restReserva->delete();
+            $this->log('delete', 'restaurant_reservations', $old, '');
         } catch (\Exception $e) {
             return response()->json(["no se ha podido eliminar la reserva, por favor, intentelo mas tarde"]);
         }
+
         return response()->json(["se ha borrado correctamente la reserva"]);
     }
 
@@ -213,11 +356,27 @@ class AdminRestaurant_reservationController extends Controller
         }
 
         try {
+            $old = "status: {$reservation->status}";
             $reservation->status = $request->status;
             $reservation->save();
+
+            $this->log('update', 'restaurant_reservations', $old, "status: {$request->status}");
+
             return response()->json(["Estado actualizado correctamente"]);
         } catch (\Exception $e) {
             return response()->json([$e->getMessage()], 400);
         }
     }
+
+    private function log(string $action, string $table, string $old, string $new): void
+    {
+        Admin_log::create([
+            'action'         => $action,
+            'affected_table' => $table,
+            'old_value'      => $old,
+            'new_value'      => $new,
+            'user_id'        => auth()->id(),
+        ]);
+    }
+
 }

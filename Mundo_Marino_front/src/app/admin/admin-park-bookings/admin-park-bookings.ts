@@ -6,6 +6,7 @@ import {AdminNavbar} from '../../layouts/admin-navbar/admin-navbar';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {Router, RouterLink} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {Park} from '../../models/park';
 
 interface ParkReservation {
   id: number;
@@ -25,7 +26,7 @@ interface ParkReservation {
 @Component({
   selector: 'app-admin-park-bookings',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, AdminNavbar, AdminSidebar, RouterLink],
+  imports: [CommonModule, DatePipe, FormsModule, AdminSidebar, RouterLink],
   templateUrl: './admin-park-bookings.html',
 })
 export class AdminParkBookings implements OnInit {
@@ -43,7 +44,17 @@ export class AdminParkBookings implements OnInit {
   busqueda = signal<string>('');
   fechaFiltro = signal<string>('');
 
+  parks = signal<Park[]>([]);
+  filtroPark = signal<number>(0);
+
   ngOnInit() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<Park[]>(`${environment.apiUrl}/admin/parks`, { headers }).subscribe({
+      next: (data) => this.parks.set(data.sort((a, b) => a.id - b.id)),
+      error: () => {}
+    });
     this.cargar();
   }
 
@@ -72,7 +83,10 @@ export class AdminParkBookings implements OnInit {
 
   reservasFiltradas = computed(() => {
     let lista = this.reservas();
-
+    const parkId = this.filtroPark();
+    if (parkId !== 0) {
+      lista = lista.filter(r => r.park_id === parkId);
+    }
     if (this.filtroStatus() !== 'all') {
       lista = lista.filter(r => r.status === this.filtroStatus());
     }
@@ -89,6 +103,7 @@ export class AdminParkBookings implements OnInit {
         r.id.toString().includes(q)||r.user?.email.includes(q)||(r.child_price_total+r.adult_price_total+" €").toString().includes(q)||
         r.adults.toString().includes(q)||r.child.toString().includes(q)
       );
+
     }
 
     return lista;

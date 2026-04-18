@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs';
 import {Restaurant_reservation} from '../../models/restaurant_reservation';
 import {environment} from '../../../environments/environment';
+import {Park} from '../../models/park';
+import {Restaurant} from '../../models/restaurant';
 
 
 @Injectable({
@@ -32,6 +34,18 @@ export class AdminRestaurantBookingService {
         this.loading.set(false);
       })
     );
+  }
+
+  fetchParks() {
+    return this.http.get<Park[]>(`${environment.apiUrl}/admin/parks`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  fetchRestaurants() {
+    return this.http.get<Restaurant[]>(`${environment.apiUrl}/admin/restaurants`, {
+      headers: this.getHeaders()
+    });
   }
 
   cambiarStatus(reserva: Restaurant_reservation, nuevoStatus: string) {

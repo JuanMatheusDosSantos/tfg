@@ -30,6 +30,9 @@ import {AdminNewParkBooking} from './admin/admin-new-park-booking/admin-new-park
 import {AdminNewTax} from './admin/admin-new-tax/admin-new-tax';
 import {AdminNewPrice} from './admin/admin-new-price/admin-new-price';
 import {AdminNewRestaurant} from './admin/admin-new-restaurant/admin-new-restaurant';
+import {AdminAttractions} from './admin/admin-attractions/admin-attractions';
+import {AdminNewPark} from './admin/admin-new-park/admin-new-park';
+import {AdminEditPark} from './admin/admin-edit-park/admin-edit-park';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -52,6 +55,8 @@ export const routes: Routes = [
     }],component: Home},
   {path:"admin",component:AdminHome,canActivate:[adminGuard]},
   {path:"admin/park",component:AdminPark,canActivate:[adminGuard]},
+  {path:"admin/park/new",component:AdminNewPark,canActivate:[adminGuard]},
+  {path:"admin/park/:id/edit",component:AdminEditPark,canActivate:[adminGuard]},
   {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[adminGuard]},
   {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[adminGuard]},
   {path:"admin/attraction/:id/edit",component:AdminAttractionEdit,canActivate:[adminGuard]},
@@ -61,6 +66,7 @@ export const routes: Routes = [
   {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[adminGuard]},
   {path:"admin/prices",component:AdminPrices,canActivate:[adminGuard]},
   {path:"admin/logs",component:AdminLogs,canActivate:[adminGuard]},
+  {path:"admin/attractions",component:AdminAttractions,canActivate:[adminGuard]},
   {path:"admin/attraction",component:AdminNewAttraction,canActivate:[adminGuard]},
   {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[adminGuard]},
   {path:"admin/prices/tax",component:AdminNewTax,canActivate:[adminGuard]},

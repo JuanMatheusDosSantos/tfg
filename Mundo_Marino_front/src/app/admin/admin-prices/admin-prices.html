@@ -1,6 +1,6 @@
 <div class="d-flex flex-column" style="min-height:100vh;">
 
-  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />
+<!--  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)" />-->
 
   <div class="d-flex flex-grow-1">
     <app-admin-sidebar />
@@ -23,7 +23,18 @@
         <!-- Tabla de Precios -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
         <div class="card-header bg-white border-bottom py-3 px-4 d-flex align-items-center justify-content-between">
-          <h5 class="fw-bold mb-0">Precios de Entradas</h5>
+          <div class="d-flex align-items-center gap-3">
+            <h5 class="fw-bold mb-0">Precios de Entradas</h5>
+            <select class="form-select form-select-sm rounded-3"
+                    style="width:160px;"
+                    [value]="filtroPark()"
+                    (change)="filtroPark.set(+$any($event.target).value)">
+              <option [value]="0">Todos los parques</option>
+              @for (p of parks(); track p.id) {
+                <option [value]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
           <a [routerLink]="['/admin/prices/price']"
              class="btn btn-sm fw-bold text-white rounded-3 d-flex align-items-center gap-1"
              style="background:#0cc0a8;">
@@ -43,7 +54,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for (p of precios(); track p.id) {
+                @for (p of preciosFiltrados(); track p.id) {
                   <tr>
                     <td class="px-4 py-3 fw-medium">{{ p.type?.name }}</td>
                     <td class="px-4 py-3">

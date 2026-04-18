@@ -1,5 +1,5 @@
 <div class="d-flex flex-column" style="min-height:100vh;">
-  <app-admin-navbar />
+<!--  <app-admin-navbar />-->
   <div class="d-flex flex-grow-1">
     <app-admin-sidebar />
     <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
@@ -88,7 +88,7 @@
                   <button class="btn btn-light rounded-3 px-3"
                           (click)="max_capacity.set(Math.max(1, max_capacity() - 1))">−</button>
                   <input type="number" class="form-control rounded-3 text-center fw-bold"
-                         style="width:70px;"
+                         style="width:70px;" max="2.00"
                          [value]="max_capacity()"
                          (change)="max_capacity.set(Math.max(1, +$any($event.target).value))"
                          min="1" />

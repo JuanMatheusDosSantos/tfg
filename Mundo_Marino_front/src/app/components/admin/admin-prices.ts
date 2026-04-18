@@ -4,6 +4,7 @@ import { tap } from 'rxjs';
 import { ReservationPrice } from '../../models/reservation-price';
 import { Tax } from '../../models/tax';
 import { environment } from '../../../environments/environment';
+import {Park} from '../../models/park';
 
 
 @Injectable({
@@ -17,8 +18,14 @@ export class AdminPricesService {
   taxes = signal<Tax[]>([]);
 
   private getHeaders() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
+  fetchParks() {
+    return this.http.get<Park[]>(`${environment.apiUrl}/admin/parks`, {
+      headers: this.getHeaders()
+    });
   }
 
   fetchPrecios() {
@@ -81,4 +88,21 @@ export class AdminPricesService {
       tap(() => this.taxes.update(lista => lista.filter(t => t.id !== id)))
     );
   }
+
+  createTipo(name: string) {
+    return this.http.post<{id: number; name: string}>(
+      `${this.API_URL}/park_reservation_type`,
+      { name },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  createPrecio(payload: { park_id: number; park_reservation_type_id: number; adult_price: number; child_price: number }) {
+    return this.http.post(
+      `${this.API_URL}/park_reservation_price`,
+      payload,
+      { headers: this.getHeaders() }
+    );
+  }
+
 }

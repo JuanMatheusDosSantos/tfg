@@ -6,10 +6,11 @@ import { environment } from '../../../environments/environment';
 import { RouterLink } from '@angular/router';
 import { Restaurant } from '../../models/restaurant';
 import {AdminRestaurantService} from '../../components/admin/admin-restaurant';
+import {Park} from '../../models/park';
 
 @Component({
   selector: 'app-admin-restaurant',
-  imports: [AdminNavbar, AdminSidebar, RouterLink],
+  imports: [AdminSidebar, RouterLink],
   templateUrl: './admin-restaurant.html',
   styleUrl: './admin-restaurant.css',
 })
@@ -23,6 +24,9 @@ export class AdminRestaurant {
   error = signal<string | null>(null);
   busqueda = signal<string>('');
 
+  parks = signal<Park[]>([]);
+  filtroPark = signal<number>(0);
+
   ngOnInit() {
     this.service.fetchRestaurants().subscribe({
       next: (data) => {
@@ -34,14 +38,26 @@ export class AdminRestaurant {
         this.cargando.set(false);
       }
     });
+    this.service.fetchParks().subscribe({
+      next: (data) => this.parks.set(data.sort((a, b) => a.id - b.id)),
+      error: () => {}
+    });
   }
 
   restaurantesFiltrados = computed(() => {
+    let lista = this.restaurants();
+
+    const parkId = this.filtroPark();
+    if (parkId !== 0) {
+      lista = lista.filter(r => r.park_id === parkId);
+    }
+
     const q = this.busqueda().toLowerCase();
-    if (!q) return this.restaurants();
-    return this.restaurants().filter(r =>
-      r.name?.toLowerCase().includes(q)
-    );
+    if (q) {
+      lista = lista.filter(r => r.name?.toLowerCase().includes(q));
+    }
+
+    return lista;
   });
 
   onBusqueda(event: Event) {

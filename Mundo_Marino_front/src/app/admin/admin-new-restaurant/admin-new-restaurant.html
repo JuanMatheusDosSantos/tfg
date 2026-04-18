@@ -80,8 +80,9 @@
               <select class="form-select rounded-3"
                       [value]="park_id()"
                       (change)="park_id.set(+$any($event.target).value)">
-                <option [value]="1">Parque 1</option>
-                <option [value]="2">Parque 2</option>
+                @for (p of parks(); track p.id) {
+                  <option [value]="p.id">{{ p.name }}</option>
+                }
               </select>
             </div>
 

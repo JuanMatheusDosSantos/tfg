@@ -1,6 +1,6 @@
 <div class="d-flex flex-column" style="min-height:100vh;">
 
-  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)"/>
+<!--  <app-admin-navbar (fechaFiltro)="onFechaFiltro($event)"/>-->
 
   <div class="d-flex flex-grow-1">
     <app-admin-sidebar/>
@@ -43,18 +43,50 @@
 
       <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
         <div class="row g-3 align-items-end">
-          <div class="col-12 col-md-4">
+
+          <!-- Parque -->
+          <div class="col-12 col-md-2">
+            <label class="text-muted small fw-bold text-uppercase mb-1"
+                   style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
+            <select class="form-select rounded-3"
+                    [value]="filtroPark()"
+                    (change)="onParkChange(+$any($event.target).value)">
+              <option [value]="0">Todos</option>
+              @for (p of parks(); track p.id) {
+                <option [value]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Restaurante -->
+          <div class="col-12 col-md-2">
+            <label class="text-muted small fw-bold text-uppercase mb-1"
+                   style="font-size:0.65rem;letter-spacing:0.1em;">Restaurante</label>
+            <select class="form-select rounded-3"
+                    [value]="filtroRestaurant()"
+                    (change)="filtroRestaurant.set(+$any($event.target).value)">
+              <option [value]="0">Todos</option>
+              @for (r of restaurantesFiltradosPorParque(); track r.id) {
+                <option [value]="r.id">{{ r.name }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Buscar -->
+          <div class="col-12 col-md-3">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Buscar</label>
             <div class="position-relative">
-              <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
-                    style="font-size:1rem;">search</span>
+        <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
+              style="font-size:1rem;">search</span>
               <input type="text" class="form-control ps-5 rounded-3"
                      placeholder="Nombre o ID..."
                      (input)="onBusqueda($event)"/>
             </div>
           </div>
-          <div class="col-12 col-md-4">
+
+          <!-- Estado -->
+          <div class="col-12 col-md-3">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Estado</label>
             <select class="form-select rounded-3"
@@ -69,12 +101,15 @@
               <option value="completed">Completada</option>
             </select>
           </div>
-          <div class="col-12 col-md-4">
+
+          <!-- Fecha -->
+          <div class="col-12 col-md-2">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Fecha</label>
             <input type="date" class="form-control rounded-3"
                    (change)="fechaFiltro.set($any($event.target).value)"/>
           </div>
+
         </div>
       </div>
 

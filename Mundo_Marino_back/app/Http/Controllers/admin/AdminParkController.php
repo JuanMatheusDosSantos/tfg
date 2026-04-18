@@ -87,9 +87,6 @@ class AdminParkController extends Controller
 
     function update(Request $request, $id)
     {
-
-
-
         $request->validate([
             "name" => "sometimes|string|max:255",
             "location" => "sometimes|string",

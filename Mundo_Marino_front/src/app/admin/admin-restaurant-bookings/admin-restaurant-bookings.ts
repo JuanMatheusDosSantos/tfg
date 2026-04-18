@@ -8,11 +8,12 @@ import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Restaurant_reservation} from '../../models/restaurant_reservation';
 import {AdminRestaurantBookingService} from '../../components/admin/admin-restaurant-booking';
+import {Park} from '../../models/park';
+import {Restaurant} from '../../models/restaurant';
 
 @Component({
   selector: 'app-admin-restaurant-bookings',
   imports: [
-    AdminNavbar,
     AdminSidebar,
     DatePipe
   ],
@@ -32,6 +33,11 @@ export class AdminRestaurantBookings implements OnInit {
   busqueda = signal<string>('');
   fechaFiltro = signal<string>('');
 
+  parks = signal<Park[]>([]);
+  restaurants = signal<Restaurant[]>([]);
+  filtroPark = signal<number>(0);
+  filtroRestaurant = signal<number>(0);
+
   ngOnInit() {
     this.service.fetchReservas().subscribe({
       next: (data) => {
@@ -42,6 +48,15 @@ export class AdminRestaurantBookings implements OnInit {
         this.error.set(err.error?.message ?? 'Error al cargar reservas');
         this.cargando.set(false);
       }
+    });
+    this.service.fetchParks().subscribe({
+      next: (data) => this.parks.set(data.sort((a, b) => a.id - b.id)),
+      error: () => {}
+    });
+
+    this.service.fetchRestaurants().subscribe({
+      next: (data) => this.restaurants.set(data),
+      error: () => {}
     });
   }
 
@@ -68,6 +83,17 @@ export class AdminRestaurantBookings implements OnInit {
     const fecha = this.fechaFiltro();
     if (fecha) {
       lista = lista.filter(r => r.reservation_date === fecha);
+    }
+    const parkId = this.filtroPark();
+    const restaurantId = this.filtroRestaurant();
+
+    if (restaurantId !== 0) {
+      lista = lista.filter(r => r.restaurant_id === restaurantId);
+    } else if (parkId !== 0) {
+      const restaurantIds = this.restaurants()
+        .filter(r => r.park_id === parkId)
+        .map(r => r.id);
+      lista = lista.filter(r => restaurantIds.includes(r.restaurant_id));
     }
 
     const q = this.busqueda().toLowerCase();
@@ -149,4 +175,16 @@ export class AdminRestaurantBookings implements OnInit {
       error: (err) => console.error('Error al eliminar:', err)
     });
   }
+
+  restaurantesFiltradosPorParque = computed(() => {
+    const parkId = this.filtroPark();
+    if (parkId === 0) return this.restaurants();
+    return this.restaurants().filter(r => r.park_id === parkId);
+  });
+
+  onParkChange(id: number) {
+    this.filtroPark.set(id);
+    this.filtroRestaurant.set(0);
+  }
+
 }

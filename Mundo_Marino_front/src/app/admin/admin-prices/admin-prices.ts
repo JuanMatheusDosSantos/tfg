@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import { AdminNavbar } from '../../layouts/admin-navbar/admin-navbar';
 import { AdminSidebar } from '../../layouts/admin-sidebar/admin-sidebar';
 import { ReservationPrice } from '../../models/reservation-price';
@@ -6,10 +6,12 @@ import { Tax } from '../../models/tax';
 import { forkJoin } from 'rxjs';
 import { AdminPricesService } from '../../components/admin/admin-prices';
 import { RouterLink } from '@angular/router';
+import {Park} from '../../models/park';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-prices',
-  imports: [AdminNavbar, AdminSidebar, RouterLink],
+  imports: [AdminSidebar, RouterLink],
   templateUrl: './admin-prices.html',
   styleUrl: './admin-prices.css',
 })
@@ -29,12 +31,19 @@ export class AdminPrices {
   valorTempPrecioChild = signal<number>(0);
   valorTempTax = signal<number>(0);
 
+  parks = signal<Park[]>([]);
+  filtroPark = signal<number>(0);
+
   ngOnInit() {
     forkJoin({
       precios: this.service.fetchPrecios(),
-      taxes: this.service.fetchTaxes()
+      taxes:   this.service.fetchTaxes(),
+      parks:   this.service.fetchParks(),
     }).subscribe({
-      next: () => this.cargando.set(false),
+      next: ({ parks }) => {
+        this.parks.set(parks.sort((a, b) => a.id - b.id));
+        this.cargando.set(false);
+      },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al cargar datos');
         this.cargando.set(false);
@@ -88,4 +97,11 @@ export class AdminPrices {
       error: (err) => this.error.set(err.error?.message ?? 'Error al eliminar impuesto')
     });
   }
+
+  preciosFiltrados = computed(() => {
+    const parkId = this.filtroPark();
+    if (parkId === 0) return this.precios();
+    return this.precios().filter(p => p.park_id === parkId);
+  });
+
 }

@@ -1,8 +1,10 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {environment} from '../../../environments/environment';
+import {Park} from '../../models/park';
+import {AdminRestaurantService} from '../../components/admin/admin-restaurant';
 
 @Component({
   selector: 'app-admin-new-restaurant',
@@ -12,7 +14,10 @@ import {environment} from '../../../environments/environment';
   templateUrl: './admin-new-restaurant.html',
   styleUrl: './admin-new-restaurant.css',
 })
-export class AdminNewRestaurant {
+export class AdminNewRestaurant implements OnInit{
+
+  private service = inject(AdminRestaurantService);
+
   private http = inject(HttpClient);
   private router = inject(Router);
   private apiUrl = `${environment.apiUrl}/admin`;
@@ -27,7 +32,19 @@ export class AdminNewRestaurant {
   closing_time = signal('');
   park_id = signal(1);
 
+  parks = signal<Park[]>([]);
+
   protected readonly Math = Math;
+
+  ngOnInit() {
+    this.service.fetchParks().subscribe({
+      next: (data) => {
+        this.parks.set(data.sort((a, b) => a.id - b.id));
+        if (data.length) this.park_id.set(data[0].id);
+      },
+      error: () => {}
+    });
+  }
 
   private getHeaders() {
     const token = localStorage.getItem('token');
@@ -44,13 +61,13 @@ export class AdminNewRestaurant {
     this.exito.set(null);
     this.error.set(null);
 
-    this.http.post(`${this.apiUrl}/restaurant`, {
+    this.service.create({
       name:         this.name(),
       max_capacity: this.max_capacity(),
       opening_time: this.opening_time(),
       closing_time: this.closing_time(),
       park_id:      this.park_id(),
-    }, { headers: this.getHeaders() }).subscribe({
+    }).subscribe({
       next: () => {
         this.exito.set('Restaurante creado correctamente.');
         this.guardando.set(false);

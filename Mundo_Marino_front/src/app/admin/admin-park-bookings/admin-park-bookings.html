@@ -46,12 +46,25 @@
       <!-- Buscador + filtros -->
       <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
         <div class="row g-3 align-items-end">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
+            <label class="text-muted small fw-bold text-uppercase mb-1"
+                   style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
+            <select class="form-select rounded-3"
+                    [value]="filtroPark()"
+                    (change)="filtroPark.set(+$any($event.target).value)">
+              <option [value]="0">Todos</option>
+              @for (p of parks(); track p.id) {
+                <option [value]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-12 col-md-3">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Buscar</label>
             <div class="position-relative">
-              <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
-                    style="font-size:1rem;">search</span>
+        <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
+              style="font-size:1rem;">search</span>
               <input type="text"
                      class="form-control ps-5 rounded-3"
                      placeholder="Nombre o ID..."
@@ -59,14 +72,13 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-2">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Estado</label>
             <select class="form-select rounded-3"
                     (change)="filtroStatus.set($any($event.target).value)">
               <option value="all">Todos</option>
               <option value="pending">Pendiente</option>
-<!--              <option value="accepted">Aceptada</option>-->
               <option value="checked_in">En Parque</option>
               <option value="late">Tarde</option>
               <option value="no_show">No Presentado</option>
@@ -76,14 +88,15 @@
             </select>
           </div>
 
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-2">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Fecha</label>
             <input type="date"
                    class="form-control rounded-3"
                    (change)="fechaFiltro.set($any($event.target).value)" />
           </div>
-          <div class="col-12 col-md-3 d-flex align-items-end">
+
+          <div class="col-12 col-md-2 d-flex align-items-end">
             <a [routerLink]="['/admin/park/booking']"
                class="btn fw-bold text-white rounded-3 w-100 d-flex align-items-center justify-content-center gap-2"
                style="background:#0cc0a8;">
@@ -93,7 +106,6 @@
           </div>
         </div>
       </div>
-
       <!-- Tabla -->
       @if (cargando()) {
         <div class="d-flex align-items-center justify-content-center py-5">

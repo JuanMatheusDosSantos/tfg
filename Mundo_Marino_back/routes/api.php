@@ -88,7 +88,9 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::get('stats', [AdminStatsController::class, 'stats']);
 
     Route::get("parks",[AdminParkController::class,"index"]);
+    Route::post("park",[AdminParkController::class,"store"]);
     Route::get("park/{id}",[AdminParkController::class,"show"]);
+    Route::put("park/{id}",[AdminParkController::class,"update"]);
 
     Route::delete("attraction/{id}",[AdminAttractionController::class,"delete"]);
     Route::put("attraction/{id}", [AdminAttractionController::class, "update"]);

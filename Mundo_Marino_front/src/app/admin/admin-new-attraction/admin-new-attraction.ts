@@ -74,7 +74,7 @@ export class AdminNewAttraction {
       next: () => {
         this.exito.set('Atracción creada correctamente.');
         this.guardando.set(false);
-        setTimeout(() => this.router.navigate(['/admin/park']), 1500);
+        setTimeout(() => this.router.navigate(['/admin/attractions']), 1500);
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al crear la atracción');
@@ -84,6 +84,6 @@ export class AdminNewAttraction {
   }
 
   volver() {
-    this.router.navigate(['/admin/park']);
+    this.router.navigate(['/admin/attractions']);
   }
 }

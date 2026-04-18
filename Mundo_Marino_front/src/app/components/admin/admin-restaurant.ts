@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap } from 'rxjs';
 import { Restaurant } from '../../models/restaurant';
 import { environment } from '../../../environments/environment';
+import {Park} from '../../models/park';
 
 @Injectable({ providedIn: 'root' })
 export class AdminRestaurantService {
@@ -33,18 +34,30 @@ export class AdminRestaurantService {
     );
   }
 
+  fetchParks() {
+    return this.http.get<Park[]>(`${environment.apiUrl}/admin/parks`, {
+      headers: this.getHeaders()
+    });
+  }
+
   getById(id: number) {
     return this.http.get<Restaurant>(`${this.API_URL}/${id}`, {
       headers: this.getHeaders()
     });
   }
 
-  create(data: Partial<Restaurant>) {
-    return this.http.post<Restaurant>(this.API_URL, data, {
+  // create(data: Partial<Restaurant>) {
+  //   return this.http.post<Restaurant>(this.API_URL, data, {
+  //     headers: this.getHeaders()
+  //   }).pipe(
+  //     tap(res => this.#restaurants.update(list => [res, ...list]))
+  //   );
+  // }
+
+  create(payload: { name: string; max_capacity: number; opening_time: string; closing_time: string; park_id: number }) {
+    return this.http.post(`${this.API_URL}`, payload, {
       headers: this.getHeaders()
-    }).pipe(
-      tap(res => this.#restaurants.update(list => [res, ...list]))
-    );
+    });
   }
 
   update(id: number, data: Partial<Restaurant>) {
