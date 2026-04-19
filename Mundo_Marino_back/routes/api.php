@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\AdminRestaurant_reservationController;
 use App\Http\Controllers\admin\AdminRestaurantController;
 use App\Http\Controllers\admin\AdminStatsController;
 use App\Http\Controllers\admin\AdminTaxController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Park_reservationController;
@@ -138,5 +139,10 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::post("park_reservation_type",[AdminPark_reservationTypeController::class,"store"]);
 
     Route::get("admin_logs",[Admin_logController::class,"index"]);
+
+    Route::get('users', [AdminUserController::class, 'index']);
+    Route::put('user/{id}', [AdminUserController::class, 'update']);
+    Route::put('user/{id}/role', [AdminUserController::class, 'updateRole']);
+    Route::delete('user/{id}', [AdminUserController::class, 'delete']);
 
 });

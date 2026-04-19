@@ -33,6 +33,8 @@ import {AdminNewRestaurant} from './admin/admin-new-restaurant/admin-new-restaur
 import {AdminAttractions} from './admin/admin-attractions/admin-attractions';
 import {AdminNewPark} from './admin/admin-new-park/admin-new-park';
 import {AdminEditPark} from './admin/admin-edit-park/admin-edit-park';
+import {AdminUsers} from './admin/admin-users/admin-users';
+import {AdminUserEdit} from './admin/admin-user-edit/admin-user-edit';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -72,5 +74,7 @@ export const routes: Routes = [
   {path:"admin/prices/tax",component:AdminNewTax,canActivate:[adminGuard]},
   {path:"admin/prices/price",component:AdminNewPrice,canActivate:[adminGuard]},
   {path:"admin/restaurant/new",component:AdminNewRestaurant,canActivate:[adminGuard]},
+  {path:"admin/users",component:AdminUsers,canActivate:[adminGuard]},
+  {path:"admin/user/:id/edit",component:AdminUserEdit,canActivate:[adminGuard]},
   {path:"**",component:Home}
 ];
