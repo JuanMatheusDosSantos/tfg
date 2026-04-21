@@ -197,12 +197,23 @@ export class Booking {
         return null;
       }
 
-      const fechaSeleccionada = new Date(valor).getTime();
+      const fechaSeleccionada = new Date(valor);
       const ahoraMasDosHoras = new Date().getTime() + (1 * 60 * 60 * 1000 + 59 * 60 * 1000);
 
-      // Solo aplicamos el error si es Restaurante o Ambos y no cumple el tiempo
-      if (fechaSeleccionada < ahoraMasDosHoras) {
-        return {horaInvalida: true};
+      if (fechaSeleccionada.getTime() < ahoraMasDosHoras) {
+        return { horaInvalida: true };
+      }
+
+      // ← Añades esto
+      const hora = fechaSeleccionada.getHours();
+      const minutos = fechaSeleccionada.getMinutes();
+      const horaDecimal = hora + minutos / 60;
+
+      const ABRE = 12;   // 12:00
+      const CIERRA = 22; // 22:00
+
+      if (horaDecimal < ABRE || horaDecimal >= CIERRA) {
+        return { horaFueraDeHorario: true };
       }
 
       return null;

@@ -1,0 +1,250 @@
+:root {
+  --bs-primary: #f97415;
+  --bs-primary-rgb: 249, 116, 21;
+  --color-primary: #f97415;
+  --color-primary-container: #ffedd5;
+  --color-on-primary-container: #7c2d12;
+  --color-secondary: #0ea5e9;
+  --color-surface: #f8fafc;
+  --color-surface-bright: #ffffff;
+  --color-surface-low: #f1f5f9;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #475569;
+  --color-outline: #cbd5e1;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+  min-height: 100vh;
+  color: var(--color-on-surface);
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Badge pill */
+.badge-pill-primary {
+  display: inline-block;
+  padding: .4rem 1.1rem;
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  border-radius: 9999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* Hero */
+.hero-title {
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  color: var(--color-on-surface);
+}
+
+.hero-title .accent {
+  color: var(--color-primary);
+}
+
+.hero-lead {
+  color: var(--color-on-surface-variant);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  max-width: 36rem;
+}
+
+/* Cards */
+.mm-card {
+  background: var(--color-surface-bright);
+  border-radius: 1rem;
+  border: 1px solid rgba(203, 213, 225, .35);
+  box-shadow: 0 8px 40px rgba(186, 230, 253, .35);
+  overflow: hidden;
+}
+
+/* Main hours card image */
+.main-card-img {
+  height: 260px;
+  object-fit: cover;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main-card-img {
+    height: 100%;
+    min-height: 320px;
+  }
+}
+
+/* Big time display */
+.time-display {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--color-on-surface);
+}
+
+.time-display .separator {
+  color: #cbd5e1;
+}
+
+/* Icon label */
+.icon-label {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  color: var(--color-primary);
+}
+
+.icon-label span.material-symbols-outlined {
+  font-size: 1.8rem;
+}
+
+.icon-label .label-text {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* Link arrow */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: gap .2s;
+}
+
+.link-arrow:hover {
+  gap: .8rem;
+  color: var(--color-primary);
+}
+
+/* Restaurant card */
+.restaurant-img {
+  height: 190px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: .75rem;
+}
+
+.badge-gastro {
+  position: absolute;
+  top: .9rem;
+  left: .9rem;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(6px);
+  padding: .28rem .8rem;
+  border-radius: 9999px;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* Hours row */
+.hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--color-surface-low);
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+}
+
+.hours-row .label {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #64748b;
+  margin-bottom: .15rem;
+}
+
+.hours-row .time {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.hours-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: rgba(249,116,21,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* CTA Button */
+.btn-primary-mm {
+  display: block;
+  width: 100%;
+  padding: .9rem 1.5rem;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: .75rem;
+  font-weight: 700;
+  font-size: .9rem;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(249,116,21,.25);
+  cursor: pointer;
+  transition: transform .15s;
+  text-decoration: none;
+}
+
+.btn-primary-mm:hover { transform: scale(1.02); color: #fff; }
+.btn-primary-mm:active { transform: scale(.96); }
+
+/* Info tiles */
+.info-tile {
+  background: rgba(255,255,255,.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.65);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.info-tile .material-symbols-outlined {
+  font-size: 2rem;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.info-tile h4 {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: .5rem;
+}
+
+.info-tile p {
+  font-size: .875rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Image overlay */
+.img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15,23,42,.4), transparent);
+}

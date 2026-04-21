@@ -38,6 +38,9 @@ export class MyBookings {
   public currentUser: any | null = null;
   private apiUrl = `${environment.apiUrl}`;
 
+  paginaActual = signal(1);
+  porPagina = 3;
+
   ngOnInit(): void {
     this.authService.loadUserIfNeeded();
     this.authService.user$.subscribe(user => {
@@ -55,14 +58,7 @@ export class MyBookings {
           const parks = res.parks.map(p => ({...p, category: 'Parque'}));
           const restaurants = res.restaurants.map(r => ({...r, category: 'Restaurante'}));
 
-          this.allReservations.set([...parks, ...restaurants].sort((a, b) => {
-            // Convertimos las fechas a objetos Date para comparar
-            const dateA = new Date(a.reservation_date ?? 0).getTime();
-            const dateB = new Date(b.reservation_date ?? 0).getTime();
-
-            return dateB - dateA; // De menor a mayor fecha
-          }));
-
+          this.allReservations.set([...parks, ...restaurants].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)));
 
           this.cargando.set(false);
           this.status = [...new Set(this.allReservations().map(res => res.status).filter(s => !!s))];
@@ -74,6 +70,7 @@ export class MyBookings {
       });
     });
   }
+
   // tiposTicket = ['Parque', 'Restaurante'];
   tiposTicket = computed(() =>
     [...new Set(this.allReservations().map(r => 'park_id' in r ? 'Parque' : 'Restaurante'))]
@@ -82,6 +79,7 @@ export class MyBookings {
   filtroTipo = signal<string[]>([]);
 
   toggleTipo(tipo: string) {
+    this.paginaActual.set(1); // ← único cambio
     this.filtroTipo.update(current =>
       current.includes(tipo)
         ? current.filter(t => t !== tipo)
@@ -103,6 +101,7 @@ export class MyBookings {
   });
 
   toggleStatus(status: string) {
+    this.paginaActual.set(1); // ← único cambio
     const actual = this.filtroStatus();
     if (actual.includes(status)) {
       this.filtroStatus.set(actual.filter(s => s !== status));
@@ -111,7 +110,9 @@ export class MyBookings {
     }
   }
 
+
   limpiarFiltros() {
+    this.paginaActual.set(1); // ← único cambio
     this.filtroStatus.set([]);
     this.filtroTipo.set([]);
   }
@@ -125,7 +126,7 @@ export class MyBookings {
 
   abrirQR(reserva: any) {
     const url = `${this.apiUrl}/reservation/${reserva.id}/qr`;
-    this.qrModal.set({ visible: true, url, reserva });
+    this.qrModal.set({visible: true, url, reserva});
   }
 
   cerrarQR() {
@@ -138,29 +139,47 @@ export class MyBookings {
       responseType: 'blob'
 
     }).subscribe({
-      next:(blob) => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `entrada-${reserva.reservation_date.split("-").join("")}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    },error: (err) => {
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `entrada-${reserva.reservation_date.split("-").join("")}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, error: (err) => {
         // Leer el blob del error para ver el mensaje
         const reader = new FileReader();
         reader.onload = () => console.error('Error PDF:', reader.result);
         reader.readAsText(err.error);
       }
-  });
+    });
   }
+
   getQrUrl(id: number): string {
     return `${this.apiUrl}/reservation/${id}/qr`;
   }
+
   irAlDetalle(res: any) {
     if (res.category === 'Parque') {
       this.router.navigate(['my-booking/park', res.id]);
     } else {
       this.router.navigate(['my-booking/restaurant', res.id]);
     }
-}
+  }
+
+  reservasPaginadas = computed(() => {
+    const inicio = (this.paginaActual() - 1) * this.porPagina;
+    return this.reservasFiltradas().slice(inicio, inicio + this.porPagina);
+  });
+
+  totalPaginas = computed(() =>
+    Math.ceil(this.reservasFiltradas().length / this.porPagina)
+  );
+
+  irPagina(n: number) {
+    if (n >= 1 && n <= this.totalPaginas()) {
+      this.paginaActual.set(n);
+    }
+  }
+
 }

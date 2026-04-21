@@ -1,30 +1,43 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { User } from '../../auth/auth.model';
+import {Component, inject} from '@angular/core';
+import {Router} from '@angular/router';
 import {AuthService} from '../../auth/auth';
+
 @Component({
   selector: 'app-profile',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class ProfileComponent implements OnInit {
-  user$: Observable<User | null>;
-  constructor(
-    private auth: AuthService,
-    private router: Router
-  ) {
-// Enlazamos el observable del servicio directamente
-    this.user$ = this.auth.user$;
+export class ProfileComponent {
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  user = this.authService.currentUser;
+
+  ngOnInit() {
+    this.authService.loadUserIfNeeded();
   }
-  ngOnInit(): void {
-// Si recargamos página en /profile, esto asegura que se pidan los datos
-    this.auth.loadUserIfNeeded();
+
+  editarPerfil() {
+    this.router.navigate(['/profile/edit']);
   }
+
+  roleLabel(role: string): string {
+    const map: Record<string, string> = {
+      admin:      'Administrador',
+      park:       'Parque',
+      restaurant: 'Restaurante',
+      user:       'Usuario',
+    };
+    return map[role] ?? role;
+  }
+
+  iniciales(nombre: string): string {
+    return nombre?.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() ?? '??';
+  }
+
   logout() {
-    this.auth.logout().subscribe(() => this.router.navigate(['/login']));
+    this.authService.logout().subscribe(() => this.router.navigate(['/login']));
   }
 }

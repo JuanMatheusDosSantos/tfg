@@ -114,7 +114,13 @@
                             La reserva de restaurante debe ser con al menos 2 horas de antelación.
                           </div>
                         }
+                        @if (bookingForm.get('restaurantDate')?.errors?.['horaFueraDeHorario'] && bookingForm.get('restaurantDate')?.touched) {
+                          <div class="invalid-feedback d-block">
+                            El restaurante abre de 12:00 a 22:00
+                          </div>
+                        }
                       }
+
 
                       @if (bookingForm.get("bookingType")?.value === 'park') {
                         <input type="date" formControlName="date"
@@ -149,6 +155,17 @@
                                [min]="fechaMinimaRestaurant"
                                class="form-control bg-light border-0 rounded-end-3 py-3"/>
                         <div class="col-12">
+                          @if (bookingForm.get('restaurantDate')?.hasError('horaInvalida')) {
+                            <div class="text-danger small mt-1 animated fadeIn">
+                              <i class="bi bi-exclamation-triangle"></i>
+                              La reserva de restaurante debe ser con al menos 2 horas de antelación.
+                            </div>
+                          }
+                          @if (bookingForm.get('restaurantDate')?.errors?.['horaFueraDeHorario'] && bookingForm.get('restaurantDate')?.touched) {
+                            <div class="invalid-feedback d-block">
+                              El restaurante abre de 12:00 a 22:00
+                            </div>
+                          }
                           <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
                           <div class="row g-2 mt-1">
                             @for (p of precios(); track p.id) {

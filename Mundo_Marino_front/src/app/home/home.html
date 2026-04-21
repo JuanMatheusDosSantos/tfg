@@ -19,43 +19,6 @@
     <!-- BOOKING FORM -->
     <div id="booking" class="p-3 p-md-5 rounded-4 shadow-lg mx-2 mx-md-0"
          style="background: rgba(255,255,255,0.15); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2);">
-<!--      <div class="row g-2 align-items-end">-->
-
-<!--        <div class="col-12 col-md-3">-->
-<!--          <label class="fw-bold text-white text-uppercase small mb-1 d-block" style="letter-spacing: 1px; font-size: 0.7rem;">-->
-<!--            Servicio-->
-<!--          </label>-->
-<!--          <select class="form-select rounded-3 border-0 py-2 py-md-3">-->
-<!--            <option>Restaurante</option>-->
-<!--            <option>Parque</option>-->
-<!--            <option>Restaurante + Parque</option>-->
-<!--          </select>-->
-<!--        </div>-->
-
-<!--        <div class="col-6 col-md-3">-->
-<!--          <label class="fw-bold text-white text-uppercase small mb-1 d-block" style="letter-spacing: 1px; font-size: 0.7rem;">-->
-<!--            Fecha-->
-<!--          </label>-->
-<!--          <input type="date" class="form-control rounded-3 border-0 py-2 py-md-3" />-->
-<!--        </div>-->
-
-<!--        <div class="col-6 col-md-3">-->
-<!--          <label class="fw-bold text-white text-uppercase small mb-1 d-block" style="letter-spacing: 1px; font-size: 0.7rem;">-->
-<!--            Personas-->
-<!--          </label>-->
-<!--          <input type="number" min="1" placeholder="Nº de entradas" class="form-control rounded-3 border-0 py-2 py-md-3" />-->
-<!--        </div>-->
-<!--        <div class="col-12 col-md-3 mt-1 mt-md-0">-->
-<!--          <button class="btn w-100 fw-bold py-2 py-md-3 rounded-3 shadow"-->
-<!--                  style="background-color: #FF7D54; color: #fff;">-->
-<!--            Reservar Ahora-->
-<!--          </button>-->
-<!--        </div>-->
-
-<!--      </div>-->
-<!--    </div>-->
-<!--</div>-->
-
     <div class="row g-2 align-items-end">
 
       <div class="col-12 col-md-3">
@@ -107,12 +70,6 @@
 <div class="position-relative z-2" style="margin-top: -2.5rem;">
   <div class="container" style="max-width: 1100px;">
     <div class="row g-3">
-<!--      <div class="col-6 col-md-3">-->
-<!--        <div class="bg-white rounded-4 shadow p-4 d-flex flex-column align-items-center gap-2 border quick-card">-->
-<!--          <span class="material-icons-round fs-2" style="color: #FF7D54;">pool</span>-->
-<!--          <span class="fw-bold">Atracciones</span>-->
-<!--        </div>-->
-<!--      </div>-->
       <div class="col-6 col-md-3">
         <a href="/park" class="text-decoration-none">
           <div class="bg-white rounded-4 shadow p-4 d-flex flex-column align-items-center gap-2 border quick-card">
@@ -251,88 +208,29 @@
         <h2 class="fw-black fs-3 mb-1">Atracciones Estrella</h2>
         <p class="text-muted mb-0">Descubre las experiencias más populares de Mundo Marino</p>
       </div>
-      <a href="#" class="fw-bold d-flex align-items-center gap-1 text-decoration-none" style="color: #FF7D54;">
+      <button (click)="irAParque()" class="fw-bold d-flex align-items-center gap-1 text-decoration-none" style="color: #FF7D54;">
         Ver todas <span class="material-icons-round">arrow_forward</span>
-      </a>
+      </button>
     </div>
 
     <div class="row g-4">
-
-      <!-- Cubazo -->
-      <div class="col-12 col-md-4">
-        <div class="card border-0 rounded-4 shadow overflow-hidden h-100">
-          <div class="position-relative overflow-hidden" style="height: 256px;">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Z88ghOKUmNsYcttDW8DPRoaX_Zm7zskqP4S0y8rDwnhFheGe8bX5XwdZk4wedwj_UwRUFmJbKjWCi_kn07JGq4dkmtwmag7doeTJvq7pTfZxlHOd3nVTYdW9ovpl4wyiVSrwYiGbavsFayCV0X6T0e0Vp9DFIXUeV_8nYVVBkjeBucIvIvqIkKVzR63NKUtTTetLBApo6nvYujXoiqXQ3-gghX-q9VJjs0BFXcJa1-bZQ5tizofrLVoqnQWd_E0H8LTPVyIXl9Rb"
-              alt="El Cubazo"
-              class="w-100 h-100 object-fit-cover"
-            />
-            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);">
-              <span class="badge rounded-pill fw-bold mb-1" style="background-color: #FF7D54;">Familiar</span>
-              <h4 class="text-white fw-bold mb-0">El Cubazo</h4>
+      @for (atraccion of atracciones(); track atraccion.id) {
+        <div class="col-12 col-md-4">
+          <div class="card border-0 rounded-4 shadow overflow-hidden h-100">
+            <div class="position-relative overflow-hidden" style="height: 256px;">
+              <img [src]="atraccion.image" [alt]="atraccion.name" class="w-100 h-100 object-fit-cover"/>
+              <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);">
+                <span class="badge rounded-pill fw-bold mb-1">{{ atraccion.type }}</span>
+                <h4 class="text-white fw-bold mb-0">{{ atraccion.description }}</h4>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-muted small mb-3">{{ atraccion.description }}</p>
+              <button class="btn w-100 fw-bold rounded-3 bg-light border-0" (click)="irAAttraccion(atraccion.id)">Ver Detalles</button>
             </div>
           </div>
-          <div class="card-body">
-            <p class="text-muted small mb-3">Una explosión de diversión interactiva para todas las edades con cubos gigantes de agua.</p>
-            <button class="btn w-100 fw-bold rounded-3 bg-light border-0"
-                    onmouseover="this.style.backgroundColor='#005C97';this.style.color='#fff';"
-                    onmouseout="this.style.backgroundColor='';this.style.color='';">
-              Ver Detalles
-            </button>
-          </div>
         </div>
-      </div>
-
-      <!-- Gran Salto -->
-      <div class="col-12 col-md-4">
-        <div class="card border-0 rounded-4 shadow overflow-hidden h-100">
-          <div class="position-relative overflow-hidden" style="height: 256px;">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiEThHAR1vJfVwUetvz9fI6dtPb_MaZvxDMN9ZS97kmBfHIz7st1hZFKeDa6zH7g2QMQ1mAOO1G3eWlfN7FefPmeP1TSGNo5YAvXN1dBR9-5aXPIXe_QjG43f1GG_EQ__ESx_ss2ismWXn2uL1Bo4v-CMYHc-_zDLaCad17R-1BlHksrbbAtYfc2LCvnbAy2xe7cgDcwBPdB5Z8Zj_7K6qcDYaOywoLmw2GtbSFnK57r6v446yc7NBFWcQKXK_-pZKcXKyiwG2BGr5"
-              alt="El Gran Salto"
-              class="w-100 h-100 object-fit-cover"
-            />
-            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);">
-              <span class="badge rounded-pill fw-bold mb-1 bg-danger">Extremo</span>
-              <h4 class="text-white fw-bold mb-0">El Gran Salto</h4>
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="text-muted small mb-3">Caída libre desde 15 metros de altura para los amantes de la adrenalina pura.</p>
-            <button class="btn w-100 fw-bold rounded-3 bg-light border-0"
-                    onmouseover="this.style.backgroundColor='#005C97';this.style.color='#fff';"
-                    onmouseout="this.style.backgroundColor='';this.style.color='';">
-              Ver Detalles
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mantarraya -->
-      <div class="col-12 col-md-4">
-        <div class="card border-0 rounded-4 shadow overflow-hidden h-100">
-          <div class="position-relative overflow-hidden" style="height: 256px;">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmV754PMGXN1M_DO_HXN2Sxtt2v471NEqyo-bAoeFclq_Ch4efZ_vpQs9uQXVaTGv48MCaVUnaZ8F8IESgquRwrFbjmpvWc9yEFYZCLRfIV_yVt5ZT3PkOCLdYNpKtUdXGQZOUrv1vh0uTcp1vV03wrrPHz0Qtdk59M6KJg-m0haGzr4DiFi14onOG852p3IUXksfl3-bF-HjtXEOgwYlIge4CSGSThXi7KXMVwcIp3uUsvQW3JqrcS8HdfQ1HFIYhdbGLajJBnGAg"
-              alt="La Mantarraya"
-              class="w-100 h-100 object-fit-cover"
-            />
-            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);">
-              <span class="badge rounded-pill fw-bold mb-1 bg-primary">Moderado</span>
-              <h4 class="text-white fw-bold mb-0">La Mantarraya</h4>
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="text-muted small mb-3">Deslízate por curvas sinuosas que imitan el nado de una mantarraya gigante.</p>
-            <button class="btn w-100 fw-bold rounded-3 bg-light border-0"
-                    onmouseover="this.style.backgroundColor='#005C97';this.style.color='#fff';"
-                    onmouseout="this.style.backgroundColor='';this.style.color='';">
-              Ver Detalles
-            </button>
-          </div>
-        </div>
-      </div>
-
+      }
     </div>
   </div>
 </section>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PagoRecibidoMail;
 use App\Mail\ReservaMail;
 use App\Models\Park_reservation;
 use App\Models\Payment;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\Webhook;
@@ -78,7 +80,7 @@ class StripeController extends Controller
                 'client_secret' => $paymentIntent->client_secret,
                 'payment_intent_id' => $paymentIntent->id,
             ]);
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             \Log::channel('payments')->error('Stripe API error: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
@@ -138,14 +140,19 @@ class StripeController extends Controller
 
                 \Log::channel('payments')->info('Payment creado');
 
+                // Email al usuario con su entrada
+                $user = User::findOrFail($metadata->user_id);
+                Mail::to($user->email)->send(new ReservaMail($reservation, 'parque'));
+
+// Notificación al admin
+                $admins = User::where('role', 'admin')->get();
+                foreach ($admins as $admin) {
+                    Mail::to($admin->email)->send(new PagoRecibidoMail($reservation, $user, $pi->amount / 100));
+                }
             } catch (\Exception $e) {
                 \Log::channel('payments')->error('Error: ' . $e->getMessage());
                 return response()->json(['error' => $e->getMessage()], 500);
             }
-
-            $user = User::findOrFail($metadata->user_id);
-            Mail::to($user->email)->send(new ReservaMail($reservation, 'parque'));
-
         }
         if ($event->type === 'payment_intent.payment_failed') {
             $pi = $event->data->object;

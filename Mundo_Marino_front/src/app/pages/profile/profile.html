@@ -43,12 +43,10 @@
 <!--</div>-->
 
 
-@if (cargando()) {
+@if (!user()) {
   <div class="d-flex align-items-center justify-content-center py-5">
     <div class="spinner-border" style="color:#FF7E54;" role="status"></div>
   </div>
-} @else if (error()) {
-  <div class="alert alert-danger">{{ error() }}</div>
 } @else if (user(); as u) {
 
   <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">

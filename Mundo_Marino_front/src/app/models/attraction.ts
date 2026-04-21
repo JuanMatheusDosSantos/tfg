@@ -13,6 +13,7 @@ export interface Attraction {
   name: string;
   type: string;
   duration: number;
+  description:string;
   max_capacity: number;
   status: 'operational' | 'maintenance' | 'closed';
   min_height: number;

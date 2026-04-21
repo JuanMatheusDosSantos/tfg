@@ -35,45 +35,53 @@ import {AdminNewPark} from './admin/admin-new-park/admin-new-park';
 import {AdminEditPark} from './admin/admin-edit-park/admin-edit-park';
 import {AdminUsers} from './admin/admin-users/admin-users';
 import {AdminUserEdit} from './admin/admin-user-edit/admin-user-edit';
+import {authGuard} from './auth/auth-guard';
+import {staffGuard} from './components/staff-guard';
+import {parkGuard} from './components/park-guard';
+import {restaurantGuard} from './components/restaurant-guard';
+import {EditProfile} from './views/edit-profile/edit-profile';
+import {Horario} from './views/horario/horario';
 
 export const routes: Routes = [
   {path:"", component:Home},
   {path:"park", component:Park},
   {path:"restaurant", component:Restaurant},
-  {path:"booking",component:Booking},
+  {path:"booking",component:Booking,canActivate:[authGuard]},
   {path:"login",component:Login},
-  {path:"profile",component:ProfileComponent},
+  {path:"horario",component:Horario},
+  {path:"profile",component:ProfileComponent, canActivate: [authGuard]},
+  {path:"profile/edit",component:EditProfile, canActivate: [authGuard]},
   {path:"register",component:Register},
-  {path:"myBookings",component:MyBookings},
-  {path:"editParkBooking/:id",component:EditParkBooking},
-  {path:"editRestaurantBooking/:id",component:EditRestaurantBooking},
-  {path:"my-booking/park/:id",component: ShowBookingPark},
-  {path:"my-booking/restaurant/:id",component: ShowBookingRestaurant},
+  {path:"myBookings",component:MyBookings,canActivate:[authGuard]},
+  {path:"editParkBooking/:id",component:EditParkBooking,canActivate:[authGuard]},
+  {path:"editRestaurantBooking/:id",component:EditRestaurantBooking,canActivate:[authGuard]},
+  {path:"my-booking/park/:id",component: ShowBookingPark,canActivate:[authGuard]},
+  {path:"my-booking/restaurant/:id",component: ShowBookingRestaurant,canActivate:[authGuard]},
   { path: 'attraction/:id', component: ShowAttraction },
   {path:"twitter",
     canActivate: [() => {
       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
       return false;
     }],component: Home},
-  {path:"admin",component:AdminHome,canActivate:[adminGuard]},
-  {path:"admin/park",component:AdminPark,canActivate:[adminGuard]},
-  {path:"admin/park/new",component:AdminNewPark,canActivate:[adminGuard]},
-  {path:"admin/park/:id/edit",component:AdminEditPark,canActivate:[adminGuard]},
-  {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[adminGuard]},
-  {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[adminGuard]},
-  {path:"admin/attraction/:id/edit",component:AdminAttractionEdit,canActivate:[adminGuard]},
+  {path:"admin",component:AdminHome,canActivate:[staffGuard]},
+  {path:"admin/park",component:AdminPark,canActivate:[parkGuard]},
+  {path:"admin/park/new",component:AdminNewPark,canActivate:[parkGuard]},
+  {path:"admin/park/:id/edit",component:AdminEditPark,canActivate:[parkGuard]},
+  {path:"admin/park/bookings",component:AdminParkBookings,canActivate:[parkGuard]},
+  {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[parkGuard]},
+  {path:"admin/attraction/:id/edit",component:AdminAttractionEdit,canActivate:[parkGuard]},
+  {path:"admin/prices",component:AdminPrices,canActivate:[parkGuard]},
   {path:"admin/restaurant",component:AdminRestaurant,canActivate:[adminGuard]},
-  {path:"admin/restaurant/:id/edit",component:AdminRestaurantEdit,canActivate:[adminGuard]},
-  {path:"admin/restaurant/bookings",component:AdminRestaurantBookings,canActivate:[adminGuard]},
-  {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[adminGuard]},
-  {path:"admin/prices",component:AdminPrices,canActivate:[adminGuard]},
-  {path:"admin/logs",component:AdminLogs,canActivate:[adminGuard]},
-  {path:"admin/attractions",component:AdminAttractions,canActivate:[adminGuard]},
-  {path:"admin/attraction",component:AdminNewAttraction,canActivate:[adminGuard]},
-  {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[adminGuard]},
-  {path:"admin/prices/tax",component:AdminNewTax,canActivate:[adminGuard]},
-  {path:"admin/prices/price",component:AdminNewPrice,canActivate:[adminGuard]},
-  {path:"admin/restaurant/new",component:AdminNewRestaurant,canActivate:[adminGuard]},
+  {path:"admin/attractions",component:AdminAttractions,canActivate:[parkGuard]},
+  {path:"admin/attraction",component:AdminNewAttraction,canActivate:[parkGuard]},
+  {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[parkGuard]},
+  {path:"admin/prices/tax",component:AdminNewTax,canActivate:[parkGuard]},
+  {path:"admin/prices/price",component:AdminNewPrice,canActivate:[parkGuard]},
+  {path:"admin/restaurant/:id/edit",component:AdminRestaurantEdit,canActivate:[restaurantGuard]},
+  {path:"admin/restaurant/bookings",component:AdminRestaurantBookings,canActivate:[restaurantGuard]},
+  {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[restaurantGuard]},
+  {path:"admin/logs",component:AdminLogs,canActivate:[restaurantGuard]},
+  {path:"admin/restaurant/new",component:AdminNewRestaurant,canActivate:[restaurantGuard]},
   {path:"admin/users",component:AdminUsers,canActivate:[adminGuard]},
   {path:"admin/user/:id/edit",component:AdminUserEdit,canActivate:[adminGuard]},
   {path:"**",component:Home}

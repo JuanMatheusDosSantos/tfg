@@ -14,19 +14,6 @@ class AuthController extends Controller
     /**
      * Login y generación del token JWT
      */
-//    public function login(Request $request)
-//    {
-//        $credentials = $request->validate([
-//            'email' => 'required|email',
-//            'password' => 'required|string',
-//        ]);
-//        if (!$token = Auth::attempt($credentials)) {
-//            return response()->json([
-//                'message' => 'Credenciales incorrectas'
-//            ], 401);
-//        }
-//        return $this->respondWithToken($token);
-//    }
     public function login(Request $request){
         $validator = Validator::make($request->all(),[
             'email' => 'required|string|email|max:255',
@@ -118,5 +105,24 @@ class AuthController extends Controller
             'user' => Auth::user()
         ]);
     }
+    public function updateProfile(Request $request)
+    {
+        try {
+            $request->validate([
+                'name'  => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+                'phone' => 'nullable|integer',
+            ]);
 
+            $user = auth()->user();
+            $user->name  = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->save();
+
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
 }

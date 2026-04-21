@@ -146,7 +146,7 @@
                     <input type="checkbox" class="form-check-input"
                            style="accent-color:#FF7E54;"
                            [checked]="filtroStatus().includes(s)"
-                           (change)="toggleStatus(s)" />
+                           (change)="toggleStatus(s)"/>
                     <span class="text-muted small">{{ s }}</span>
                   </label>
                 }
@@ -154,14 +154,15 @@
             </div>
 
             <div class="mb-4">
-              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de Ticket</p>
+              <p class="fw-bold text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:2px;">Tipo de
+                Ticket</p>
               <div class="d-flex flex-column gap-2">
                 @for (tipo of tiposTicket(); track tipo) {
                   <label class="d-flex align-items-center gap-2 filter-label">
                     <input type="checkbox" class="form-check-input"
                            style="accent-color:#FF7E54;"
                            [checked]="filtroTipo().includes(tipo)"
-                           (change)="toggleTipo(tipo)" />
+                           (change)="toggleTipo(tipo)"/>
                     <span class="text-muted small">{{ tipo }}</span>
                   </label>
                 }
@@ -179,105 +180,124 @@
               <h4 class="fw-semibold mb-1" style="color:#005696;">No tienes ninguna reserva</h4>
               <p class="text-muted small">Cuando realices una reserva aparecerá aquí.</p>
             </div>
-          }@else{
-          <!-- Entrada ACTIVA -->
-          @for (res of reservasFiltradas(); track res.category + '_' + res.id) {
+          } @else {
+            <!-- Entrada ACTIVA -->
+            @for (res of reservasPaginadas(); track res.category + '_' + res.id) {
 
-<!--            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm">-->
-            <div class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm"
-                 style="cursor:pointer;"
-                 (click)="irAlDetalle(res)">
-              <div class="ticket-img overflow-hidden position-relative">
-                <img
-                  [src]="res.category === 'Parque' ?
+              <div
+                class="ticket-card bg-white rounded-4 border overflow-hidden d-flex flex-column flex-md-row shadow-sm"
+                style="cursor:pointer;"
+                (click)="irAlDetalle(res)">
+                <div class="ticket-img overflow-hidden position-relative">
+                  <img
+                    [src]="res.category === 'Parque' ?
                   'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG'
                   :'https://lh3.googleusercontent.com/aida-public/AB6AXuAEcO_iRCG3VCuDFpcHY9phHqsZRk6ZunwMw_wee_hP7K5GCkBgViTVXMxE8mxuun1b8ZPKBdTNno8XZFyD2vQzW4aJ0dA7G7iH4nuUSLLTczHjP6qs0i1oLZ5HrL2qQx_mh62CXRMPgTQgfC2QYVk-tv6EdV0rbmeYt19mTH1gwgge7YhUNxjxVs5R1NWP_nXoYIlfAoGmQb2I0WRWr_GXDyyrAKb2ge0giJnhqyJDIfu8HFE7HNLgPjGNMEURgwHuqV3VCBAzFYsL'"
-                  alt="Entrada General" class="w-100 h-100 object-fit-cover"/>
-              </div>
-
-              <div class="p-4 p-md-5 d-flex flex-column flex-grow-1">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <div>
-                    <h3 class="fw-bold fs-5 mb-1" style="color:#005696;">Entrada al {{res.category}}</h3>
-                    <p class="text-muted small d-flex align-items-center gap-1 mb-0">
-                      <span class="material-icons-round" style="font-size:0.9rem;">calendar_today</span>
-                      {{ res.reservation_date }}  @if (res.category==="Restaurante") {
-                      · {{res.reservation_hour.substring(0,5)}}
-                    }
-                    </p>
-                  </div>
-                  <span class="badge rounded-pill fw-bold px-3 py-2"
-                        style="background-color:rgba(34,197,94,0.12);color:#16a34a;font-size:0.72rem;">
-                  {{ res.status }}
-                  </span>
+                    alt="Entrada General" class="w-100 h-100 object-fit-cover"/>
                 </div>
 
-                <div class="d-flex flex-column flex-md-row gap-4 align-items-start mb-4">
-                  <div class="d-flex flex-column gap-2 flex-grow-1">
-                    <div class="d-flex align-items-center gap-2 text-muted small">
-                      <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">groups</span>
-                      @if (res.category==="Restaurante"){
-                        {{res.party_size}} Personas
-                      }@else{
-                        {{res.adults+res.child}} {{(res.adults+res.child)==1?"Persona":"Personas"}} ({{ res.adults }} {{ res.adults==1?"Adulto":"Adultos" }}, {{res.child}} {{ res.child == 1 ? "Niño" : "Niños" }})
+                <div class="p-4 p-md-5 d-flex flex-column flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                      <h3 class="fw-bold fs-5 mb-1" style="color:#005696;">Entrada al {{ res.category }}</h3>
+                      <p class="text-muted small d-flex align-items-center gap-1 mb-0">
+                        <span class="material-icons-round" style="font-size:0.9rem;">calendar_today</span>
+                        {{ res.reservation_date }}  @if (res.category === "Restaurante") {
+                        · {{ res.reservation_hour.substring(0, 5) }}
                       }
+                      </p>
                     </div>
-                    @if(res.category==="Parque"){<div class="d-flex align-items-center gap-2 text-muted small">
-                      <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">location_on</span>
-                      Acceso Principal - Puerta A
-                    </div>}
-                    <div class="d-flex align-items-center gap-2 text-muted small">
+                    <span class="badge rounded-pill fw-bold px-3 py-2"
+                          style="background-color:rgba(34,197,94,0.12);color:#16a34a;font-size:0.72rem;">
+                  {{ res.status }}
+                  </span>
+                  </div>
+
+                  <div class="d-flex flex-column flex-md-row gap-4 align-items-start mb-4">
+                    <div class="d-flex flex-column gap-2 flex-grow-1">
+                      <div class="d-flex align-items-center gap-2 text-muted small">
+                        <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">groups</span>
+                        @if (res.category === "Restaurante") {
+                          {{ res.party_size }} Personas
+                        } @else {
+                          {{ res.adults + res.child }} {{ (res.adults + res.child) == 1 ? "Persona" : "Personas" }} ({{ res.adults }} {{ res.adults == 1 ? "Adulto" : "Adultos" }}, {{ res.child }} {{ res.child == 1 ? "Niño" : "Niños" }})
+                        }
+                      </div>
+                      @if (res.category === "Parque") {
+                        <div class="d-flex align-items-center gap-2 text-muted small">
+                          <span class="material-icons-round" style="color:#FF7E54;font-size:1.1rem;">location_on</span>
+                          Acceso Principal - Puerta A
+                        </div>
+                      }
+                      <div class="d-flex align-items-center gap-2 text-muted small">
                     <span class="material-icons-round"
                           style="color:#FF7E54;font-size:1.1rem;">confirmation_number</span>
-                      ID: #MM-9928341
+                        ID: #MM-{{ res.id?.toString()?.padStart(7, '0') }}
+                      </div>
                     </div>
+                    @if (res.category === "Parque") {
+
+                      <div class="bg-white p-2 rounded-3 border shadow-sm"
+                           style="cursor:pointer;"
+                           (click)="$event.stopPropagation(); abrirQR(res)">
+                        <img
+                          [src]="getQrUrl(res.id)"
+                          alt="QR Code" style="width:96px;height:96px;"/>
+                        <p class="text-center text-muted mb-0 mt-1" style="font-size:0.6rem;letter-spacing:1px;">SCAN
+                          ME</p>
+                      </div>
+                    }
                   </div>
-                  @if(res.category==="Parque"){
-<!--                    <div class="bg-white p-2 rounded-3 border shadow-sm"-->
-<!--                         style="cursor:pointer;"-->
-<!--                         (click)="abrirQR(res)"-->
-<!--                    >-->
-                    <div class="bg-white p-2 rounded-3 border shadow-sm"
-                         style="cursor:pointer;"
-                         (click)="$event.stopPropagation(); abrirQR(res)">
-                      <img
-                        [src]="getQrUrl(res.id)"
-                        alt="QR Code" style="width:96px;height:96px;"/>
-                      <p class="text-center text-muted mb-0 mt-1" style="font-size:0.6rem;letter-spacing:1px;">SCAN ME</p>
+
+                  @if (res.category === "Parque") {
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                      <button
+                        class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small"
+                        (click)="$event.stopPropagation()">
+                        <span class="material-icons-round" style="font-size:1.1rem;">share</span>
+                        Compartir
+                      </button>
+                      <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
+                              style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"
+                              (click)="$event.stopPropagation(); descargarPDF(res)">
+                        <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
+                        Descargar PDF
+                      </button>
                     </div>
                   }
                 </div>
-
-                @if(res.category==="Parque"){
-                  <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-<!--                    <button-->
-<!--                      class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small">-->
-                    <button class="btn btn-link p-0 text-decoration-none text-muted d-flex align-items-center gap-1 fw-semibold small"
-                            (click)="$event.stopPropagation()">
-                      <span class="material-icons-round" style="font-size:1.1rem;">share</span>
-                      Compartir
-                    </button>
-<!--                    <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"-->
-<!--                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"-->
-<!--                            (click)="descargarPDF(res)">-->
-                    <button class="btn fw-semibold d-flex align-items-center gap-2 rounded-3"
-                            style="background-color:#f1f5f9;color:#1e293b;font-size:0.85rem;"
-                            (click)="$event.stopPropagation(); descargarPDF(res)">
-                      <span class="material-icons-round" style="font-size:1.1rem;">file_download</span>
-                      Descargar PDF
-                    </button>
-                  </div>
-                }
               </div>
-            </div>
+            }
+            @if (totalPaginas() > 1) {
+              <div class="d-flex align-items-center justify-content-between mt-2">
+                    <span class="text-muted small">
+                      Mostrando {{ (paginaActual() - 1) * porPagina + 1 }}–{{ (paginaActual() - 1) * porPagina + reservasPaginadas().length }} de {{ reservasFiltradas().length }} reservas
+                    </span>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                          [disabled]="paginaActual() === 1"
+                          (click)="irPagina(paginaActual() - 1)">
+                    <span class="material-icons-round" style="font-size:1rem;">chevron_left</span>
+                  </button>
+                  <span class="btn btn-sm btn-light rounded-3 fw-bold" style="cursor:default;">
+                          {{ paginaActual() }} / {{ totalPaginas() }}
+                        </span>
+                  <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                          [disabled]="paginaActual() === totalPaginas()"
+                          (click)="irPagina(paginaActual() + 1)">
+                    <span class="material-icons-round" style="font-size:1rem;">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            }
           }
-}
 
         </div>
       </div>
     </div>
   </div>
 }
+
 @if (qrModal().visible) {
   <div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
        style="background:rgba(0,0,0,0.6); z-index:9999;"
