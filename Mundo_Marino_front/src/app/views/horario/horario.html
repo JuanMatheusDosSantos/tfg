@@ -7,7 +7,7 @@
       Horarios de <br><span class="accent">Experiencias</span>
     </h1>
     <p class="hero-lead">
-      Descubre el ritmo de la naturaleza. Organiza tu día para disfrutar de cada rincón de nuestro bioparque con total tranquilidad.
+      Sumérgete en la aventura. Planifica tu visita y aprovecha al máximo cada atracción acuática de Mundo Marino.
     </p>
   </header>
 
@@ -32,25 +32,65 @@
           <div class="col-12 col-md-7 p-4 p-xl-5 d-flex flex-column justify-content-center">
             <div class="icon-label mb-4">
               <span class="material-symbols-outlined">schedule</span>
-              <span class="label-text">Parque General</span>
+              <span class="label-text">{{ park()?.name ?? 'Parque General' }}</span>
             </div>
             <h2 class="fs-3 fw-bold mb-3" style="color: var(--color-on-surface);">Horario de Apertura</h2>
             <div class="time-display mb-4">
-              10:00 <span class="separator">—</span> 18:00
+              {{ park()?.opening_time?.substring(0, 5) ?? '10:00' }}
+              <span class="separator">—</span>
+              {{ park()?.closing_time?.substring(0, 5) ?? '18:00' }}
             </div>
             <p class="mb-4" style="color: var(--color-on-surface-variant); font-size: .9rem; line-height: 1.65;">
-              Abierto todos los días del año, incluyendo feriados. Recomendamos llegar temprano para disfrutar del recorrido completo.
+              Abierto todos los días del año, incluyendo feriados. Recomendamos llegar temprano para disfrutar del
+              recorrido completo.
             </p>
-            <a href="#" class="link-arrow">
-              Ver calendario estacional
-              <span class="material-symbols-outlined" style="font-size: 1.1rem;">arrow_forward</span>
-            </a>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Restaurant card -->
+    <!--    <div class="col-12 col-lg-4">-->
+    <!--      <div class="mm-card h-100 p-4 d-flex flex-column">-->
+    <!--        &lt;!&ndash; Image &ndash;&gt;-->
+    <!--        <div class="position-relative mb-4">-->
+    <!--          <img-->
+    <!--            class="restaurant-img"-->
+    <!--            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFb8LF0_5vfMRk1wrkUBJewzPJE4q3Df4g6eMHEaAbuzY86M2KC6DbDZWGk517ogC4dcT2qanbnS2inIOICgDoWxR7d7dZpZtucQawkh82UsREhxDPv4QHzODoTgUEPhbsoy4sBw0M68NpGVM34zm7xlo4jEMUZUBl4I-ln07SL_sdqZDM-IIu8bO6KETtRLxfJrzCvuD9_lZUJAMZ_A-MUJHdNbyJIqJfo-mrWzaY1tno9mVJ60A65wL5sEdAFyRhvHENpkOZaUTI"-->
+    <!--            alt="Restaurante Principal Mundo Marino"-->
+    <!--          />-->
+    <!--          <span class="badge-gastro">Gastronomía</span>-->
+    <!--        </div>-->
+
+    <!--        <h3 class="fs-4 fw-bold mb-4" style="color: var(&#45;&#45;color-on-surface);">Restaurante Principal</h3>-->
+
+    <!--        <div class="d-flex flex-column gap-3 mb-4">-->
+    <!--          &lt;!&ndash; Lunch &ndash;&gt;-->
+    <!--          <div class="hours-row">-->
+    <!--            <div>-->
+    <!--              <div class="label">Almuerzo</div>-->
+    <!--              <div class="time">12:00 – 15:00</div>-->
+    <!--            </div>-->
+    <!--            <div class="hours-icon">-->
+    <!--              <span class="material-symbols-outlined">restaurant</span>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--          &lt;!&ndash; Dinner &ndash;&gt;-->
+    <!--          <div class="hours-row">-->
+    <!--            <div>-->
+    <!--              <div class="label">Cena</div>-->
+    <!--              <div class="time">19:00 – 22:00</div>-->
+    <!--            </div>-->
+    <!--            <div class="hours-icon">-->
+    <!--              <span class="material-symbols-outlined">dinner_dining</span>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+    <!--        <a href="#" class="btn-primary-mm">Reservar Mesa</a>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
     <div class="col-12 col-lg-4">
       <div class="mm-card h-100 p-4 d-flex flex-column">
         <!-- Image -->
@@ -63,24 +103,25 @@
           <span class="badge-gastro">Gastronomía</span>
         </div>
 
-        <h3 class="fs-4 fw-bold mb-4" style="color: var(--color-on-surface);">Restaurante Principal</h3>
+        <h3 class="fs-4 fw-bold mb-4" style="color: var(--color-on-surface);">
+          {{ restaurant()?.name }}
+        </h3>
 
         <div class="d-flex flex-column gap-3 mb-4">
-          <!-- Lunch -->
           <div class="hours-row">
             <div>
-              <div class="label">Almuerzo</div>
-              <div class="time">12:00 – 15:00</div>
+              <div class="label">Apertura</div>
+              <div class="time">{{ restaurant()?.opening_time?.substring(0, 5) ?? '10:00' }}</div>
             </div>
             <div class="hours-icon">
               <span class="material-symbols-outlined">restaurant</span>
             </div>
           </div>
-          <!-- Dinner -->
+
           <div class="hours-row">
             <div>
-              <div class="label">Cena</div>
-              <div class="time">19:00 – 22:00</div>
+              <div class="label">Cierre</div>
+              <div class="time">{{ restaurant()?.closing_time?.substring(0, 5) ?? '18:00' }}</div>
             </div>
             <div class="hours-icon">
               <span class="material-symbols-outlined">dinner_dining</span>
@@ -88,7 +129,7 @@
           </div>
         </div>
 
-        <a href="#" class="btn-primary-mm">Reservar Mesa</a>
+        <button (click)="irAReserva()" class="btn-primary-mm">Reservar Mesa</button>
       </div>
     </div>
 
@@ -99,8 +140,8 @@
     <div class="col-12 col-md-4">
       <div class="info-tile">
         <span class="material-symbols-outlined">info</span>
-        <h4>Acceso Anticipado</h4>
-        <p>Los miembros del Club Mundo Marino pueden ingresar al parque 30 minutos antes del horario oficial.</p>
+        <h4>Reserva con Antelación</h4>
+        <p>Las reservas en el restaurante deben realizarse con un mínimo de 2 horas de antelación.</p>
       </div>
     </div>
     <div class="col-12 col-md-4">

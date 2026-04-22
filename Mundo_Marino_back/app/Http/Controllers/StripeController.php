@@ -144,11 +144,16 @@ class StripeController extends Controller
                 $user = User::findOrFail($metadata->user_id);
                 Mail::to($user->email)->send(new ReservaMail($reservation, 'parque'));
 
-// Notificación al admin
                 $admins = User::where('role', 'admin')->get();
+
+                \Log::channel('payments')->info('Admins encontrados: ' . $admins->count());
+
                 foreach ($admins as $admin) {
+                    \Log::channel('payments')->info('Enviando email a admin: ' . $admin->email);
                     Mail::to($admin->email)->send(new PagoRecibidoMail($reservation, $user, $pi->amount / 100));
+                    \Log::channel('payments')->info('Email enviado a: ' . $admin->email);
                 }
+
             } catch (\Exception $e) {
                 \Log::channel('payments')->error('Error: ' . $e->getMessage());
                 return response()->json(['error' => $e->getMessage()], 500);

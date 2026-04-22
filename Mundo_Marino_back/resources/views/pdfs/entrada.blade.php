@@ -384,7 +384,7 @@
                         </td>
                         <td class="col-right">
                             <div class="field-label">Tipo de Experiencia</div>
-                            <div class="field-value-lg">{{ $reservation->experience_type ?? 'Pase de Verano Combo' }}</div>
+                            <div class="field-value-lg">{{ $reservation->type ?? 'Pase de Verano Combo' }}</div>
                         </td>
                     </tr>
                 </table>
@@ -407,8 +407,8 @@
 
                 <!-- ══ RESUMEN ══ -->
                 @php
-                    $adultPrice = $reservation->adults * ($reservation->adult_price ?? 75);
-                    $childPrice = $reservation->child  * ($reservation->child_price  ?? 45);
+                    $adultPrice = $reservation->adults * ($reservation->adult_price_total ?? 15);
+                    $childPrice = $reservation->child  * ($reservation->child_price_total  ?? 8);
                     $subtotal   = $adultPrice + $childPrice;
                     $taxes      = $subtotal * 0.08;
                     $total      = $subtotal + $taxes;

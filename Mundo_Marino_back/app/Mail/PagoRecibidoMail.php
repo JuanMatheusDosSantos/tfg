@@ -29,25 +29,6 @@ class PagoRecibidoMail extends Mailable
         return $this->subject('Nuevo pago recibido - #MM-' . str_pad($this->reservation->id, 7, '0', STR_PAD_LEFT))
             ->view('emails.pago_recibido');
     }
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Pago Recibido Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
 
     /**
      * Get the attachments for the message.
