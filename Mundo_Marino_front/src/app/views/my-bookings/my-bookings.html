@@ -147,7 +147,7 @@
                            style="accent-color:#FF7E54;"
                            [checked]="filtroStatus().includes(s)"
                            (change)="toggleStatus(s)"/>
-                    <span class="text-muted small">{{ s }}</span>
+                    <span class="text-muted small">{{ statusLabels[s] ?? s }}</span>
                   </label>
                 }
               </div>

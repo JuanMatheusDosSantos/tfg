@@ -182,4 +182,14 @@ export class MyBookings {
     }
   }
 
+  statusLabels: Record<string, string> = {
+    paid: 'Pagado',
+    pending: 'Pendiente',
+    late: 'Tardío',
+    cancelled: 'Cancelado',
+    completed: 'Completado',
+    accepted: 'Aceptado',
+    no_show: 'No presentado',
+    checked_in: 'En el parque'
+  };
 }

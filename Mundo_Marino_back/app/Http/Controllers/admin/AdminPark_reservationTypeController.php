@@ -20,22 +20,6 @@ class AdminPark_reservationTypeController extends Controller
             return response()->json([$e->getMessage()], 500);
         }
     }
-//    public function store(Request $request)
-//    {
-//        try {
-//            $request->validate([
-//                'name' => 'required|string|max:255|unique:park_reservation_types,name',
-//            ]);
-//
-//            $tipo = Park_reservationType::create([
-//                'name' => $request->name,
-//            ]);
-//
-//            return response()->json($tipo, 201);
-//        } catch (\Exception $e) {
-//            return response()->json([$e->getMessage()], 400);
-//        }
-//    }
 
     public function store(Request $request)
     {

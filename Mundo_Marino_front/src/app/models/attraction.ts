@@ -15,7 +15,7 @@ export interface Attraction {
   duration: number;
   description:string;
   max_capacity: number;
-  status: 'operational' | 'maintenance' | 'closed';
+  status: 'operational' | 'maintenance' | 'closed' | 'permanently_closed';
   min_height: number;
   image?: string;
   park?: Park

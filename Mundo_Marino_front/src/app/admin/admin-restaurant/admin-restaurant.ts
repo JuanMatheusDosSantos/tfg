@@ -19,6 +19,8 @@ export class AdminRestaurant {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
 
+  errorDelete = signal<string | null>(null);
+
   restaurants = signal<Restaurant[]>([]);
   cargando = signal(true);
   error = signal<string | null>(null);
@@ -69,11 +71,12 @@ export class AdminRestaurant {
   delete(r: Restaurant) {
     if (!confirm(`¿Eliminar el restaurante ${r.name}?`)) return;
 
+    this.errorDelete.set(null);
     this.service.delete(r.id!).subscribe({
       next: () => {
         this.restaurants.update(list => list.filter(res => res.id !== r.id));
       },
-      error: (err) => console.error('Error al eliminar:', err)
+      error: (err) => this.errorDelete.set(err.error?.message ?? 'Error al eliminar el restaurante')
     });
   }
 }

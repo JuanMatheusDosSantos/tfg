@@ -29,14 +29,13 @@ export class AdminAttractions {
   busqueda = signal<string>('');
 
 
-  ngOnInit() {
+  cargarParks() {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.get<Park[]>(`${this.apiUrl}/parks`, { headers }).subscribe({
       next: (data) => {
-        const ordenados = data.sort((a, b) => a.id - b.id);
-        this.parks.set(ordenados);
+        this.parks.set(data.sort((a, b) => a.id - b.id));
         this.cargando.set(false);
       },
       error: (err) => {
@@ -44,6 +43,10 @@ export class AdminAttractions {
         this.cargando.set(false);
       }
     });
+  }
+
+  ngOnInit() {
+    this.cargarParks();
   }
 
 
@@ -151,20 +154,13 @@ export class AdminAttractions {
   }
 
   delete(a: Attraction) {
-    if (!confirm(`¿Eliminar la atracción ${a.name}?`)) return;
+    if (!confirm(`¿Quieres que la atracción ${a.name} pase a estar permanentemente cerrada?`)) return;
 
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.delete(`${this.apiUrl}/attraction/${a.id}`, { headers }).subscribe({
-      next: () => {
-        this.parks.update(lista =>
-          lista.map(p => ({
-            ...p,
-            attractions: p.attractions.filter(att => att.id !== a.id)
-          }))
-        );
-      },
+      next: () => this.cargarParks(),
       error: (err) => console.error('Error al eliminar:', err)
     });
   }

@@ -87,6 +87,7 @@
                   <th class="px-4 py-3">Valor Anterior</th>
                   <th class="px-4 py-3">Valor Nuevo</th>
                   <th class="px-4 py-3">Fecha</th>
+                  <th class="px-4 py-3 text-end">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -117,6 +118,15 @@
                       {{ l.new_value }}
                     </td>
                     <td class="px-4 py-3 small">{{ l.created_at | date:'dd MMM yyyy, HH:mm' }}</td>
+                    <td class="px-4 py-3 text-end">
+                      <div class="d-flex align-items-center justify-content-end gap-2">
+                        <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
+                                title="Ver detalle"
+                                (click)="verLog(l.id)">
+                          <span class="material-symbols-outlined" style="font-size:1rem;">visibility</span>
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 } @empty {
                   <tr>

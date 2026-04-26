@@ -1,105 +1,15 @@
-{{--<!DOCTYPE html>--}}
-{{--<html>--}}
-{{--    <head>--}}
-{{--        <meta charset="utf-8"/>--}}
-{{--        <style>--}}
-{{--            body {--}}
-{{--                font-family: sans-serif;--}}
-{{--                margin: 0;--}}
-{{--                padding: 30px;--}}
-{{--                color: #1e293b;--}}
-{{--            }--}}
-{{--            .ticket {--}}
-{{--                border: 2px solid #005696;--}}
-{{--                border-radius: 12px;--}}
-{{--                padding: 30px;--}}
-{{--                max-width: 500px;--}}
-{{--                margin: 0 auto;--}}
-{{--            }--}}
-{{--            .header {--}}
-{{--                text-align: center;--}}
-{{--                border-bottom: 1px solid #e2e8f0;--}}
-{{--                padding-bottom: 20px;--}}
-{{--                margin-bottom: 20px;--}}
-{{--            }--}}
-{{--            .header h1 {--}}
-{{--                color: #005696;--}}
-{{--                font-size: 24px;--}}
-{{--                margin: 0 0 5px 0;--}}
-{{--            }--}}
-{{--            .header p {--}}
-{{--                color: #FF7E54;--}}
-{{--                margin: 0;--}}
-{{--                font-size: 13px;--}}
-{{--            }--}}
-{{--            .info-row {--}}
-{{--                display: flex;--}}
-{{--                justify-content: space-between;--}}
-{{--                margin-bottom: 10px;--}}
-{{--                font-size: 14px;--}}
-{{--            }--}}
-{{--            .label { color: #64748b; }--}}
-{{--            .value { font-weight: bold; }--}}
-{{--            .qr {--}}
-{{--                text-align: center;--}}
-{{--                margin-top: 25px;--}}
-{{--                padding-top: 20px;--}}
-{{--                border-top: 1px dashed #cbd5e1;--}}
-{{--            }--}}
-{{--            .qr p {--}}
-{{--                font-size: 11px;--}}
-{{--                color: #94a3b8;--}}
-{{--                letter-spacing: 2px;--}}
-{{--                margin-top: 8px;--}}
-{{--            }--}}
-{{--        </style>--}}
-{{--    </head>--}}
-{{--    <body>--}}
-{{--        <div class="ticket">--}}
-
-{{--            <div class="header">--}}
-{{--                <h1>Mundo Marino El Arrecife</h1>--}}
-{{--                <p>Entrada al Parque</p>--}}
-{{--            </div>--}}
-
-{{--            <div class="info-row">--}}
-{{--                <span class="label">Reserva:</span>--}}
-{{--                <span class="value">#{{ $reservation->id }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="info-row">--}}
-{{--                <span class="label">Titular:</span>--}}
-{{--                <span class="value">{{ $reservation->user->name }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="info-row">--}}
-{{--                <span class="label">Fecha:</span>--}}
-{{--                <span class="value">{{ $reservation->reservation_date }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="info-row">--}}
-{{--                <span class="label">Adultos:</span>--}}
-{{--                <span class="value">{{ $reservation->adults }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="info-row">--}}
-{{--                <span class="label">Niños:</span>--}}
-{{--                <span class="value">{{ $reservation->child }}</span>--}}
-{{--            </div>--}}
-
-{{--            <div class="qr">--}}
-{{--                <img src="data:image/svg+xml;base64,{{ $qr }}"--}}
-{{--                     style="width:200px;height:200px;"/>--}}
-{{--                <p>SCAN ME</p>--}}
-{{--            </div>--}}
-
-{{--        </div>--}}
-{{--    </body>--}}
-{{--</html>--}}
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8"/>
         <title>Voucher #{{ $reservation->id }} – Mundo Marino</title>
         <style>
             /* ── Reset & base ── */
-            * { margin: 0; padding: 0; box-sizing: border-box; }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
             body {
                 font-family: Arial, Helvetica, sans-serif;
@@ -119,9 +29,11 @@
                 background-color: #0f172a;
                 padding: 36px 48px 32px;
             }
+
             .header-table {
                 width: 100%;
             }
+
             .brand-name {
                 font-family: Georgia, serif;
                 font-size: 24px;
@@ -129,9 +41,11 @@
                 color: #ffffff;
                 letter-spacing: -0.5px;
             }
+
             .brand-dot {
                 color: #f97415;
             }
+
             .brand-subtitle {
                 font-size: 8px;
                 font-weight: 700;
@@ -140,6 +54,7 @@
                 color: #94a3b8;
                 margin-top: 4px;
             }
+
             .res-id-label {
                 font-size: 8px;
                 font-weight: 700;
@@ -148,6 +63,7 @@
                 color: #94a3b8;
                 text-align: right;
             }
+
             .res-id-value {
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 18px;
@@ -178,12 +94,14 @@
                 color: #64748b;
                 margin-bottom: 3px;
             }
+
             .field-value-lg {
                 font-family: Georgia, serif;
                 font-size: 18px;
                 font-weight: 700;
                 color: #0f172a;
             }
+
             .field-value {
                 font-size: 13px;
                 font-weight: 700;
@@ -194,10 +112,12 @@
             .grid-2 {
                 width: 100%;
             }
+
             .grid-2 td {
                 width: 50%;
                 vertical-align: top;
             }
+
             .grid-2 .col-right {
                 padding-left: 20px;
             }
@@ -217,6 +137,7 @@
                 margin-top: 24px;
                 margin-bottom: 28px;
             }
+
             .summary-title {
                 font-size: 8px;
                 font-weight: 700;
@@ -225,10 +146,12 @@
                 color: #64748b;
                 margin-bottom: 14px;
             }
+
             .summary-table {
                 width: 100%;
                 border-collapse: collapse;
             }
+
             .summary-table thead th {
                 font-size: 8px;
                 font-weight: 700;
@@ -238,6 +161,7 @@
                 border-bottom: 1px solid #e2e8f0;
                 padding-bottom: 8px;
             }
+
             .summary-table tbody td {
                 font-size: 12px;
                 color: #475569;
@@ -245,12 +169,14 @@
                 padding: 8px 0;
                 border-bottom: 1px solid #f1f5f9;
             }
+
             .summary-table .tax-row td {
                 font-size: 11px;
                 color: #94a3b8;
                 font-weight: 400;
                 border-bottom: none;
             }
+
             .summary-table .total-row td {
                 font-size: 15px;
                 font-weight: 700;
@@ -264,14 +190,17 @@
                 width: 100%;
                 margin-bottom: 32px;
             }
+
             .instructions-table td {
                 width: 33.33%;
                 vertical-align: top;
                 padding-right: 16px;
             }
+
             .instructions-table td:last-child {
                 padding-right: 0;
             }
+
             .inst-title {
                 font-size: 9px;
                 font-weight: 700;
@@ -281,11 +210,13 @@
                 margin-bottom: 4px;
                 margin-top: 4px;
             }
+
             .inst-text {
                 font-size: 10px;
                 color: #64748b;
                 line-height: 1.5;
             }
+
             .inst-icon {
                 font-size: 16px;
                 color: #cbd5e1;
@@ -301,9 +232,11 @@
                 left: 0;
                 right: 0;
             }
+
             .footer-table {
                 width: 100%;
             }
+
             .terms-title {
                 font-size: 8px;
                 font-weight: 700;
@@ -312,12 +245,14 @@
                 color: #94a3b8;
                 margin-bottom: 5px;
             }
+
             .terms-text {
                 font-size: 9px;
                 color: #94a3b8;
                 line-height: 1.6;
                 max-width: 340px;
             }
+
             .support-label {
                 font-size: 8px;
                 font-weight: 700;
@@ -326,12 +261,14 @@
                 color: #94a3b8;
                 text-align: right;
             }
+
             .support-text {
                 font-size: 10px;
                 color: #64748b;
                 line-height: 1.8;
                 text-align: right;
             }
+
             .copyright {
                 font-size: 9px;
                 color: #94a3b8;
@@ -396,7 +333,8 @@
                     <tr>
                         <td>
                             <div class="field-label">Fecha de Visita</div>
-                            <div class="field-value">{{ \Carbon\Carbon::parse($reservation->reservation_date)->translatedFormat('d \d\e F \d\e Y') }}</div>
+                            <div
+                                class="field-value">{{ \Carbon\Carbon::parse($reservation->reservation_date)->translatedFormat('d \d\e F \d\e Y') }}</div>
                         </td>
                         <td class="col-right">
                             <div class="field-label">Hora de Entrada</div>
@@ -461,7 +399,9 @@
                         <td>
                             <div class="inst-icon">&#127915;</div>
                             <div class="inst-title">Digital o Impreso</div>
-                            <div class="inst-text">Presente este voucher en formato digital o impreso en la entrada principal.</div>
+                            <div class="inst-text">Presente este voucher en formato digital o impreso en la entrada
+                                principal.
+                            </div>
                         </td>
                         <td>
                             <div class="inst-icon">&#128336;</div>
@@ -471,7 +411,9 @@
                         <td>
                             <div class="inst-icon">&#129439;</div>
                             <div class="inst-title">Identificación</div>
-                            <div class="inst-text">Se podrá solicitar un documento de identidad válido a nombre del titular.</div>
+                            <div class="inst-text">Se podrá solicitar un documento de identidad válido a nombre del
+                                titular.
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -485,7 +427,10 @@
                         <td style="vertical-align: top; width: 60%;">
                             <div class="terms-title">Términos y Condiciones</div>
                             <div class="terms-text">
-                                Este voucher es válido únicamente para la fecha y hora indicadas. Sin reembolso si se cancela dentro de las 48 horas previas. Mundo Marino se reserva el derecho de modificar los horarios por razones de bienestar animal o seguridad. No se permite fotografía profesional sin autorización previa.
+                                Este voucher es válido únicamente para la fecha y hora indicadas. Sin reembolso si se
+                                cancela dentro de las 48 horas previas. Mundo Marino se reserva el derecho de modificar
+                                los horarios por razones de bienestar animal o seguridad. No se permite fotografía
+                                profesional sin autorización previa.
                             </div>
                         </td>
                         <td style="vertical-align: top; text-align: right; width: 40%;">

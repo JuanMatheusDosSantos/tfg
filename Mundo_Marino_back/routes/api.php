@@ -125,6 +125,7 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::get("restaurant_reservation/{id}",[AdminRestaurant_reservationController::class,"show"]);
 
     Route::put("restaurant_reservation/status/{id}", [AdminRestaurant_reservationController::class, "editStatus"]);
+    Route::put("restaurant_reservation/edit/{id}", [AdminRestaurant_reservationController::class, "edit"]);
 
     Route::get('taxes', [AdminTaxController::class, 'index']);
     Route::post('tax', [AdminTaxController::class, 'store']);

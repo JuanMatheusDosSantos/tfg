@@ -41,6 +41,7 @@ import {parkGuard} from './components/park-guard';
 import {restaurantGuard} from './components/restaurant-guard';
 import {EditProfile} from './views/edit-profile/edit-profile';
 import {Horario} from './views/horario/horario';
+import {AdminShowLog} from './admin/admin-show-log/admin-show-log';
 
 export const routes: Routes = [
   {path:"", component:Home},
@@ -81,6 +82,7 @@ export const routes: Routes = [
   {path:"admin/restaurant/bookings",component:AdminRestaurantBookings,canActivate:[restaurantGuard]},
   {path:"admin/restaurant/booking/:id/edit",component:AdminEditRestaurantBooking,canActivate:[restaurantGuard]},
   {path:"admin/logs",component:AdminLogs,canActivate:[restaurantGuard]},
+  {path:"admin/log/:id",component:AdminShowLog,canActivate:[restaurantGuard]},
   {path:"admin/restaurant/new",component:AdminNewRestaurant,canActivate:[restaurantGuard]},
   {path:"admin/users",component:AdminUsers,canActivate:[adminGuard]},
   {path:"admin/user/:id/edit",component:AdminUserEdit,canActivate:[adminGuard]},

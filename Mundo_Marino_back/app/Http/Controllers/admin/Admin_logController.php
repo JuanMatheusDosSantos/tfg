@@ -60,7 +60,7 @@ class Admin_logController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 "no se ha podido encontrar el log",
-            ],500);
+            ],404);
         }
     }
 

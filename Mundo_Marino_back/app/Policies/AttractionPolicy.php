@@ -8,6 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class AttractionPolicy
 {
+    public function before(User $user): bool{
+        return $user->isAdmin()||$user->isParkManager();
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -29,7 +33,7 @@ class AttractionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin()||$user->isParkManager();
     }
 
     /**

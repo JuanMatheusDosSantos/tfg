@@ -72,7 +72,7 @@ export class AdminEditRestaurantBooking {
       status:           this.status(),
     };
 
-    this.http.put(`${this.apiUrl}/restaurant_reservation/${id}`, payload, { headers }).subscribe({
+    this.http.put(`${this.apiUrl}/restaurant_reservation/edit/${id}`, payload, { headers }).subscribe({
       next: () => {
         this.exito.set('Reserva actualizada correctamente.');
         this.guardando.set(false);

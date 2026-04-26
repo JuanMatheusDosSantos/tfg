@@ -5,17 +5,19 @@ import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {environment} from '../../../environments/environment';
 import {CommonModule, DatePipe} from '@angular/common';
 import {AdminLog} from '../../models/admin-log';
+import {Router} from '@angular/router';
 
 
 @Component({
   selector: 'app-admin-logs',
-  imports: [AdminNavbar, AdminSidebar, DatePipe, CommonModule],
+  imports: [AdminSidebar, DatePipe, CommonModule],
   templateUrl: './admin-logs.html',
   styleUrl: './admin-logs.css',
 })
 export class AdminLogs {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
+private route=inject(Router);
 
   logs = signal<AdminLog[]>([]);
   cargando = signal(true);
@@ -62,7 +64,7 @@ export class AdminLogs {
       );
     }
 
-    return lista;
+    return lista.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   });
 
   onBusqueda(event: Event) {
@@ -83,4 +85,8 @@ export class AdminLogs {
   }
 
   onFechaFiltro(_fecha: string) {}
+
+  verLog(id:number){
+    this.route.navigate([`/admin/log/${id}`])
+  }
 }

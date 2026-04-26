@@ -58,13 +58,11 @@
 
                 <!-- Tipo de entrada -->
                 <div class="mb-4">
-                  <label class="form-label fw-semibold small text-uppercase text-muted"
-                         style="font-size:0.65rem;letter-spacing:0.1em;">Tipo de Entrada</label>
                   <select class="form-select rounded-3"
-                          [value]="park_reservation_type_id()"
                           (change)="park_reservation_type_id.set(+$any($event.target).value)">
                     @for (p of precios(); track p.id) {
-                      <option [value]="p.park_reservation_type_id">
+                      <option [value]="p.park_reservation_type_id"
+                              [selected]="p.park_reservation_type_id === park_reservation_type_id()">
                         {{ p.type?.name }} — {{ (+p.adult_price).toFixed(2) }} € / adulto
                       </option>
                     }

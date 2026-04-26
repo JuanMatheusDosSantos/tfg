@@ -38,8 +38,8 @@ return new class extends Migration
             $table->foreignId("park_reservation_type_id")->constrained("park_reservation_types"); // ← aquí
 
 
-            $table->timestamps();
             $table->unique(["user_id","park_id","reservation_date"],"ui_pi_rd");
+            $table->timestamps();
         });
     }
 
