@@ -40,6 +40,7 @@ export class MyBookings {
   private imgUrl=`${environment.imgUrl}`;
 
 public imgRest=`${this.imgUrl}/storage/bookings/restaurante_tfg.png`
+  public imgPark=`${this.imgUrl}/storage/bookings/parque_tfg.png`
   paginaActual = signal(1);
   porPagina = 3;
 
