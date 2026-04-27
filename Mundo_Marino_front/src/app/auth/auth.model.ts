@@ -25,4 +25,5 @@ export interface User {
   email: string;
   role:number
   park:Park
+  birthdate: Date;
 }
