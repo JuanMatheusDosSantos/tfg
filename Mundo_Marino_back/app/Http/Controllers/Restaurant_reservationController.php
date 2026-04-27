@@ -168,7 +168,9 @@ class Restaurant_reservationController extends Controller
             ->sum("party_size");
 
         if ($ocupacion + $party_size > $max) {
-            abort(422, "Esta hora está llena, pruebe con otra");
+            abort(response()->json([
+                "message" => "No hay suficientes plazas disponibles. Solo quedan {$disponibles} plazas para esta franja horaria."
+            ], 422));
         }
     }
 
