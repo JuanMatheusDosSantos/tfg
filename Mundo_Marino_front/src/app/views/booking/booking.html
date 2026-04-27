@@ -130,7 +130,7 @@
                         <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
                         <div class="row g-2 mt-1">
                           @for (p of precios(); track p.id) {
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-5">
                               <input type="radio" class="radio-hidden"
                                      [id]="'precio_' + p.park_reservation_type_id"
                                      formControlName="park_reservation_type_id"
