@@ -109,6 +109,7 @@ export class AdminAttractions {
       operational: 'Operativa',
       maintenance: 'Mantenimiento',
       closed: 'Cerrada',
+      permanently_closed: "Permanentemente cerrado"
     };
     return map[status] ?? status;
   }
