@@ -136,12 +136,12 @@
                                      formControlName="park_reservation_type_id"
                                      [value]="p.park_reservation_type_id"/>
                               <label [for]="'precio_' + p.park_reservation_type_id"
-                                     class="booking-option d-flex align-items-center justify-content-between p-3 rounded-4 w-100"
+                                     class="booking-option d-flex flex-column p-3 rounded-4 w-100"
                                      [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
                                 <span class="fw-bold small">{{ p.type?.name }}</span>
-                                <span class="fw-bold" style="color:#FF7E54;">
-                                      {{ (+p.adult_price).toFixed(2) }}€ / adulto
-                                    </span>
+                                <span class="fw-bold mt-1" style="color:#FF7E54;">
+                                  {{ (+p.adult_price).toFixed(2) }}€ / adulto
+                                </span>
                               </label>
                             </div>
                           }
