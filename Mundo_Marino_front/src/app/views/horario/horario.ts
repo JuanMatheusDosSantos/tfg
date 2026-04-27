@@ -27,8 +27,12 @@ export class Horario {
     this.restaurantService.fetchRestaurants().subscribe(restaurants => {
       this.restaurant.set(restaurants.sort((a, b) => (a.id ?? 0) - (b.id ?? 0))[0] ?? null);
     });
+
   }
-  irAReserva(){
-    this.route.navigate(["/booking"])
+  irAReservaParque() {
+    this.route.navigate(['/booking'], { queryParams: { tipo: 'park' } });
+  }
+  irAReservaRestaurante(){
+    this.route.navigate(['/booking'], { queryParams: { tipo: 'restaurant' } });
   }
 }

@@ -15,8 +15,7 @@
   <div class="row g-4 mb-4">
 
     <!-- Main park hours card -->
-    <!-- Main park hours card -->
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-6">
       <div class="mm-card h-100 p-4 d-flex flex-column">
         <!-- Image -->
         <div class="position-relative mb-4">
@@ -41,10 +40,11 @@
         <p style="color: var(--color-on-surface-variant); font-size: .9rem; line-height: 1.65;">
           Abierto todos los días del año, incluyendo feriados. Recomendamos llegar temprano para disfrutar del recorrido completo.
         </p>
+        <button (click)="irAReservaParque()" class="btn-primary-mm mt-auto">Reservar Entrada</button>
       </div>
     </div>
 
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-6">
       <div class="mm-card h-100 p-4 d-flex flex-column">
         <!-- Image -->
         <div class="position-relative mb-4">
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <button (click)="irAReserva()" class="btn-primary-mm">Reservar Mesa</button>
+        <button (click)="irAReservaRestaurante()" class="btn-primary-mm">Reservar Mesa</button>
       </div>
     </div>
 
