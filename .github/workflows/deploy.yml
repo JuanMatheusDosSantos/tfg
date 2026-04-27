@@ -16,31 +16,39 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            # 1. Detener el script si hay errores y configurar Git
+            set -e
             git config --global --add safe.directory /var/www/tfg
             git config --global --add safe.directory /var/www/tfg/Mundo_Marino_back
             git config --global --add safe.directory /var/www/tfg/Mundo_Marino_front
             
-            # Entrar a la carpeta principal
-            cd /var/www/tfg
+            # 2. Activar modo mantenimiento en Laravel
+            cd /var/www/tfg/Mundo_Marino_back
+            php artisan down --refresh=15 || true # El 'true' evita que falle si ya estaba desactivada
             
-            # Forzar la actualización de todo el repositorio
+            # 3. Actualizar código
+            cd /var/www/tfg
             git fetch origin master
             git reset --hard origin/master
             
-            # --- Configuración BACKEND (Laravel) ---
+            # 4. --- Configuración BACKEND (Laravel) ---
             cd Mundo_Marino_back
-            # Instalamos librerías solo si es necesario (rápido si no hay cambios)
             composer install --no-interaction --optimize-autoloader
-            # Ejecutar migraciones si has tocado la base de datos
-            # php artisan migrate:fresh --seed
-            # Limpiar cachés para que tome los cambios
+            
+            # Ejecutar migraciones (sin borrar datos)
+            php artisan migrate --force
+            
+            # Limpiar y recrear caché
             php artisan config:cache
             php artisan route:cache
             
-            # --- Configuración FRONTEND (Angular) ---
+            # 5. --- Configuración FRONTEND (Angular) ---
             cd ../Mundo_Marino_front
-            # Si en tu VM ya tienes el build hecho y solo cambias archivos pequeños:
             npm install
             npm run build -- --configuration=production
-  
+            
+            # 6. Desactivar modo mantenimiento
+            cd ../Mundo_Marino_back
+            php artisan up
+            
             echo "¡Despliegue finalizado con éxito!"
