@@ -180,9 +180,11 @@ class Restaurant_reservationController extends Controller
 
         if ($ocupacion + $party_size > $max) {
             $disponibles = $max - $ocupacion;
-            return response()->json([
-                "message" => "No hay suficientes plazas. Solo quedan {$disponibles} plazas para esta franja horaria."
-            ], 422);
+            $message = $disponibles <= 0
+                ? "El establecimiento está lleno en esta franja horaria, pruebe con otra hora."
+                : "No hay suficientes espacio en el establecimiento para dicha reserva, ahora mismo solo quedan {$disponibles} plazas para esta franja horaria.";
+
+            return response()->json(["message" => $message], 422);
         }
 
         return null;
