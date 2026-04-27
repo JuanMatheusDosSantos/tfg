@@ -49,8 +49,10 @@
 
           <div class="col-12 col-md-6">
             <p class="text-uppercase fw-bold mb-1"
-               style="font-size:0.65rem;letter-spacing:0.15em;color:#94a3b8;">Correo Electrónico</p>
-            <p class="fw-semibold mb-0" style="font-size:1.05rem;color:#0f172a;">{{ u.email }}</p>
+               style="font-size:0.65rem;letter-spacing:0.15em;color:#94a3b8;">Rol</p>
+            <p class="fw-semibold mb-0" style="font-size:1.05rem;color:#0f172a;">
+              {{ roleLabel(u.role) }}
+            </p>
           </div>
 
           <div class="col-12 col-md-6">
@@ -61,12 +63,11 @@
             </p>
           </div>
 
+
           <div class="col-12 col-md-6">
             <p class="text-uppercase fw-bold mb-1"
-               style="font-size:0.65rem;letter-spacing:0.15em;color:#94a3b8;">Rol</p>
-            <p class="fw-semibold mb-0" style="font-size:1.05rem;color:#0f172a;">
-              {{ roleLabel(u.role) }}
-            </p>
+               style="font-size:0.65rem;letter-spacing:0.15em;color:#94a3b8;">Correo Electrónico</p>
+            <p class="fw-semibold mb-0" style="font-size:1.05rem;color:#0f172a;">{{ u.email }}</p>
           </div>
         </div>
 

@@ -78,39 +78,6 @@
         }
       </div>
 
-      <!-- Teléfono y Edad -->
-<!--      <div class="row g-3">-->
-<!--        <div class="col-7">-->
-<!--          <label class="form-label fw-semibold small" for="phone">Teléfono</label>-->
-<!--          <div class="input-group">-->
-<!--            <span class="input-group-text bg-light border rounded-start-3">-->
-<!--              <span class="material-icons-round text-muted" style="font-size:1.1rem;">phone</span>-->
-<!--            </span>-->
-<!--            <input type="tel" id="phone" formControlName="phone"-->
-<!--                   placeholder="600 000 000"-->
-<!--                   class="form-control border rounded-end-3 py-3" />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-5">-->
-<!--          <label class="form-label fw-semibold small" for="age">Edad</label>-->
-<!--          <div class="input-group">-->
-<!--            <span class="input-group-text bg-light border rounded-start-3">-->
-<!--              <span class="material-icons-round text-muted" style="font-size:1.1rem;">cake</span>-->
-<!--            </span>-->
-<!--            <input type="number" id="age" formControlName="age"-->
-<!--                   placeholder="25" min="1" max="120"-->
-<!--                   class="form-control border rounded-end-3 py-3"-->
-<!--            [class.is-invalid]="registerForm.get('age')?.value<18"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      @if (registerForm.get('age')?.invalid && registerForm.get('age')?.touched) {-->
-<!--        <div class="invalid-feedback d-block" style="font-size:0.78rem;">-->
-<!--          Tienes que ser mayor de edad para poder registrarte.-->
-<!--        </div>-->
-<!--      }-->
-
       <div class="row g-3">
         <div class="col-7">
           <label class="form-label fw-semibold small" for="phone">Teléfono</label>
@@ -140,15 +107,15 @@
           }
         </div>
         <div class="col-5">
-          <label class="form-label fw-semibold small" for="age">Edad</label>
+          <label class="form-label fw-semibold small" for="Birthdate">Fecha de nacimiento</label>
           <div class="input-group">
       <span class="input-group-text bg-light border rounded-start-3">
         <span class="material-icons-round text-muted" style="font-size:1.1rem;">cake</span>
       </span>
-            <input type="number" id="age" formControlName="age"
+            <input type="date" id="Birthdate" formControlName="age"
                    placeholder="25" min="1" max="120"
                    class="form-control border rounded-end-3 py-3"
-                   [class.is-invalid]="registerForm.get('age')?.touched && registerForm.get('age')?.invalid" />
+                   [class.is-invalid]="registerForm.get('birthdate')?.touched && registerForm.get('birthdate')?.invalid" />
           </div>
           @if (registerForm.get('age')?.touched && registerForm.get('age')?.invalid) {
             <div class="invalid-feedback d-block" style="font-size:0.78rem;">

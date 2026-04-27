@@ -51,6 +51,12 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             "phone"=>"nullable|digits:9",
             'password' => 'required|string|min:6',
+            'birthdate' => [
+                'required',
+                'date',
+                'before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+                'after_or_equal:' . now()->subYears(70)->format('Y-m-d'),
+            ],
         ]);
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
@@ -61,6 +67,8 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                "phone"=>$user->phone,
+                "birthdate"=>$user->birthdate
             ],
         ], 201);
     }

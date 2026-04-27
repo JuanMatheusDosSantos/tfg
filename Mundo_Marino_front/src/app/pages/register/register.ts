@@ -1,5 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms'; // Asegúrate de que ReactiveFormsModule esté aquí
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  Validators,
+  FormBuilder,
+  AbstractControl,
+  ValidationErrors
+} from '@angular/forms'; // Asegúrate de que ReactiveFormsModule esté aquí
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth';
 
@@ -28,7 +35,7 @@ export class Register {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       phone:["",[Validators.required,Validators.minLength(9),Validators.maxLength(9), Validators.pattern(/^[0-9]{9}$/)]],
-      age:["",[Validators.required,Validators.min(18),Validators.max(70)]],
+      birthdate: ['', [Validators.required, this.edadValidator(18, 70)]],
       terms:[false,Validators.requiredTrue],
     });
   }
@@ -71,5 +78,24 @@ export class Register {
   }
   switchPassword(){
     this.showPassword=!this.showPassword;
+  }
+
+  edadValidator(minAge: number, maxAge: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      const hoy = new Date();
+      const nacimiento = new Date(control.value);
+      const edad = hoy.getFullYear() - nacimiento.getFullYear();
+      const mes = hoy.getMonth() - nacimiento.getMonth();
+      const edadReal = mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())
+        ? edad - 1
+        : edad;
+
+      if (edadReal < minAge) return { edadMinima: { requerida: minAge, actual: edadReal } };
+      if (edadReal > maxAge) return { edadMaxima: { requerida: maxAge, actual: edadReal } };
+
+      return null;
+    };
   }
 }
