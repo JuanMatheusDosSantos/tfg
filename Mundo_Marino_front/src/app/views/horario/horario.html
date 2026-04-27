@@ -15,37 +15,32 @@
   <div class="row g-4 mb-4">
 
     <!-- Main park hours card -->
+    <!-- Main park hours card -->
     <div class="col-12 col-lg-8">
-      <div class="mm-card h-100">
-        <div class="row g-0 h-100">
-          <!-- Image -->
-          <div class="col-12 col-md-5 position-relative">
-            <img
-              class="main-card-img"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4srsp8vcaej0v6u5eJDJ7MzlufaBzqz8CNQLEAW5wrbjOfGOICHRUnCscu-CR7Br3gkzxasgtZ6ND-3BlL__P_0O8Nf1dsQZsNBEtKB6Il8Nw6iNxMr5e49gTatLvugrf4g0vdi1CBSI5LVty5QBzMoOmSEI5ZOQLTp7TTeTBQpdYIswkgtHLscQcwJq_qk4p2tDnMKXKa0XqJXDi9RT5SV3dcBVCRz6TGlEyGr0mUWC4wNgY2tpzcfc6bSY9tdwn7A31ILc1zC42"
-              alt="Entrada del parque Mundo Marino"
-            />
-            <div class="img-overlay"></div>
-          </div>
-
-          <!-- Content -->
-          <div class="col-12 col-md-7 p-4 p-xl-5 d-flex flex-column justify-content-center">
-            <div class="icon-label mb-4">
-              <span class="material-symbols-outlined">schedule</span>
-              <span class="label-text">{{ park()?.name ?? 'Parque General' }}</span>
-            </div>
-            <h2 class="fs-3 fw-bold mb-3" style="color: var(--color-on-surface);">Horario de Apertura</h2>
-            <div class="time-display mb-4">
-              {{ park()?.opening_time?.substring(0, 5) ?? '10:00' }}
-              <span class="separator">—</span>
-              {{ park()?.closing_time?.substring(0, 5) ?? '18:00' }}
-            </div>
-            <p class="mb-4" style="color: var(--color-on-surface-variant); font-size: .9rem; line-height: 1.65;">
-              Abierto todos los días del año, incluyendo feriados. Recomendamos llegar temprano para disfrutar del
-              recorrido completo.
-            </p>
-          </div>
+      <div class="mm-card h-100 p-4 d-flex flex-column">
+        <!-- Image -->
+        <div class="position-relative mb-4">
+          <img
+            class="restaurant-img"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4srsp8vcaej0v6u5eJDJ7MzlufaBzqz8CNQLEAW5wrbjOfGOICHRUnCscu-CR7Br3gkzxasgtZ6ND-3BlL__P_0O8Nf1dsQZsNBEtKB6Il8Nw6iNxMr5e49gTatLvugrf4g0vdi1CBSI5LVty5QBzMoOmSEI5ZOQLTp7TTeTBQpdYIswkgtHLscQcwJq_qk4p2tDnMKXKa0XqJXDi9RT5SV3dcBVCRz6TGlEyGr0mUWC4wNgY2tpzcfc6bSY9tdwn7A31ILc1zC42"
+            alt="Entrada del parque Mundo Marino"
+          />
+          <div class="img-overlay"></div>
         </div>
+
+        <div class="icon-label mb-3">
+          <span class="material-symbols-outlined">schedule</span>
+          <span class="label-text">{{ park()?.name ?? 'Parque General' }}</span>
+        </div>
+        <h2 class="fs-3 fw-bold mb-3" style="color: var(--color-on-surface);">Horario de Apertura</h2>
+        <div class="time-display mb-4">
+          {{ park()?.opening_time?.substring(0, 5) ?? '10:00' }}
+          <span class="separator">—</span>
+          {{ park()?.closing_time?.substring(0, 5) ?? '18:00' }}
+        </div>
+        <p style="color: var(--color-on-surface-variant); font-size: .9rem; line-height: 1.65;">
+          Abierto todos los días del año, incluyendo feriados. Recomendamos llegar temprano para disfrutar del recorrido completo.
+        </p>
       </div>
     </div>
 
