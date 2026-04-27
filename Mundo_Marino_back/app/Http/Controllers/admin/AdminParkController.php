@@ -66,8 +66,8 @@ class AdminParkController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "message" => "error",
-//                "ha habido un error en la validacion"
+//                "message" => "error",
+//                "ha habido un error en la validacion",
                 $e->getMessage()
             ], 400);
         }
