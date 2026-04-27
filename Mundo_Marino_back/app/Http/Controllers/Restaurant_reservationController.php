@@ -152,19 +152,23 @@ class Restaurant_reservationController extends Controller
         return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 
-    public function userLimit(
-        $request
-//    Request $request,
-    )
+    public function userLimit($request)
     {
         $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
         $party_size = $request->party_size;
-        $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
-            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
-        if ($reservation + $party_size >= $max) {
-            abort(400,
-                "esta hora esta llena, pruebe con otra"
-            );
+
+        $hora = \Carbon\Carbon::createFromFormat('H:i', $request->reservation_hour);
+        $desde = $hora->copy()->subMinutes(30)->format('H:i');
+        $hasta = $hora->copy()->addMinutes(30)->format('H:i');
+
+        $ocupacion = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)
+            ->where("reservation_date", $request->reservation_date)
+            ->whereBetween("reservation_hour", [$desde, $hasta])
+            ->whereNotIn("status", ["cancelled"])
+            ->sum("party_size");
+
+        if ($ocupacion + $party_size > $max) {
+            abort(422, "Esta hora está llena, pruebe con otra");
         }
     }
 
