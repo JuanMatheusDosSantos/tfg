@@ -37,7 +37,7 @@ export class MyBookings {
 
   public currentUser: any | null = null;
   private apiUrl = `${environment.apiUrl}`;
-public imgRest=`${this.apiUrl}/storage/bookings/restaurante_tfg.png`
+public imgRest=`${this.imgRest}/storage/bookings/restaurante_tfg.png`
   paginaActual = signal(1);
   porPagina = 3;
 
