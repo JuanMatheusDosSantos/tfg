@@ -72,7 +72,7 @@ export const routes: Routes = [
   {path:"admin/park/booking/:id/edit",component:AdminEditParkBooking,canActivate:[parkGuard]},
   {path:"admin/attraction/:id/edit",component:AdminAttractionEdit,canActivate:[parkGuard]},
   {path:"admin/prices",component:AdminPrices,canActivate:[parkGuard]},
-  {path:"admin/restaurant",component:AdminRestaurant,canActivate:[adminGuard]},
+  {path:"admin/restaurant",component:AdminRestaurant,canActivate:[restaurantGuard]},
   {path:"admin/attractions",component:AdminAttractions,canActivate:[parkGuard]},
   {path:"admin/attraction",component:AdminNewAttraction,canActivate:[parkGuard]},
   {path:"admin/park/booking",component:AdminNewParkBooking,canActivate:[parkGuard]},
