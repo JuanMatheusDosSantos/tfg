@@ -3,7 +3,7 @@ name: Deploy Mundo Marino
 on:
   push:
     branches:
-      - main  # Asegúrate de que tu rama se llame main (o cámbialo a master)
+      - master  # Asegúrate de que tu rama se llame master (o cámbialo a master)
 
 jobs:
   deploy:
@@ -20,8 +20,8 @@ jobs:
             cd /var/www/tfg
             
             # Forzar la actualización de todo el repositorio
-            git fetch origin main
-            git reset --hard origin/main
+            git fetch origin master
+            git reset --hard origin/master
             
             # --- Configuración BACKEND (Laravel) ---
             cd Mundo_Marino_back
