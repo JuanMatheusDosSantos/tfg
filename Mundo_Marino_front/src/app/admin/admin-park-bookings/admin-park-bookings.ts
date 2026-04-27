@@ -188,4 +188,10 @@ export class AdminParkBookings implements OnInit {
   isAdmin() {
     return this.auth.isAdmin;
   }
+  isPark() {
+    return this.auth.isPark;
+  }
+  adminPark(){
+    return this.auth.currentUser()?.park?.name ??'—';
+  }
 }
