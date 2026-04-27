@@ -37,7 +37,12 @@ export class AdminAttractions {
 
     this.http.get<Park[]>(`${this.apiUrl}/parks`, {headers}).subscribe({
       next: (data) => {
-        this.parks.set(data.sort((a, b) => a.id - b.id));
+        const sorted = data.sort((a, b) => a.id - b.id);
+        if (this.auth.isAdmin) {
+          this.parks.set(sorted);
+        } else {
+          this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
+        }
         this.cargando.set(false);
       },
       error: (err) => {
