@@ -70,6 +70,7 @@ class Restaurant_reservationController extends Controller
             return response()->json(["ha habido un fallo al buscar la reserva"], 400);
         }
 
+        $request->merge(['restaurant_id' => $reservation->restaurant_id]);
         $limite = $this->userLimit($request, $id);
         if ($limite) return $limite;
 
