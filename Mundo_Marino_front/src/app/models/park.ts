@@ -1,11 +1,7 @@
 import {Attraction} from './attraction';
+import {User} from './user';
 
 export interface Park {
-  // id?:number,
-  // name?:string,
-  // location?:number,
-  // opening_time?:string,
-  // closing_time?:string,
   id: number;
   name: string;
   location: string;
@@ -18,4 +14,5 @@ export interface Park {
   permanently_closed:number
 
   attractions: Attraction[];
+  user:User;
 }

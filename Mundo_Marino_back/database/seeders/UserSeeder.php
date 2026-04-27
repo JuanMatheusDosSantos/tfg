@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             "email" => "park@yahoo.com",
             "password" => bcrypt("12345678"),
             "role" => "park",
-//            "park_id"=>1,
+            "park_id"=>1,
             "phone" => 987654321
         ]);
 
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             "email" => "restaurant@gmail.com",
             "password" => bcrypt("12345678"),
             "role" => "restaurant",
-//            "park_id"=>1,
+            "park_id"=>1,
             "phone" => 555666777
         ]);
         User::factory()->count(10)->create();

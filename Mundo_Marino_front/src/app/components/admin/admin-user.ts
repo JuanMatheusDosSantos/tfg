@@ -2,6 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {User} from '../../models/user';
 
 @Injectable({
   providedIn: 'root',

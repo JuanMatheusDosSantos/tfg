@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms'; // Asegúrate de que ReactiveFormsModule esté aquí
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth';
@@ -16,7 +16,7 @@ export class Login implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
 
-  errorMessage = '';
+  errorMessage = signal('');
   loginForm!: FormGroup;
 
   showPassword= false;
@@ -28,12 +28,12 @@ export class Login implements OnInit {
     });
   }
 
-  // Cambiamos el nombre a 'login' para que coincida con tu lógica anterior
-  // o cambia el HTML a 'onSubmit()'
+
   onSubmit() {
+    this.loginForm.markAllAsTouched();
     if (this.loginForm.invalid) return;
 
-    this.errorMessage = ''; // Limpiar error al intentar
+    this.errorMessage.set('');
     const credentials = this.loginForm.value;
 
     this.auth.login(credentials).subscribe({
@@ -46,7 +46,7 @@ export class Login implements OnInit {
         }
       },
       error: (err) => {
-        this.errorMessage = 'Credenciales incorrectas o error de conexión';
+        this.errorMessage.set('Credenciales incorrectas o error de conexión');
         console.error(err);
       }
     });

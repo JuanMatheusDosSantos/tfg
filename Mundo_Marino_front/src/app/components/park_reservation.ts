@@ -160,6 +160,13 @@ export class Park_reservationService {
 
     return { success: result.paymentIntent?.status === 'succeeded' };
   }
+  destroyStripe() {
+    if (this.cardElement) {
+      this.cardElement.destroy();
+      this.cardElement = null;
+    }
+    this.stripe = null;
+  }
 }
 
 

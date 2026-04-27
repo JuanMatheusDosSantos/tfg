@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Park;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -32,7 +33,8 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(['admin', 'park', 'restaurant', 'user']),
             'password' => static::$password ??= Hash::make('12345678'),
             'remember_token' => Str::random(10),
-        ];
+            'park_id' => fake()->boolean() ? Park::inRandomOrder()->first()?->id : null,
+            ];
     }
 
     /**

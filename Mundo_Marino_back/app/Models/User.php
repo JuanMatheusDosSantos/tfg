@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         "phone",
         'password',
         "role",
+        'park_id',
     ];
 
     /**
@@ -64,6 +65,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Park_reservation::class);
     }
 
+    function park()
+    {
+        return $this->belongsTo(Park::class);
+    }
     public function isAdmin(): bool
     {
         return $this->role==="admin";

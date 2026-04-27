@@ -1,113 +1,160 @@
-  <div class="position-relative py-5 px-3 overflow-hidden">
+<div class="position-relative py-5 px-3 overflow-hidden">
 
-    <!-- Fondo decorativo -->
-    <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.07;">
-      <div
-        style="position:absolute;top:-4rem;left:-4rem;width:28rem;height:28rem;background:#60a5fa;border-radius:50%;filter:blur(90px);"></div>
-      <div
-        style="position:absolute;bottom:-4rem;right:-4rem;width:28rem;height:28rem;background:#FF7E54;border-radius:50%;filter:blur(90px);"></div>
-    </div>
+  <!-- Fondo decorativo -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="opacity:0.07;">
+    <div
+      style="position:absolute;top:-4rem;left:-4rem;width:28rem;height:28rem;background:#60a5fa;border-radius:50%;filter:blur(90px);"></div>
+    <div
+      style="position:absolute;bottom:-4rem;right:-4rem;width:28rem;height:28rem;background:#FF7E54;border-radius:50%;filter:blur(90px);"></div>
+  </div>
 
-    <div class="container position-relative" style="max-width:1100px; z-index:1;">
+  <div class="container position-relative" style="max-width:1100px; z-index:1;">
 
-      <!-- Cabecera -->
-      <div class="text-center mb-5">
+    <!-- Cabecera -->
+    <div class="text-center mb-5">
         <span class="fw-bold text-uppercase small d-block mb-2"
               style="color:#FF7E54; letter-spacing:3px;">Mundo Marino El Arrecife</span>
-        <h1 class="fw-bold display-6 mb-2">Haz tu Reserva</h1>
-        <p class="text-muted">Completa el formulario y confirma tu experiencia en el parque.</p>
+      <h1 class="fw-bold display-6 mb-2">Haz tu Reserva</h1>
+      <p class="text-muted">Completa el formulario y confirma tu experiencia en el parque.</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="d-flex align-items-center gap-2 rounded-3 mb-4 p-3"
+           style="background-color:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#dc2626;">
+        <span class="material-icons-round" style="font-size:1.1rem;">error_outline</span>
+        {{ errorMessage() }}
       </div>
+    }
 
-      @if (errorMessage()) {
-        <div class="d-flex align-items-center gap-2 rounded-3 mb-4 p-3"
-             style="background-color:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#dc2626;">
-          <span class="material-icons-round" style="font-size:1.1rem;">error_outline</span>
-          {{ errorMessage() }}
-        </div>
-      }
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <div class="row g-4 align-items-start">
 
-      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
-        <div class="row g-4 align-items-start">
+        <!-- ═══ COLUMNA IZQUIERDA — FORMULARIO ═══ -->
+        <div class="col-12 col-lg-8 d-flex flex-column gap-4">
 
-          <!-- ═══ COLUMNA IZQUIERDA — FORMULARIO ═══ -->
-          <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+          <!-- 1. Tipo de experiencia -->
+          <div class="card-section">
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+              <div class="step-badge">1</div>
+              <h2 class="fw-bold fs-5 mb-0">Tipo de Experiencia</h2>
+            </div>
 
-            <!-- 1. Tipo de experiencia -->
-            <div class="card-section">
-              <div class="section-header d-flex align-items-center gap-2 mb-4">
-                <div class="step-badge">1</div>
-                <h2 class="fw-bold fs-5 mb-0">Tipo de Experiencia</h2>
+            <div class="row g-3">
+
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="opt_restaurant"
+                       formControlName="bookingType" value="restaurant"/>
+                <label for="opt_restaurant"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'restaurant'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#eff6ff;">
+                    <span class="material-icons-round fs-4" style="color:#2563eb;">restaurant</span>
+                  </div>
+                  <span class="fw-bold small">Restaurante</span>
+                </label>
               </div>
+
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="opt_park"
+                       formControlName="bookingType" value="park"/>
+                <label for="opt_park"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'park'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#fff7ed;">
+                    <span class="material-icons-round fs-4" style="color:#ea580c;">water_park</span>
+                  </div>
+                  <span class="fw-bold small">Parque</span>
+                </label>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <input type="radio" class="radio-hidden" id="park_restaurant"
+                       formControlName="bookingType" value="park_restaurant"/>
+                <label for="park_restaurant"
+                       class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
+                       [class.selected]="bookingForm.value.bookingType === 'park_restaurant'">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                       style="width:56px;height:56px;background-color:#faf5ff;">
+                    <span class="material-icons-round fs-4" style="color:#9333ea;">stars</span>
+                  </div>
+                  <span class="fw-bold small">Parque y Restaurante</span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-section">
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+              <div class="step-badge">2</div>
+              <h2 class="fw-bold fs-5 mb-0">Fecha y Personas</h2>
+            </div>
+            @if (bookingForm.get("bookingType")?.value) {
+
 
               <div class="row g-3">
 
-                <div class="col-12 col-sm-4">
-                  <input type="radio" class="radio-hidden" id="opt_restaurant"
-                         formControlName="bookingType" value="restaurant"/>
-                  <label for="opt_restaurant"
-                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
-                         [class.selected]="bookingForm.value.bookingType === 'restaurant'">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                         style="width:56px;height:56px;background-color:#eff6ff;">
-                      <span class="material-icons-round fs-4" style="color:#2563eb;">restaurant</span>
-                    </div>
-                    <span class="fw-bold small">Restaurante</span>
-                  </label>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <input type="radio" class="radio-hidden" id="opt_park"
-                         formControlName="bookingType" value="park"/>
-                  <label for="opt_park"
-                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
-                         [class.selected]="bookingForm.value.bookingType === 'park'">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                         style="width:56px;height:56px;background-color:#fff7ed;">
-                      <span class="material-icons-round fs-4" style="color:#ea580c;">water_park</span>
-                    </div>
-                    <span class="fw-bold small">Parque</span>
-                  </label>
-                </div>
-
-                <div class="col-12 col-sm-4">
-                  <input type="radio" class="radio-hidden" id="park_restaurant"
-                         formControlName="bookingType" value="park_restaurant"/>
-                  <label for="park_restaurant"
-                         class="booking-option d-flex flex-column align-items-center p-4 rounded-4 text-center w-100"
-                         [class.selected]="bookingForm.value.bookingType === 'park_restaurant'">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
-                         style="width:56px;height:56px;background-color:#faf5ff;">
-                      <span class="material-icons-round fs-4" style="color:#9333ea;">stars</span>
-                    </div>
-                    <span class="fw-bold small">Parque y Restaurante</span>
-                  </label>
-                </div>
-
-              </div>
-            </div>
-            <div class="card-section">
-              <div class="section-header d-flex align-items-center gap-2 mb-4">
-                <div class="step-badge">2</div>
-                <h2 class="fw-bold fs-5 mb-0">Fecha y Personas</h2>
-              </div>
-              @if (bookingForm.get("bookingType")?.value) {
-
-
-                <div class="row g-3">
-
-                  <div class="col-12 col-md-6">
-                    <label class="form-label fw-semibold small text-muted">Fecha de visita</label>
-                    <div class="input-group">
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold small text-muted">Fecha de visita</label>
+                  <div class="input-group">
           <span class="input-group-text bg-light border-0 rounded-start-3">
             <span class="material-icons-round text-muted" style="font-size:1.1rem;">calendar_today</span>
           </span>
 
-                      @if (bookingForm.get("bookingType")?.value === 'restaurant') {
-                        <input type="datetime-local"
-                               formControlName="restaurantDate"
-                               [min]="fechaMinimaRestaurant"
-                               class="form-control"
-                               [class.is-invalid]="bookingForm.get('restaurantDate')?.invalid && bookingForm.get('restaurantDate')?.touched"/>
+                    @if (bookingForm.get("bookingType")?.value === 'restaurant') {
+                      <input type="datetime-local"
+                             formControlName="restaurantDate"
+                             [min]="fechaMinimaRestaurant"
+                             class="form-control"
+                             [class.is-invalid]="bookingForm.get('restaurantDate')?.invalid && bookingForm.get('restaurantDate')?.touched"/>
+                      @if (bookingForm.get('restaurantDate')?.hasError('horaInvalida')) {
+                        <div class="text-danger small mt-1 animated fadeIn">
+                          <i class="bi bi-exclamation-triangle"></i>
+                          La reserva de restaurante debe ser con al menos 2 horas de antelación.
+                        </div>
+                      }
+                      @if (bookingForm.get('restaurantDate')?.errors?.['horaFueraDeHorario'] && bookingForm.get('restaurantDate')?.touched) {
+                        <div class="invalid-feedback d-block">
+                          El restaurante abre de 12:00 a 22:00
+                        </div>
+                      }
+                    }
+
+
+                    @if (bookingForm.get("bookingType")?.value === 'park') {
+                      <input type="date" formControlName="date"
+                             [min]="fechaMinimaPark"
+                             class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                      <div class="col-12">
+                        <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
+                        <div class="row g-2 mt-1">
+                          @for (p of precios(); track p.id) {
+                            <div class="col-12 col-sm-6">
+                              <input type="radio" class="radio-hidden"
+                                     [id]="'precio_' + p.park_reservation_type_id"
+                                     formControlName="park_reservation_type_id"
+                                     [value]="p.park_reservation_type_id"/>
+                              <label [for]="'precio_' + p.park_reservation_type_id"
+                                     class="booking-option d-flex align-items-center justify-content-between p-3 rounded-4 w-100"
+                                     [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
+                                <span class="fw-bold small">{{ p.type?.name }}</span>
+                                <span class="fw-bold" style="color:#FF7E54;">
+                                      {{ (+p.adult_price).toFixed(2) }}€ / adulto
+                                    </span>
+                              </label>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    }
+
+                    @if (bookingForm.get("bookingType")?.value === 'park_restaurant') {
+                      <input type="datetime-local"
+                             formControlName="restaurantDate"
+                             [min]="fechaMinimaRestaurant"
+                             class="form-control bg-light border-0 rounded-end-3 py-3"/>
+                      <div class="col-12">
                         @if (bookingForm.get('restaurantDate')?.hasError('horaInvalida')) {
                           <div class="text-danger small mt-1 animated fadeIn">
                             <i class="bi bi-exclamation-triangle"></i>
@@ -119,264 +166,217 @@
                             El restaurante abre de 12:00 a 22:00
                           </div>
                         }
-                      }
-
-
-                      @if (bookingForm.get("bookingType")?.value === 'park') {
-                        <input type="date" formControlName="date"
-                               [min]="fechaMinimaPark"
-                               class="form-control bg-light border-0 rounded-end-3 py-3"/>
-                        <div class="col-12">
-                          <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
-                          <div class="row g-2 mt-1">
-                            @for (p of precios(); track p.id) {
-                              <div class="col-12 col-sm-6">
-                                <input type="radio" class="radio-hidden"
-                                       [id]="'precio_' + p.park_reservation_type_id"
-                                       formControlName="park_reservation_type_id"
-                                       [value]="p.park_reservation_type_id"/>
-                                <label [for]="'precio_' + p.park_reservation_type_id"
-                                       class="booking-option d-flex align-items-center justify-content-between p-3 rounded-4 w-100"
-                                       [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
-                                  <span class="fw-bold small">{{ p.type?.name }}</span>
-                                  <span class="fw-bold" style="color:#FF7E54;">
-                                      {{ (+p.adult_price).toFixed(2) }}€ / adulto
-                                    </span>
-                                </label>
-                              </div>
-                            }
-                          </div>
-                        </div>
-                      }
-
-                      @if (bookingForm.get("bookingType")?.value === 'park_restaurant') {
-                        <input type="datetime-local"
-                               formControlName="restaurantDate"
-                               [min]="fechaMinimaRestaurant"
-                               class="form-control bg-light border-0 rounded-end-3 py-3"/>
-                        <div class="col-12">
-                          @if (bookingForm.get('restaurantDate')?.hasError('horaInvalida')) {
-                            <div class="text-danger small mt-1 animated fadeIn">
-                              <i class="bi bi-exclamation-triangle"></i>
-                              La reserva de restaurante debe ser con al menos 2 horas de antelación.
-                            </div>
-                          }
-                          @if (bookingForm.get('restaurantDate')?.errors?.['horaFueraDeHorario'] && bookingForm.get('restaurantDate')?.touched) {
-                            <div class="invalid-feedback d-block">
-                              El restaurante abre de 12:00 a 22:00
-                            </div>
-                          }
-                          <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
-                          <div class="row g-2 mt-1">
-                            @for (p of precios(); track p.id) {
-                              <div class="col-12 col-sm-6">
-                                <input type="radio" class="radio-hidden"
-                                       [id]="'precio_' + p.park_reservation_type_id"
-                                       formControlName="park_reservation_type_id"
-                                       [value]="p.park_reservation_type_id"/>
-                                <label [for]="'precio_' + p.park_reservation_type_id"
-                                       class="booking-option d-flex align-items-center justify-content-between p-3 rounded-4 w-100"
-                                       [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
-                                  <span class="fw-bold small">{{ p.type?.name }}</span>
-                                  <span class="fw-bold" style="color:#FF7E54;">
+                        <label class="form-label fw-semibold small text-muted">Tipo de Entrada</label>
+                        <div class="row g-2 mt-1">
+                          @for (p of precios(); track p.id) {
+                            <div class="col-12 col-sm-6">
+                              <input type="radio" class="radio-hidden"
+                                     [id]="'precio_' + p.park_reservation_type_id"
+                                     formControlName="park_reservation_type_id"
+                                     [value]="p.park_reservation_type_id"/>
+                              <label [for]="'precio_' + p.park_reservation_type_id"
+                                     class="booking-option d-flex align-items-center justify-content-between p-3 rounded-4 w-100"
+                                     [class.selected]="bookingForm.get('park_reservation_type_id')?.value === p.park_reservation_type_id">
+                                <span class="fw-bold small">{{ p.type?.name }}</span>
+                                <span class="fw-bold" style="color:#FF7E54;">
                                       {{ (+p.adult_price).toFixed(2) }} € / adulto
                                     </span>
-                                </label>
-                              </div>
-                            }
-                          </div>
+                              </label>
+                            </div>
+                          }
                         </div>
-                      }
+                      </div>
+                    }
 
-                    </div>
-                    <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
-                      * Se requiere un mínimo de 24h de antelación.
-                    </p>
                   </div>
+                  <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
+                    * Se requiere un mínimo de 24h de antelación.
+                  </p>
+                </div>
 
-                  <div class="col-6 col-md-3">
-                    <label class="form-label fw-semibold small text-muted">Adultos</label>
-                    <div class="input-group">
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-semibold small text-muted">Adultos</label>
+                  <div class="input-group">
           <span class="input-group-text bg-light border-0 rounded-start-3">
             <span class="material-icons-round text-muted" style="font-size:1.1rem;">person</span>
           </span>
-                      <input type="number" min="1" formControlName="adult"
-                             class="form-control bg-light border-0 rounded-end-3 py-3"/>
-                    </div>
+                    <input type="number" min="1" formControlName="adult"
+                           class="form-control bg-light border-0 rounded-end-3 py-3"/>
                   </div>
+                </div>
 
-                  <div class="col-6 col-md-3">
-                    <label class="form-label fw-semibold small text-muted">Niños</label>
-                    <div class="input-group">
+                <div class="col-6 col-md-3">
+                  <label class="form-label fw-semibold small text-muted">Niños</label>
+                  <div class="input-group">
           <span class="input-group-text bg-light border-0 rounded-start-3">
             <span class="material-icons-round text-muted" style="font-size:1.1rem;">child_care</span>
           </span>
-                      <input type="number" min="0" formControlName="child"
-                             class="form-control bg-light border-0 rounded-end-3 py-3"/>
-                    </div>
+                    <input type="number" min="0" formControlName="child"
+                           class="form-control bg-light border-0 rounded-end-3 py-3"/>
                   </div>
-
-                </div>
-              } @else {
-                <p class="text-muted small">Selecciona un tipo de experiencia para continuar.</p>
-              }
-            </div>
-            @if (bookingForm.get("bookingType")?.value == "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
-              <div class="card-section">
-                <div class="section-header d-flex align-items-center gap-2 mb-4">
-                  <div class="step-badge">3</div>
-                  <h2 class="fw-bold fs-5 mb-0">Datos de Pago</h2>
                 </div>
 
-                <div class="row g-3">
+              </div>
+            } @else {
+              <p class="text-muted small">Selecciona un tipo de experiencia para continuar.</p>
+            }
+          </div>
+          @if (bookingForm.get("bookingType")?.value == "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
+            <div class="card-section">
+              <div class="section-header d-flex align-items-center gap-2 mb-4">
+                <div class="step-badge">3</div>
+                <h2 class="fw-bold fs-5 mb-0">Datos de Pago</h2>
+              </div>
 
-                  <!-- Nombre en la tarjeta -->
-                  <div class="col-12">
-                    <label class="form-label fw-semibold small text-muted">Nombre en la tarjeta</label>
-                    <div class="input-group">
+              <div class="row g-3">
+
+                <!-- Nombre en la tarjeta -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold small text-muted">Nombre en la tarjeta</label>
+                  <div class="input-group">
             <span class="input-group-text bg-light border rounded-start-3">
               <span class="material-icons-round text-muted" style="font-size:1.1rem;">badge</span>
             </span>
-                      <input type="text"
-                             placeholder="Como aparece en la tarjeta"
-                             formControlName="cardHolder"
-                             class="form-control border rounded-end-3 py-3"/>
-                    </div>
-                    @if (bookingForm.get('cardHolder')?.touched && bookingForm.get('cardHolder')?.invalid) {
-                      <div class="invalid-feedback d-block">El nombre del titular es obligatorio.</div>
-                    }
+                    <input type="text"
+                           placeholder="Como aparece en la tarjeta"
+                           formControlName="cardHolder"
+                           class="form-control border rounded-end-3 py-3"/>
                   </div>
-
-                  <!-- Stripe Card Element (reemplaza número, expiración y CVV) -->
-                  <div class="col-12">
-                    <label class="form-label fw-semibold small text-muted">Datos de la tarjeta</label>
-                    <div id="stripe-card-element"
-                         class="form-control border rounded-3 py-3"
-                         style="min-height:46px;">
-                      <!-- Stripe inyecta aquí el formulario seguro -->
-                    </div>
-                    <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
-                      <span class="material-icons-round" style="font-size:0.9rem;vertical-align:middle;">lock</span>
-                      Tus datos están cifrados con SSL. Nunca almacenamos tu tarjeta.
-                    </p>
-                  </div>
-
+                  @if (bookingForm.get('cardHolder')?.touched && bookingForm.get('cardHolder')?.invalid) {
+                    <div class="invalid-feedback d-block">El nombre del titular es obligatorio.</div>
+                  }
                 </div>
+
+                <!-- Stripe Card Element (reemplaza número, expiración y CVV) -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold small text-muted">Datos de la tarjeta</label>
+                  <div id="stripe-card-element"
+                       class="form-control border rounded-3 py-3"
+                       style="min-height:46px;">
+                    <!-- Stripe inyecta aquí el formulario seguro -->
+                  </div>
+                  <p class="text-muted mt-1 mb-0" style="font-size:0.72rem;">
+                    <span class="material-icons-round" style="font-size:0.9rem;vertical-align:middle;">lock</span>
+                    Tus datos están cifrados con SSL. Nunca almacenamos tu tarjeta.
+                  </p>
+                </div>
+
               </div>
-            }
-          </div>
-          <div class="col-12 col-lg-4">
-            <div class="card-section sticky-summary">
+            </div>
+          }
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="card-section sticky-summary">
 
-              <h3 class="fw-bold fs-5 mb-4">Resumen</h3>
+            <h3 class="fw-bold fs-5 mb-4">Resumen</h3>
 
-              <!-- Desglose básico -->
-              <div class="d-flex flex-column gap-2 mb-4">
+            <!-- Desglose básico -->
+            <div class="d-flex flex-column gap-2 mb-4">
 
-                @if (bookingForm.value.date && bookingForm.get('bookingType')?.value === "park") {
-                  <div class="d-flex justify-content-between small text-muted">
+              @if (bookingForm.value.date && bookingForm.get('bookingType')?.value === "park") {
+                <div class="d-flex justify-content-between small text-muted">
             <span class="d-flex align-items-center gap-1">
               <span class="material-icons-round" style="font-size:1rem;">calendar_today</span>
               Fecha
             </span>
-                    <span class="fw-semibold text-dark">{{ bookingForm.value.date }}</span>
-                  </div>
-                } @else if (bookingForm.value.restaurantDate && bookingForm.get("bookingType")?.value == "park_restaurant") {
-                  <div class="d-flex justify-content-between small text-muted">
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.date }}</span>
+                </div>
+              } @else if (bookingForm.value.restaurantDate && bookingForm.get("bookingType")?.value == "park_restaurant") {
+                <div class="d-flex justify-content-between small text-muted">
             <span class="d-flex align-items-center gap-1">
               <span class="material-icons-round" style="font-size:1rem;">calendar_today</span>
               Fecha del parque:
             </span>
-                    <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[0] }}</span>
-                  </div>
-                  <div class="d-flex justify-content-between small text-muted">
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[0] }}</span>
+                </div>
+                <div class="d-flex justify-content-between small text-muted">
             <span class="d-flex align-items-center gap-1">
               <span class="material-icons-round" style="font-size:1rem;">schedule</span>
               Hora restaurante:
             </span>
-                    <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[1] }}</span>
-                  </div>
-                } @else if (bookingForm.value.restaurantDate && bookingForm.get("bookingType")?.value == "restaurant") {
-                  <div class="d-flex justify-content-between small text-muted">
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[1] }}</span>
+                </div>
+              } @else if (bookingForm.value.restaurantDate && bookingForm.get("bookingType")?.value == "restaurant") {
+                <div class="d-flex justify-content-between small text-muted">
             <span class="d-flex align-items-center gap-1">
               <span class="material-icons-round" style="font-size:1rem;">calendar_today</span>
               Fecha:
             </span>
-                    <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[0] }}</span>
-                  </div>
-                  <div class="d-flex justify-content-between small text-muted">
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[0] }}</span>
+                </div>
+                <div class="d-flex justify-content-between small text-muted">
             <span class="d-flex align-items-center gap-1">
               <span class="material-icons-round" style="font-size:1rem;">schedule</span>
               Hora:
             </span>
-                    <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[1] }}</span>
-                  </div>
-                }
-
-                <!-- Desglose de precios (solo parque) -->
-                @if (bookingForm.get('bookingType')?.value === "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
-
-                  <div class="d-flex justify-content-between small text-muted">
-                    <span>{{ bookingForm.value.adult }} Adulto(s) × {{ precioUnitario() }} €</span>
-                    <span class="fw-semibold text-dark">
-                        {{ (precioUnitario() * bookingForm.value.adult).toFixed(2) }} €
-                      </span>
-                  </div>
-
-                  @if (bookingForm.value.child > 0) {
-                    <div class="d-flex justify-content-between small text-muted">
-                      <span>{{ bookingForm.value.child }} Niño(s) × {{ precioNino() }} €</span>
-                      <span class="fw-semibold text-dark">
-                        {{ (precioNino() * bookingForm.value.child).toFixed(2) }} €
-                      </span>
-                    </div>
-                  }
-
-                  <div class="d-flex justify-content-between small text-muted border-top pt-2">
-                    <span>IVA ({{ applied_tax() }}%)</span>
-                    <span class="fw-semibold text-dark">
-                    {{ ivaImporte().toFixed(2) }} €
-                  </span>
-                  </div>
-
-                }
-              </div>
-
-              <!-- Total -->
-              @if (bookingForm.get('bookingType')?.value === "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
-                <div class="total-box rounded-3 p-3 text-center mb-4">
-                  <p class="text-muted small mb-1">Total estimado</p>
-                  <p class="fw-black mb-0" style="font-size:2rem; color:#FF7E54;">
-                    {{ precioTotalConIva() | currency:'EUR' }}
-                  </p>
+                  <span class="fw-semibold text-dark">{{ bookingForm.value.restaurantDate.split("T")[1] }}</span>
                 </div>
               }
 
-              <!-- Botón -->
-              <button type="submit"
-                      [disabled]="bookingForm.invalid"
-                      class="btn w-100 fw-bold py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 submit-btn">
-                <span class="material-icons-round">payments</span>
-                Confirmar y Pagar
-              </button>
-              @if (loading()) {
-                <p class="text-center text-muted small mt-2">
-                  <span class="spinner-border spinner-border-sm me-1" style="color:#FF7E54;"></span>
-                  Procesando tu reserva...
-                </p>
+              <!-- Desglose de precios (solo parque) -->
+              @if (bookingForm.get('bookingType')?.value === "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
+
+                <div class="d-flex justify-content-between small text-muted">
+                  <span>{{ bookingForm.value.adult }} Adulto(s) × {{ precioUnitario() }} €</span>
+                  <span class="fw-semibold text-dark">
+                        {{ (precioUnitario() * bookingForm.value.adult).toFixed(2) }} €
+                      </span>
+                </div>
+
+                @if (bookingForm.value.child > 0) {
+                  <div class="d-flex justify-content-between small text-muted">
+                    <span>{{ bookingForm.value.child }} Niño(s) × {{ precioNino() }} €</span>
+                    <span class="fw-semibold text-dark">
+                        {{ (precioNino() * bookingForm.value.child).toFixed(2) }} €
+                      </span>
+                  </div>
+                }
+
+                <div class="d-flex justify-content-between small text-muted border-top pt-2">
+                  <span>IVA ({{ applied_tax() }}%)</span>
+                  <span class="fw-semibold text-dark">
+                    {{ ivaImporte().toFixed(2) }} €
+                  </span>
+                </div>
+
               }
-              <!-- Seguridad -->
-              <div class="d-flex align-items-center justify-content-center gap-1 mt-3 text-muted"
-                   style="font-size:0.74rem;">
-                <span class="material-icons-round" style="font-size:1rem;">lock</span>
-                Pago 100% seguro · SSL Encrypted
-              </div>
-
             </div>
+
+            <!-- Total -->
+            @if (bookingForm.get('bookingType')?.value === "park" || bookingForm.get("bookingType")?.value == "park_restaurant") {
+              <div class="total-box rounded-3 p-3 text-center mb-4">
+                <p class="text-muted small mb-1">Total estimado</p>
+                <p class="fw-black mb-0" style="font-size:2rem; color:#FF7E54;">
+                  {{ precioTotalConIva() | currency:'EUR' }}
+                </p>
+              </div>
+            }
+
+            <!-- Botón -->
+            <button type="submit"
+                    [disabled]="bookingForm.invalid"
+                    class="btn w-100 fw-bold py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 submit-btn">
+              <span class="material-icons-round">payments</span>
+              Confirmar y Pagar
+            </button>
+            @if (loading()) {
+              <p class="text-center text-muted small mt-2">
+                <span class="spinner-border spinner-border-sm me-1" style="color:#FF7E54;"></span>
+                Procesando tu reserva...
+              </p>
+            }
+            <!-- Seguridad -->
+            <div class="d-flex align-items-center justify-content-center gap-1 mt-3 text-muted"
+                 style="font-size:0.74rem;">
+              <span class="material-icons-round" style="font-size:1rem;">lock</span>
+              Pago 100% seguro · SSL Encrypted
+            </div>
+
           </div>
-
         </div>
-      </form>
 
-    </div>
+      </div>
+    </form>
+
   </div>
+</div>

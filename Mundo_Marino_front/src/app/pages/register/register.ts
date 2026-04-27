@@ -27,7 +27,7 @@ export class Register {
       name:["",[Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      phone:["",[Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
+      phone:["",[Validators.required,Validators.minLength(9),Validators.maxLength(9), Validators.pattern(/^[0-9]{9}$/)]],
       age:["",[Validators.required,Validators.min(18),Validators.max(70)]],
       terms:[false,Validators.requiredTrue],
     });
@@ -50,7 +50,7 @@ export class Register {
         })
       },
       error: (err) => {
-        console.error('Error completo:', err); // Mira esto en la consola del navegador
+        console.error('Error completo:', err);
 
         if (err.status === 422) {
           // Laravel devuelve los errores en err.error.errors

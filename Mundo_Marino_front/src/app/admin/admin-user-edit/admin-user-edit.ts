@@ -2,6 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {AdminUsersService} from '../../components/admin/admin-user';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-admin-user-edit',

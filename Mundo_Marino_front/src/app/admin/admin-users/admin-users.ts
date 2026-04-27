@@ -3,6 +3,7 @@ import {AdminUsersService} from '../../components/admin/admin-user';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {RouterLink} from '@angular/router';
 import {DatePipe} from '@angular/common';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-admin-users',

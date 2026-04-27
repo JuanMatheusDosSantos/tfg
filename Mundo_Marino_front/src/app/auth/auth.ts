@@ -70,14 +70,12 @@ export class AuthService {
   }
 
   private storeTokens(res: LoginResponse) {
-    // console.log('LO QUE LLEGA DEL SERVIDOR:', res);
+
+    console.log('res.user:', res.user);
     localStorage.setItem('access_token', res.access_token);
-// 2. ACTUALIZACIÓN: Avisamos al signal de que ya estamos dentro
     this.isLoggedIn.set(true);
-// 2. Guardar Usuario (Ahora sí viene en 'res.user')
     if (res.user) {
       this.currentUser.set(res.user);
-// Guardamos en localStorage para que al pulsar F5 no se olvide
       localStorage.setItem('user_data', JSON.stringify(res.user));
     }
   }
@@ -85,9 +83,9 @@ export class AuthService {
   private limpiarSesionLocal() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_data');
-    this.currentUser.set(null); // Esto actualiza el Navbar al instante
+    this.currentUser.set(null);
     this.isLoggedIn.set(false);
-    this.router.navigate(['/']); // Te manda al login
+    this.router.navigate(['/']);
   }
 
   getAccessToken() {

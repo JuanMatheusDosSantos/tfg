@@ -12,6 +12,10 @@ class Park extends Model
         "opening_time",
         "closing_time"
     ];
+    function user()
+    {
+        return $this->hasMany(User::class);
+    }
     function attractions()
     {
         return $this->hasMany(Attraction::class);

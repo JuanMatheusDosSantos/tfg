@@ -10,13 +10,14 @@ import {
 } from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
 import {AuthService} from '../../auth/auth';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {RestaurantReservationService} from '../../components/restaurant_reservation';
 import {Park_reservationService} from '../../components/park_reservation';
 import {ReservationPrice} from '../../models/reservation-price';
 import {Tax} from '../../models/tax';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {Stripe, StripeCardElement} from '@stripe/stripe-js';
 
 @Component({
   selector: 'app-booking',
@@ -43,6 +44,11 @@ export class Booking {
   private bookingParkService = inject(Park_reservationService)
   private fb = inject(FormBuilder);
   public router = inject(Router);
+public route=inject(ActivatedRoute)
+
+  private stripe: Stripe | null = null;
+  private cardElement: StripeCardElement | null = null;
+
 
   private http = inject(HttpClient);
 
@@ -73,7 +79,7 @@ export class Booking {
     Math.round(this.precioTotal() * this.applied_tax() / 100 * 100) / 100
   );
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.bookingForm = this.fb.group({
       bookingType: ['', [Validators.required]],
@@ -81,37 +87,60 @@ export class Booking {
       child: [0, [Validators.required]],
       date: [null],
       restaurantDate: [null, [this.customDateValidator()]],
-      cardHolder: [''], // sin validators por defecto, se añaden dinámicamente
+      cardHolder: [''],
       park_reservation_type_id: [null],
     });
 
-    // Sincronizar signals con el form
+    // ← Añade esto aquí, justo después del fb.group
+    const params = this.route.snapshot.queryParams;
+    if (params['tipo']) {
+      this.bookingForm.get('bookingType')?.setValue(params['tipo']);
+    }
+    if (params['fecha']) {
+      this.bookingForm.get('date')?.setValue(params['fecha']);
+      this.bookingForm.get('restaurantDate')?.setValue(params['fecha']);
+    }
+    if (params['adultos']) {
+      this.bookingForm.get('adult')?.setValue(+params['adultos']);
+      this.adults.set(+params['adultos']);
+    }
+    if (params['ninos']) {
+      this.bookingForm.get('child')?.setValue(+params['ninos']);
+      this.child.set(+params['ninos']);
+    }
+    const tipo = params['tipo'];
+    if (tipo === 'park' || tipo === 'park_restaurant') {
+      this.actualizarValidadoresPago(tipo);
+      // setTimeout(() => this.bookingParkService.initStripe(), 300);
+    }
+
     this.bookingForm.get('adult')?.valueChanges.subscribe(v => this.adults.set(Number(v)));
     this.bookingForm.get('child')?.valueChanges.subscribe(v => this.child.set(Number(v)));
-
-    this.bookingForm.get('park_reservation_type_id')?.valueChanges  // ← añadir aquí
+    this.bookingForm.get('park_reservation_type_id')?.valueChanges
       .subscribe(v => this.park_reservation_type_id.set(Number(v)));
 
-    // Cargar precios
     this.bookingParkService.fetchPrecios().subscribe();
 
     this.bookingForm.get('bookingType')?.valueChanges.subscribe(type => {
       this.actualizarValidadoresPago(type);
       this.bookingForm.get('restaurantDate')?.updateValueAndValidity();
       if (type === 'park' || type === 'park_restaurant') {
-        setTimeout(() => this.bookingParkService.initStripe(), 300); // ← aumenta a 300ms
+        // setTimeout(() => this.bookingParkService.initStripe(), 100);
+        this.actualizarValidadoresPago(tipo);
+        setTimeout(() => this.bookingParkService.initStripe(), 300);
+      } else {
+        this.bookingParkService.destroyStripe();
       }
-      this.bookingForm.get('restaurantDate')?.updateValueAndValidity();
     });
-    this.bookingParkService.fetchPrecios().subscribe();
-
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     this.http.get<Tax[]>(`${environment.apiUrl}/taxes`, { headers }).subscribe({
       next: (data) => this.taxes.set(data),
     });
 
-
+  }
+  ngOnDestroy() {
+    this.bookingParkService.destroyStripe();
   }
 
   async onSubmit() {

@@ -1,6 +1,7 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
 import { AuthService} from './auth';
+import {Park} from '../models/park';
 
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
@@ -23,4 +24,5 @@ export interface User {
   name: string;
   email: string;
   role:number
+  park:Park
 }

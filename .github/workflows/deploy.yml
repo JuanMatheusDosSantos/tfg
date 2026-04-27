@@ -1,0 +1,42 @@
+name: Deploy Mundo Marino
+
+on:
+  push:
+    branches:
+      - main  # Asegúrate de que tu rama se llame main (o cámbialo a master)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Actualizar VM via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Entrar a la carpeta principal
+            cd /var/www/tfg
+            
+            # Forzar la actualización de todo el repositorio
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # --- Configuración BACKEND (Laravel) ---
+            cd Mundo_Marino_back
+            # Instalamos librerías solo si es necesario (rápido si no hay cambios)
+            composer install --no-interaction --optimize-autoloader
+            # Ejecutar migraciones si has tocado la base de datos
+            php artisan migrate:fresh --seed
+            # Limpiar cachés para que tome los cambios
+            php artisan config:cache
+            php artisan route:cache
+            
+            # --- Configuración FRONTEND (Angular) ---
+            cd ../Mundo_Marino_front
+            # Si en tu VM ya tienes el build hecho y solo cambias archivos pequeños:
+            # npm install
+            # npm run build
+            
+            echo "¡Despliegue finalizado con éxito!"

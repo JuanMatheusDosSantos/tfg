@@ -2,6 +2,7 @@ import {Component, computed, inject, signal} from '@angular/core';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {RouterLink} from '@angular/router';
 import {AdminParkService} from '../../components/admin/admin-parks';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-admin-park',
@@ -12,7 +13,7 @@ import {AdminParkService} from '../../components/admin/admin-parks';
 export class AdminPark {
 
   private service = inject(AdminParkService);
-
+private auth=inject(AuthService)
   parks = this.service.parks;
   cargando = signal(true);
   error = signal<string | null>(null);
@@ -20,7 +21,10 @@ export class AdminPark {
 
   ngOnInit() {
     this.service.fetchParks().subscribe({
-      next: () => this.cargando.set(false),
+      next: (data) => {
+        this.parks.set(data.filter(p=>p?.id===this.auth.currentUser()?.park?.id))
+        this.cargando.set(false)
+      },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al cargar los parques');
         this.cargando.set(false);

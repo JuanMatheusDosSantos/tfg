@@ -14,6 +14,10 @@ export class Home {
   private route = inject(Router)
   atracciones = signal<Attraction[]>([]);
 
+  servicio = signal('restaurant');
+  fecha = signal('');
+  adultos = signal(1);
+  ninos = signal(0);
   private atraccionService=inject(AttractionService)
   ngOnInit() {
     this.atraccionService.fetchAttractions().subscribe(data => {
@@ -23,6 +27,18 @@ export class Home {
         vistas.add(a.type);
         return true;
       }));
+    });
+  }
+
+
+  irAReserva() {
+    this.route.navigate(['/booking'], {
+      queryParams: {
+        tipo: this.servicio(),
+        fecha: this.fecha(),
+        adultos: this.adultos(),
+        ninos: this.ninos(),
+      }
     });
   }
   irAParque(){
