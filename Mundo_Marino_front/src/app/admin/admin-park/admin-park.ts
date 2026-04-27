@@ -22,6 +22,9 @@ private auth=inject(AuthService)
   ngOnInit() {
     this.service.fetchParks().subscribe({
       next: (data) => {
+        console.log('isAdmin:', this.auth.isAdmin);
+        console.log('currentUser:', this.auth.currentUser());
+        console.log('data:', data);
         const sorted = data.sort((a, b) => a.id - b.id);
         if (this.auth.isAdmin) {
           this.parks.set(sorted);
