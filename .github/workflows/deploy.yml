@@ -16,39 +16,40 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # 1. Configuración inicial y detener ante errores
             set -e
             git config --global --add safe.directory /var/www/tfg
-            git config --global --add safe.directory /var/www/tfg/Mundo_Marino_back
-            git config --global --add safe.directory /var/www/tfg/Mundo_Marino_front
             
-            # 2. Entrar al Back y ACTIVAR Mantenimiento (Redirección total)
+            # 1. ACTIVAR MANTENIMIENTO Y OCULTAR ANGULAR
             cd /var/www/tfg/Mundo_Marino_back
-            # Usamos --redirect="/" para que Laravel tome el control total del tráfico
-            php artisan down --refresh=15 --redirect="/" || true 
+            php artisan down --refresh=15 --redirect="/" || true
             
-            # 3. Actualizar código desde Git
+            # Renombramos la carpeta del front para que el servidor no la encuentre
+            # (Ajusta la ruta si tu build se guarda en otra carpeta como 'dist')
+            mv /var/www/tfg/Mundo_Marino_front /var/www/tfg/Mundo_Marino_front_TEMP || true
+            
+            # 2. ACTUALIZAR CÓDIGO
             cd /var/www/tfg
             git fetch origin master
             git reset --hard origin/master
             
-            # 4. --- Configuración BACKEND (Laravel) ---
+            # 3. --- BACKEND ---
             cd Mundo_Marino_back
             composer install --no-interaction --optimize-autoloader
-            
-            # Ejecutar migraciones y refrescar caché
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             
-            # 5. --- Configuración FRONTEND (Angular) ---
-            cd ../Mundo_Marino_front
-            # Instalación y build (esto es lo que más tarda)
+            # 4. --- FRONTEND ---
+            # Volvemos a poner la carpeta en su sitio (o la carpeta nueva que bajó de Git)
+            # Si el 'git reset' ya creó la carpeta de nuevo, borramos la TEMP
+            rm -rf /var/www/tfg/Mundo_Marino_front_TEMP || true
+            
+            cd /var/www/tfg/Mundo_Marino_front
             npm install
             npm run build -- --configuration=production
             
-            # 6. DESACTIVAR Mantenimiento y volver a la vida
-            cd ../Mundo_Marino_back
+            # 5. FINALIZAR
+            cd /var/www/tfg/Mundo_Marino_back
             php artisan up
             
             echo "¡Despliegue finalizado con éxito!"
