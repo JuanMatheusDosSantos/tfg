@@ -3,7 +3,7 @@ name: Deploy Mundo Marino
 on:
   push:
     branches:
-      - master  # Asegúrate de que tu rama se llame master (o cámbialo a master)
+      - master
 
 jobs:
   deploy:
@@ -18,38 +18,36 @@ jobs:
           script: |
             set -e
             git config --global --add safe.directory /var/www/tfg
-            
-            # 1. ACTIVAR MANTENIMIENTO Y OCULTAR ANGULAR
+
+            # 1. ACTIVAR MANTENIMIENTO Y APUNTAR NGINX A LARAVEL
             cd /var/www/tfg/Mundo_Marino_back
             php artisan down --refresh=15 --redirect="/" || true
-            
-            # Renombramos la carpeta del front para que el servidor no la encuentre
-            # (Ajusta la ruta si tu build se guarda en otra carpeta como 'dist')
-            mv /var/www/tfg/Mundo_Marino_front /var/www/tfg/Mundo_Marino_front_TEMP || true
-            
+
+            sudo sed -i 's|root /var/www/tfg/Mundo_Marino_front;|root /var/www/tfg/Mundo_Marino_back/public;|' /etc/nginx/sites-enabled/tu-sitio.conf
+            sudo nginx -s reload
+
             # 2. ACTUALIZAR CÓDIGO
             cd /var/www/tfg
             git fetch origin master
             git reset --hard origin/master
-            
+
             # 3. --- BACKEND ---
             cd Mundo_Marino_back
             composer install --no-interaction --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
-            
+
             # 4. --- FRONTEND ---
-            # Volvemos a poner la carpeta en su sitio (o la carpeta nueva que bajó de Git)
-            # Si el 'git reset' ya creó la carpeta de nuevo, borramos la TEMP
-            rm -rf /var/www/tfg/Mundo_Marino_front_TEMP || true
-            
             cd /var/www/tfg/Mundo_Marino_front
             npm install
             npm run build -- --configuration=production
-            
-            # 5. FINALIZAR
+
+            # 5. RESTAURAR NGINX Y FINALIZAR
+            sudo sed -i 's|root /var/www/tfg/Mundo_Marino_back/public;|root /var/www/tfg/Mundo_Marino_front;|' /etc/nginx/sites-enabled/tu-sitio.conf
+            sudo nginx -s reload
+
             cd /var/www/tfg/Mundo_Marino_back
             php artisan up
-            
+
             echo "¡Despliegue finalizado con éxito!"
