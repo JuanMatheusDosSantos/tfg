@@ -1,17 +1,18 @@
 <div class="d-flex" style="height:100vh; overflow: hidden">
 
-<app-admin-sidebar />
-    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+  <app-admin-sidebar/>
+  <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
 
-      @if (cargando()) {
-        <div class="d-flex align-items-center justify-content-center py-5">
-          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
-        </div>
-      } @else if (error()) {
-        <div class="alert alert-danger">{{ error() }}</div>
-      } @else {
+    @if (cargando()) {
+      <div class="d-flex align-items-center justify-content-center py-5">
+        <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+      </div>
+    } @else if (error()) {
+      <div class="alert alert-danger">{{ error() }}</div>
+    } @else {
 
-        <!-- Cabecera -->
+      <!-- Cabecera -->
+      @if (isAdmin()) {
         <div class="mb-4">
           @if (parkActual(); as p) {
             <h1 class="fw-bold mb-1" style="font-size:1.8rem;">{{ p.name }}</h1>
@@ -19,156 +20,162 @@
               <span class="material-symbols-outlined" style="font-size:1rem;">location_on</span>
               {{ p.location }}
               <span class="ms-3 material-symbols-outlined" style="font-size:1rem;">schedule</span>
-              {{ p.opening_time.substring(0,5) }} – {{ p.closing_time.substring(0,5) }}
+              {{ p.opening_time.substring(0, 5) }} – {{ p.closing_time.substring(0, 5) }}
             </p>
           } @else {
             <h1 class="fw-bold mb-1" style="font-size:1.8rem;">Todas las Atracciones</h1>
             <p class="text-muted mb-0 small">Mostrando atracciones de todos los parques</p>
           }
         </div>
+      }
 
-        <!-- Buscador + filtros -->
-        <div class="d-flex align-items-center gap-2 mb-4 flex-wrap">
+      <!-- Buscador + filtros -->
+      <div class="d-flex align-items-center gap-2 mb-4 flex-wrap">
 
-          <select class="form-select rounded-3"
-                  style="width:160px;flex-shrink:0;"
-                  [value]="parkSeleccionado()"
-                  (change)="onParkChange(+$any($event.target).value)">
-            <option [value]="0">Todos los parques</option>
-            @for (p of parks(); track p.id) {
-              <option [value]="p.id">{{ p.name }}</option>
-            }
-          </select>
+        <select class="form-select rounded-3"
+                style="width:160px;flex-shrink:0;"
+                [value]="parkSeleccionado()"
+                (change)="onParkChange(+$any($event.target).value)">
+          <option [value]="0">Todos los parques</option>
+          @for (p of parks(); track p.id) {
+            <option [value]="p.id">{{ p.name }}</option>
+          }
+        </select>
 
-          <div class="position-relative" style="flex:1;min-width:160px;max-width:240px;">
+        <div class="position-relative" style="flex:1;min-width:160px;max-width:240px;">
             <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
                   style="font-size:1rem;">search</span>
-            <input type="text"
-                   class="form-control ps-5 rounded-3"
-                   placeholder="Buscar atracción..."
-                   (input)="onBusqueda($event)" />
-          </div>
-
-          <button class="btn rounded-3 fw-medium px-2"
-                  [class.text-white]="filtroStatus() === 'all'"
-                  [style.background]="filtroStatus() === 'all' ? '#0cc0a8' : '#fff'"
-                  [style.border]="filtroStatus() === 'all' ? 'none' : '1px solid #dee2e6'"
-                  (click)="setFiltro('all')">Todas</button>
-
-          <button class="btn rounded-3 fw-medium px-2"
-                  [class.text-white]="filtroStatus() === 'operational'"
-                  [style.background]="filtroStatus() === 'operational' ? '#0cc0a8' : '#fff'"
-                  [style.border]="filtroStatus() === 'operational' ? 'none' : '1px solid #dee2e6'"
-                  (click)="setFiltro('operational')">Operativas</button>
-
-          <button class="btn rounded-3 fw-medium px-2"
-                  [class.text-white]="filtroStatus() === 'maintenance'"
-                  [style.background]="filtroStatus() === 'maintenance' ? '#f59e0b' : '#fff'"
-                  [style.border]="filtroStatus() === 'maintenance' ? 'none' : '1px solid #dee2e6'"
-                  (click)="setFiltro('maintenance')">Mantenimiento</button>
-
-          <button class="btn rounded-3 fw-medium px-2"
-                  [class.text-white]="filtroStatus() === 'closed'"
-                  [style.background]="filtroStatus() === 'closed' ? '#ef4444' : '#fff'"
-                  [style.border]="filtroStatus() === 'closed' ? 'none' : '1px solid #dee2e6'"
-                  (click)="setFiltro('closed')">Cerradas</button>
-
-          <button class="btn rounded-3 fw-medium px-2"
-                  [class.text-white]="filtroStatus() === 'permanently_closed'"
-                  [style.background]="filtroStatus() === 'permanently_closed' ? '#ef4444' : '#fff'"
-                  [style.border]="filtroStatus() === 'permanently_closed' ? 'none' : '1px solid #dee2e6'"
-                  (click)="setFiltro('permanently_closed')">Perm. Cerrada</button>
-
-          <a [routerLink]="['/admin/attraction']"
-             class="btn fw-bold text-white rounded-3 d-flex align-items-center gap-1 ms-auto"
-             style="background:#0cc0a8;white-space:nowrap;">
-            <span class="material-symbols-outlined" style="font-size:1rem;">add</span>
-            Nueva Atracción
-          </a>
+          <input type="text"
+                 class="form-control ps-5 rounded-3"
+                 placeholder="Buscar atracción..."
+                 (input)="onBusqueda($event)"/>
         </div>
 
-        <!-- Tabla atracciones -->
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead class="table-light text-muted"
-                     style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+        <button class="btn rounded-3 fw-medium px-2"
+                [class.text-white]="filtroStatus() === 'all'"
+                [style.background]="filtroStatus() === 'all' ? '#0cc0a8' : '#fff'"
+                [style.border]="filtroStatus() === 'all' ? 'none' : '1px solid #dee2e6'"
+                (click)="setFiltro('all')">Todas
+        </button>
+
+        <button class="btn rounded-3 fw-medium px-2"
+                [class.text-white]="filtroStatus() === 'operational'"
+                [style.background]="filtroStatus() === 'operational' ? '#0cc0a8' : '#fff'"
+                [style.border]="filtroStatus() === 'operational' ? 'none' : '1px solid #dee2e6'"
+                (click)="setFiltro('operational')">Operativas
+        </button>
+
+        <button class="btn rounded-3 fw-medium px-2"
+                [class.text-white]="filtroStatus() === 'maintenance'"
+                [style.background]="filtroStatus() === 'maintenance' ? '#f59e0b' : '#fff'"
+                [style.border]="filtroStatus() === 'maintenance' ? 'none' : '1px solid #dee2e6'"
+                (click)="setFiltro('maintenance')">Mantenimiento
+        </button>
+
+        <button class="btn rounded-3 fw-medium px-2"
+                [class.text-white]="filtroStatus() === 'closed'"
+                [style.background]="filtroStatus() === 'closed' ? '#ef4444' : '#fff'"
+                [style.border]="filtroStatus() === 'closed' ? 'none' : '1px solid #dee2e6'"
+                (click)="setFiltro('closed')">Cerradas
+        </button>
+
+        <button class="btn rounded-3 fw-medium px-2"
+                [class.text-white]="filtroStatus() === 'permanently_closed'"
+                [style.background]="filtroStatus() === 'permanently_closed' ? '#ef4444' : '#fff'"
+                [style.border]="filtroStatus() === 'permanently_closed' ? 'none' : '1px solid #dee2e6'"
+                (click)="setFiltro('permanently_closed')">Perm. Cerrada
+        </button>
+
+        <a [routerLink]="['/admin/attraction']"
+           class="btn fw-bold text-white rounded-3 d-flex align-items-center gap-1 ms-auto"
+           style="background:#0cc0a8;white-space:nowrap;">
+          <span class="material-symbols-outlined" style="font-size:1rem;">add</span>
+          Nueva Atracción
+        </a>
+      </div>
+
+      <!-- Tabla atracciones -->
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-muted"
+                   style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+              <tr>
+                <th class="px-4 py-3">Atracción</th>
+                <th class="px-4 py-3">Tipo</th>
+                <th class="px-4 py-3">Duración</th>
+                <th class="px-4 py-3">Capacidad</th>
+                <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3">Cambiar Estado</th>
+                <th class="px-4 py-3 text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (a of atraccionesFiltradas(); track a.id) {
                 <tr>
-                  <th class="px-4 py-3">Atracción</th>
-                  <th class="px-4 py-3">Tipo</th>
-                  <th class="px-4 py-3">Duración</th>
-                  <th class="px-4 py-3">Capacidad</th>
-                  <th class="px-4 py-3">Estado</th>
-                  <th class="px-4 py-3">Cambiar Estado</th>
-                  <th class="px-4 py-3 text-end">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (a of atraccionesFiltradas(); track a.id) {
-                  <tr>
-                    <td class="px-4 py-3">
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-3 d-flex align-items-center justify-content-center"
-                             style="width:40px;height:40px;flex-shrink:0;background:rgba(12,192,168,0.1);">
-                          <span class="material-symbols-outlined" style="color:#0cc0a8;">attractions</span>
-                        </div>
-                        <span class="fw-bold">{{ a.name }}</span>
+                  <td class="px-4 py-3">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="rounded-3 d-flex align-items-center justify-content-center"
+                           style="width:40px;height:40px;flex-shrink:0;background:rgba(12,192,168,0.1);">
+                        <span class="material-symbols-outlined" style="color:#0cc0a8;">attractions</span>
                       </div>
-                    </td>
-                    <td class="px-4 py-3">
+                      <span class="fw-bold">{{ a.name }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3">
                       <span class="badge rounded-pill fw-bold px-3 py-2" [class]="tipoClass(a.type)">
                         {{ tipoLabel(a.type) }}
                       </span>
-                    </td>
-                    <td class="px-4 py-3 small">{{ a.duration }} min</td>
-                    <td class="px-4 py-3 small">{{ a.max_capacity }} personas</td>
-                    <td class="px-4 py-3">
+                  </td>
+                  <td class="px-4 py-3 small">{{ a.duration }} min</td>
+                  <td class="px-4 py-3 small">{{ a.max_capacity }} personas</td>
+                  <td class="px-4 py-3">
                       <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(a.status)">
                         {{ statusLabel(a.status) }}
                       </span>
-                    </td>
-                    <td class="px-4 py-3">
-                      <select class="form-select form-select-sm rounded-3"
-                              style="width:170px;"
-                              [value]="a.status"
-                              (change)="cambiarStatus(a, $any($event.target).value)">
-                        <option value="operational">Operativa</option>
-                        <option value="maintenance">En mantenimiento</option>
-                        <option value="closed">Cerrada</option>
-                        <option value="permanently_closed">Cerrada permanentemente</option>
-                      </select>
-                    </td>
-                    <td class="px-4 py-3 text-end">
-                      <div class="d-flex align-items-center justify-content-end gap-2">
-                        <a class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
-                           [routerLink]="['/admin/attraction', a.id, 'edit']"
-                           title="Editar">
-                          <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
-                        </a>
-                        <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1 text-danger"
-                                title="Eliminar"
-                                (click)="delete(a)">
-                          <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                } @empty {
-                  <tr>
-                    <td colspan="7" class="text-center text-muted py-5 small">
-                      No hay atracciones para mostrar
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-          <div class="px-4 py-3 bg-light border-top">
+                  </td>
+                  <td class="px-4 py-3">
+                    <select class="form-select form-select-sm rounded-3"
+                            style="width:170px;"
+                            [value]="a.status"
+                            (change)="cambiarStatus(a, $any($event.target).value)">
+                      <option value="operational">Operativa</option>
+                      <option value="maintenance">En mantenimiento</option>
+                      <option value="closed">Cerrada</option>
+                      <option value="permanently_closed">Cerrada permanentemente</option>
+                    </select>
+                  </td>
+                  <td class="px-4 py-3 text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-2">
+                      <a class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1"
+                         [routerLink]="['/admin/attraction', a.id, 'edit']"
+                         title="Editar">
+                        <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
+                      </a>
+                      <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center gap-1 text-danger"
+                              title="Eliminar"
+                              (click)="delete(a)">
+                        <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-5 small">
+                    No hay atracciones para mostrar
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="px-4 py-3 bg-light border-top">
             <span class="text-muted small">
               Mostrando {{ atraccionesFiltradas().length }} atracciones
             </span>
-          </div>
         </div>
-      }
-    </main>
-  </div>
+      </div>
+    }
+  </main>
+</div>

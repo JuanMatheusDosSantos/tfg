@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {Park} from '../../models/park';
 import {Attraction} from '../../models/attraction';
 import {RouterLink} from '@angular/router';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-admin-attractions',
@@ -18,6 +19,7 @@ import {RouterLink} from '@angular/router';
 export class AdminAttractions {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
+  private auth = inject(AuthService)
 
   parks = signal<Park[]>([]);
   parkSeleccionado = signal<number>(0); // 0 = todos
@@ -31,9 +33,9 @@ export class AdminAttractions {
 
   cargarParks() {
     const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
-    this.http.get<Park[]>(`${this.apiUrl}/parks`, { headers }).subscribe({
+    this.http.get<Park[]>(`${this.apiUrl}/parks`, {headers}).subscribe({
       next: (data) => {
         this.parks.set(data.sort((a, b) => a.id - b.id));
         this.cargando.set(false);
@@ -91,8 +93,8 @@ export class AdminAttractions {
     const map: Record<string, string> = {
       operational: 'text-bg-success',
       maintenance: 'text-bg-warning',
-      closed:      'text-bg-danger',
-      permanently_closed:"text-bg-danger"
+      closed: 'text-bg-danger',
+      permanently_closed: "text-bg-danger"
     };
     return map[status] ?? 'text-bg-secondary';
   }
@@ -101,32 +103,33 @@ export class AdminAttractions {
     const map: Record<string, string> = {
       operational: 'Operativa',
       maintenance: 'Mantenimiento',
-      closed:      'Cerrada',
+      closed: 'Cerrada',
     };
     return map[status] ?? status;
   }
 
   tipoLabel(tipo: string): string {
     const map: Record<string, string> = {
-      suave:    'Suave',
+      suave: 'Suave',
       moderado: 'Moderado',
-      intenso:  'Intenso',
+      intenso: 'Intenso',
     };
     return map[tipo] ?? tipo;
   }
 
   tipoClass(tipo: string): string {
     const map: Record<string, string> = {
-      suave:    'text-bg-info',
+      suave: 'text-bg-info',
       moderado: 'text-bg-warning',
-      intenso:  'text-bg-danger',
+      intenso: 'text-bg-danger',
     };
     return map[tipo] ?? 'text-bg-secondary';
   }
 
+
   cambiarStatus(atraccion: Attraction, nuevoStatus: string) {
     const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
     this.http.put(`${this.apiUrl}/attraction/status/${atraccion.id}`,
       {
@@ -137,14 +140,14 @@ export class AdminAttractions {
         park_id: atraccion.park?.id ?? 1,
         status: nuevoStatus
       },
-      { headers }
+      {headers}
     ).subscribe({
       next: () => {
         this.parks.update(lista =>
           lista.map(p => ({
             ...p,
             attractions: p.attractions.map(a =>
-              a.id === atraccion.id ? { ...a, status: nuevoStatus as any } : a
+              a.id === atraccion.id ? {...a, status: nuevoStatus as any} : a
             )
           }))
         );
@@ -157,9 +160,9 @@ export class AdminAttractions {
     if (!confirm(`¿Quieres que la atracción ${a.name} pase a estar permanentemente cerrada?`)) return;
 
     const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
-    this.http.delete(`${this.apiUrl}/attraction/${a.id}`, { headers }).subscribe({
+    this.http.delete(`${this.apiUrl}/attraction/${a.id}`, {headers}).subscribe({
       next: () => this.cargarParks(),
       error: (err) => console.error('Error al eliminar:', err)
     });
@@ -170,4 +173,8 @@ export class AdminAttractions {
       ? null
       : this.parks().find(p => p.id === this.parkSeleccionado()) ?? null
   );
+
+  isAdmin() {
+    return this.auth.isAdmin;
+  }
 }
