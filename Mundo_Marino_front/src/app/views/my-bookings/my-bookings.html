@@ -207,9 +207,9 @@
                       }
                       </p>
                     </div>
-                    <span class="badge rounded-pill fw-bold px-3 py-2"
+                    <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(res.status)"
                           style="background-color:rgba(34,197,94,0.12);color:#16a34a;font-size:0.72rem;">
-                  {{ res.status }}
+                  {{ statusLabels[res.status]??res.status }}
                   </span>
                   </div>
 

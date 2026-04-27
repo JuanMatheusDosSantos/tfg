@@ -195,5 +195,17 @@ public imgRest=`${this.imgUrl}/storage/bookings/restaurante_tfg.png`
     no_show: 'No presentado',
     checked_in: 'En el parque'
   };
-
+  statusClass(status: string): string {
+    const map: Record<string, string> = {
+      pending: 'text-bg-warning',
+      accepted: 'text-bg-success',
+      checked_in: 'text-bg-success',
+      late: 'text-bg-warning',
+      no_show: 'text-bg-secondary',
+      cancelled: 'text-bg-danger',
+      completed: 'text-bg-info',
+      paid: "text-bg-success"
+    };
+    return map[status] ?? 'text-bg-secondary';
+  }
 }
