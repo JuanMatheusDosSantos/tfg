@@ -28,7 +28,7 @@ jobs:
             # Instalamos librerías solo si es necesario (rápido si no hay cambios)
             composer install --no-interaction --optimize-autoloader
             # Ejecutar migraciones si has tocado la base de datos
-            php artisan migrate:fresh --seed
+            # php artisan migrate:fresh --seed
             # Limpiar cachés para que tome los cambios
             php artisan config:cache
             php artisan route:cache

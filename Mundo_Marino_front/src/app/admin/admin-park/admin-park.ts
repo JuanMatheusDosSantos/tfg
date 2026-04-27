@@ -46,4 +46,8 @@ private auth=inject(AuthService)
   }
 
   onFechaFiltro(_fecha: string) {}
+
+  isAdmin(){
+    return this.auth.isAdmin;
+  }
 }
