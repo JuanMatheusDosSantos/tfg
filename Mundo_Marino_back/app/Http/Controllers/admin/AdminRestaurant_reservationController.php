@@ -39,7 +39,8 @@ class AdminRestaurant_reservationController extends Controller
             return response()->json(["message" => $e->getMessage()], 400);
         }
 
-        $this->userLimit($request);
+        $limite = $this->userLimit($request);
+        if ($limite) return $limite;
 
         $this->authorize("create",Park_reservation::class);
         try {
@@ -89,6 +90,10 @@ class AdminRestaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["ha habido un fallo al buscar la reserva"], 400);
         }
+
+        $request->merge(['restaurant_id' => $reservation->restaurant_id]);
+        $limite = $this->userLimit($request, $id);
+        if ($limite) return $limite;
 
         $this->authorize('update', $reservation);
 
@@ -183,21 +188,39 @@ class AdminRestaurant_reservationController extends Controller
             return response()->json([$e->getMessage()], 400);
         }
     }
-    public function userLimit(
-        $request
-//    Request $request,
-    )
+
+    public function userLimit($request, $excludeId = null)
     {
         $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
         $party_size = $request->party_size;
-        $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
-            ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
-        if ($reservation + $party_size > $max) {
-            return response()->json([
-                "message" => "esta hora esta llena, pruebe con otra"
-            ], 400);
+
+        $hora = \Carbon\Carbon::createFromFormat('H:i', $request->reservation_hour);
+        $desde = $hora->copy()->subMinutes(30)->format('H:i');
+        $hasta = $hora->copy()->addMinutes(30)->format('H:i');
+
+        $query = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)
+            ->where("reservation_date", $request->reservation_date)
+            ->whereBetween("reservation_hour", [$desde, $hasta])
+            ->whereNotIn("status", ["cancelled"]);
+
+        if ($excludeId) {
+            $query->where("id", "!=", $excludeId);
         }
+
+        $ocupacion = $query->sum("party_size");
+
+        if ($ocupacion + $party_size > $max) {
+            $disponibles = $max - $ocupacion;
+            $message = $disponibles <= 0
+                ? "El establecimiento está lleno en esta franja horaria, pruebe con otra hora."
+                : "No hay suficientes espacio en el establecimiento para dicha reserva, ahora mismo solo quedan {$disponibles} plazas para esta franja horaria.";
+
+            return response()->json(["message" => $message], 422);
+        }
+
+        return null;
     }
+
     private function log(string $action, string $table, string $old, string $new): void
     {
         Admin_log::create([
