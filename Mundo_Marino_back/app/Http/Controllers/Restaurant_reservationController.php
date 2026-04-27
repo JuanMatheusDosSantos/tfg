@@ -55,7 +55,7 @@ class Restaurant_reservationController extends Controller
                 "reservation_date" => "required|date|after_or_equal:today",
                 "reservation_hour" => "required|date_format:H:i",
                 "party_size" => "required|numeric|min:1",
-                "status" => "required|in:cancelled"
+                "status" => "required|in:cancelled,pending"
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -69,6 +69,10 @@ class Restaurant_reservationController extends Controller
         } catch (\Exception $e) {
             return response()->json(["ha habido un fallo al buscar la reserva"], 400);
         }
+
+        $limite = $this->userLimit($request, $id);
+        if ($limite) return $limite;
+
         $this->authorize('update', $reservation);
         try {
             $cambios = [];
@@ -89,10 +93,10 @@ class Restaurant_reservationController extends Controller
                 $reservation->status = $request->status;
             }
             $reservation->save();
-            if ($cambios > 0) {
-                return response()->json(["se ha cambiado correctamente " . implode(", ", $cambios)]);
+            if (count($cambios) > 0) {
+                return response()->json(["message" => "se ha cambiado correctamente " . implode(", ", $cambios)]);
             } else {
-                return response()->json([""]);
+                return response()->json(["message" => "No se ha realizado ningún cambio"]);
             }
         } catch (\Exception $e) {
             return response()->json([
@@ -133,7 +137,8 @@ class Restaurant_reservationController extends Controller
             ], 422);
         }
 
-        $this->userLimit($request);
+        $limite = $this->userLimit($request);
+        if ($limite) return $limite;
 
         try {
             $reservation= Restaurant_reservation::create([
@@ -152,7 +157,7 @@ class Restaurant_reservationController extends Controller
         return response()->json(["message" => "se ha guardado correctamente"], 200);
     }
 
-    public function userLimit($request)
+    public function userLimit($request, $excludeId = null)
     {
         $max = Restaurant::findOrFail($request->restaurant_id)->max_capacity;
         $party_size = $request->party_size;
@@ -161,18 +166,25 @@ class Restaurant_reservationController extends Controller
         $desde = $hora->copy()->subMinutes(30)->format('H:i');
         $hasta = $hora->copy()->addMinutes(30)->format('H:i');
 
-        $ocupacion = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)
+        $query = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)
             ->where("reservation_date", $request->reservation_date)
             ->whereBetween("reservation_hour", [$desde, $hasta])
-            ->whereNotIn("status", ["cancelled"])
-            ->sum("party_size");
+            ->whereNotIn("status", ["cancelled"]);
+
+        if ($excludeId) {
+            $query->where("id", "!=", $excludeId);
+        }
+
+        $ocupacion = $query->sum("party_size");
 
         if ($ocupacion + $party_size > $max) {
             $disponibles = $max - $ocupacion;
             return response()->json([
-                "message" => "No hay suficientes plazas disponibles. Solo quedan {$disponibles} plazas para esta franja horaria."
+                "message" => "No hay suficientes plazas. Solo quedan {$disponibles} plazas para esta franja horaria."
             ], 422);
         }
+
+        return null;
     }
 
     public function setUserLimit(Request $request,$id){
