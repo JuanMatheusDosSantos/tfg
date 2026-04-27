@@ -26,54 +26,7 @@ class Restaurant_reservationController extends Controller
         $reservations = Restaurant_reservation::where("user_id",$userID)->with("user")->get();
         return response()->json($reservations);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function store(Request $request)
-    {
-        try {
-            $request->validate([
-                "user_id" => "required|exists:users,id",
-                'restaurant_id' => 'required|exists:restaurants,id',
-                'reservation_date' => 'required|date|after_or_equal:today',
-                "reservation_hour" => "required|date_format:H:i",
-                "party_size" => "required|numeric|min:1",
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 400);
-        }
 
-        // Comprobar reserva duplicada
-        $reservaExistente = Restaurant_reservation::where('user_id', $request->user_id)
-            ->where('restaurant_id', $request->restaurant_id)
-            ->where('reservation_date', $request->reservation_date)
-            ->where('reservation_hour', $request->reservation_hour)
-            ->whereNotIn('status', ['cancelled'])
-            ->first();
-
-        if ($reservaExistente) {
-            return response()->json([
-                'message' => 'Ya tienes una reserva en este restaurante para ese día y hora.'
-            ], 422);
-        }
-
-        $this->userLimit($request);
-        try {
-            $reservation= Restaurant_reservation::create([
-                "user_id" => $request->user_id,
-                "restaurant_id" => $request->restaurant_id,
-                "reservation_date" => $request->reservation_date,
-                "reservation_hour" => $request->reservation_hour,
-                "party_size" => $request->party_size,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], 400);
-
-        }
-        $user = User::findOrFail($request->user_id);
-        Mail::to($user->email)->send(new ReservaMail($reservation, 'restaurante'));
-        return response()->json(["message" => "se ha guardado correctamente"], 200);
-    }
 
     /**
      * Display the specified resource.
@@ -149,6 +102,56 @@ class Restaurant_reservationController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $request->validate([
+                "user_id" => "required|exists:users,id",
+                'restaurant_id' => 'required|exists:restaurants,id',
+                'reservation_date' => 'required|date|after_or_equal:today',
+                "reservation_hour" => "required|date_format:H:i",
+                "party_size" => "required|numeric|min:1",
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 400);
+        }
+
+        // Comprobar reserva duplicada
+        $reservaExistente = Restaurant_reservation::where('user_id', $request->user_id)
+            ->where('restaurant_id', $request->restaurant_id)
+            ->where('reservation_date', $request->reservation_date)
+            ->where('reservation_hour', $request->reservation_hour)
+            ->whereNotIn('status', ['cancelled'])
+            ->first();
+
+        if ($reservaExistente) {
+            return response()->json([
+                'message' => 'Ya tienes una reserva en este restaurante para ese día y hora.'
+            ], 422);
+        }
+
+        $this->userLimit($request);
+
+        try {
+            $reservation= Restaurant_reservation::create([
+                "user_id" => $request->user_id,
+                "restaurant_id" => $request->restaurant_id,
+                "reservation_date" => $request->reservation_date,
+                "reservation_hour" => $request->reservation_hour,
+                "party_size" => $request->party_size,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 400);
+
+        }
+        $user = User::findOrFail($request->user_id);
+        Mail::to($user->email)->send(new ReservaMail($reservation, 'restaurante'));
+        return response()->json(["message" => "se ha guardado correctamente"], 200);
+    }
+
     public function userLimit(
         $request
 //    Request $request,
@@ -158,10 +161,10 @@ class Restaurant_reservationController extends Controller
         $party_size = $request->party_size;
         $reservation = Restaurant_reservation::where("restaurant_id", $request->restaurant_id)->where("reservation_date", $request->reservation_date)
             ->where("reservation_hour", $request->reservation_hour)->whereNotIn("status", ["cancelleduser"])->sum("party_size");
-        if ($reservation + $party_size > $max) {
-            return response()->json([
-                "message" => "esta hora esta llena, pruebe con otra"
-            ], 400);
+        if ($reservation + $party_size >= $max) {
+            abort(400,
+                "esta hora esta llena, pruebe con otra"
+            );
         }
     }
 
