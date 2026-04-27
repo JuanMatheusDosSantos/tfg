@@ -40,7 +40,7 @@ jobs:
             # --- Configuración FRONTEND (Angular) ---
             cd ../Mundo_Marino_front
             # Si en tu VM ya tienes el build hecho y solo cambias archivos pequeños:
-             npm install
-             npm run build
+            npm install
+            npm run build
             
             echo "¡Despliegue finalizado con éxito!"

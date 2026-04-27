@@ -46,9 +46,7 @@
       <!-- Buscador + filtros -->
       <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
         <div class="row g-3 align-items-end">
-          @if (isAdmin())
-          {
-            <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
             <select class="form-select rounded-3"
@@ -56,11 +54,11 @@
                     (change)="filtroPark.set(+$any($event.target).value)">
               <option [value]="0">Todos</option>
               @for (p of parks(); track p.id) {
-          <option [value]="p.id">{{ p.name }}</option>
-          }
-          </select>
-        </div>
-          }
+                <option [value]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
+
           <div class="col-12 col-md-3">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Buscar</label>
