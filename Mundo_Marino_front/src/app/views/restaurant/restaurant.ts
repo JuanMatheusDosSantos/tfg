@@ -16,7 +16,7 @@ export class Restaurant {
 
   private authService = inject(AuthService);
   isLoggedIn = this.authService.isLoggedIn;
-  restaurante = `${environment.imgUrl}/storage/img/restaurante_ftg.png`
+  restaurante = `${environment.imgUrl}/storage/img/restaurante_tfg.png`
 
   irAReserva() {
     this.route.navigate(["/booking"])
