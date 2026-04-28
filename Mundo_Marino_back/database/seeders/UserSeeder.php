@@ -42,6 +42,15 @@ class UserSeeder extends Seeder
             "birthdate"=>"1992-11-08"
         ]);
         User::factory()->create([
+            "name" => "user",
+            "email" => "user@gmail.com",
+            "password" => bcrypt("12345678"),
+            "role" => "user",
+            "park_id"=>1,
+            "phone" => 555666777,
+            "birthdate"=>"1992-11-08"
+        ]);
+        User::factory()->create([
             "name"=>"Joana",
             "email"=>"daw06.2025@gmail.com",
             "password"=>bcrypt("12345678"),
