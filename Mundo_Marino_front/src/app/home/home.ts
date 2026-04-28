@@ -2,6 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {AttractionService} from '../components/attraction';
 import {Attraction} from '../models/attraction';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -12,12 +13,14 @@ import {Router} from '@angular/router';
 })
 export class Home {
   private route = inject(Router)
+  private imgUrl=environment.imgUrl
   atracciones = signal<Attraction[]>([]);
 
   servicio = signal('restaurant');
   fecha = signal('');
   adultos = signal(1);
   ninos = signal(0);
+  entrada=`${this.imgUrl}/storage/img/parque_tfg.png`
   private atraccionService=inject(AttractionService)
   ngOnInit() {
     this.atraccionService.fetchAttractions().subscribe(data => {
