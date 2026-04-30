@@ -11,7 +11,7 @@ class AttractionController extends Controller
     function index()
     {
         try {
-            $attractions = Attraction::with("park");
+            $attractions = Attraction::with("park")->get();
             return response()->json($attractions);
         } catch (\Exception $e) {
             return response()->json(["Ha ocurrido un error a la hora de mostrar todas las attraciones"], 400);
