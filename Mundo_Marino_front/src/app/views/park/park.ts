@@ -26,6 +26,7 @@ export class Park {
   ngOnInit() {
     this.attractionService.fetchAttractions().subscribe({
       next: (data) => {
+        console.log(data)
         this.atracciones.set(data.filter(a => a.status !== 'permanently_closed'&&a.park?.id===1));
         this.cargando.set(false);
       },
