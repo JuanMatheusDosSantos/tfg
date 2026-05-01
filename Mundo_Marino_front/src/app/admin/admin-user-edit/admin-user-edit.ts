@@ -41,6 +41,9 @@ export class AdminUserEdit {
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id')!;
 
+    this.parkService.fetchParks().subscribe(parks => this.parks.set(parks));
+    this.restService.fetchRestaurants().subscribe();
+
     this.service.fetchUsers().subscribe({
       next: () => {
         const u = this.service.users().find(x => x.id === id);
