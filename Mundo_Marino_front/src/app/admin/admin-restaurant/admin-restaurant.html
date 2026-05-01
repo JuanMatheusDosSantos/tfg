@@ -11,15 +11,16 @@
 
       <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
 
-        <select class="form-select rounded-3"
+        @if (isAdmin()){
+          <select class="form-select rounded-3"
                 style="width:160px;flex-shrink:0;"
                 [value]="filtroPark()"
                 (change)="filtroPark.set(+$any($event.target).value)">
           <option [value]="0">Todos los parques</option>
           @for (p of parks(); track p.id) {
-            <option [value]="p.id">{{ p.name }}</option>
-          }
-        </select>
+        <option [value]="p.id">{{ p.name }}</option>
+        }
+        </select>}
 
         <div class="position-relative flex-grow-1" style="max-width:320px;">
     <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"

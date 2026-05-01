@@ -46,14 +46,6 @@ export class AdminRestaurantService {
     });
   }
 
-  // create(data: Partial<Restaurant>) {
-  //   return this.http.post<Restaurant>(this.API_URL, data, {
-  //     headers: this.getHeaders()
-  //   }).pipe(
-  //     tap(res => this.#restaurants.update(list => [res, ...list]))
-  //   );
-  // }
-
   create(payload: { name: string; max_capacity: number; opening_time: string; closing_time: string; park_id: number }) {
     return this.http.post(`${this.API_URL}`, payload, {
       headers: this.getHeaders()

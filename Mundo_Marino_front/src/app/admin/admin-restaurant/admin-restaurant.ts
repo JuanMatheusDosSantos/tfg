@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { Restaurant } from '../../models/restaurant';
 import {AdminRestaurantService} from '../../components/admin/admin-restaurant';
 import {Park} from '../../models/park';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-admin-restaurant',
@@ -16,6 +17,7 @@ import {Park} from '../../models/park';
 })
 export class AdminRestaurant {
   private service = inject(AdminRestaurantService);
+  private auth = inject(AuthService)
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
 
@@ -30,9 +32,23 @@ export class AdminRestaurant {
   filtroPark = signal<number>(0);
 
   ngOnInit() {
+    // this.service.fetchRestaurants().subscribe({
+    //   next: (data) => {
+    //     this.restaurants.set(data);
+    //     this.cargando.set(false);
+    //   },
+    //   error: (err) => {
+    //     this.error.set(err.error?.message ?? 'Error al cargar los restaurantes');
+    //     this.cargando.set(false);
+    //   }
+    // });
     this.service.fetchRestaurants().subscribe({
       next: (data) => {
-        this.restaurants.set(data);
+        if (this.auth.isAdmin) {
+          this.restaurants.set(data);
+        } else {
+          this.restaurants.set(data.filter(r => r.park_id === this.auth.currentUser()?.park_id));
+        }
         this.cargando.set(false);
       },
       error: (err) => {
@@ -78,5 +94,8 @@ export class AdminRestaurant {
       },
       error: (err) => this.errorDelete.set(err.error?.message ?? 'Error al eliminar el restaurante')
     });
+  }
+  isAdmin() {
+    return this.auth.isAdmin;
   }
 }

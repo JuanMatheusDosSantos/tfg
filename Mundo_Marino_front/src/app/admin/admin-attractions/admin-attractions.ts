@@ -6,6 +6,7 @@ import {Park} from '../../models/park';
 import {Attraction} from '../../models/attraction';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../auth/auth';
+import {ParkService} from '../../components/park';
 
 @Component({
   selector: 'app-admin-attractions',
@@ -20,6 +21,7 @@ export class AdminAttractions {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
   private auth = inject(AuthService)
+  private service=inject(ParkService)
 
   parks = signal<Park[]>([]);
   parkSeleccionado = signal<number>(0); // 0 = todos
@@ -37,7 +39,7 @@ export class AdminAttractions {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
-    this.http.get<Park[]>(`${this.apiUrl}/parks`, {headers}).subscribe({
+    this.service.fetchParks().subscribe({
       next: (data) => {
         const sorted = data.sort((a, b) => a.id - b.id);
         if (this.auth.isAdmin) {
