@@ -43,34 +43,66 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $request->validate([
+            $rules = [
                 'name'  => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'phone' => 'nullable|integer',
                 'role'  => 'required|in:admin,park,restaurant,user',
-            ]);
+            ];
+
+            // Validaciones condicionales según el rol
+            if ($request->role === 'park') {
+                $rules['park_id'] = 'required|exists:parks,id';
+            }
+
+            if ($request->role === 'restaurant') {
+                $rules['park_id']       = 'required|exists:parks,id';
+                $rules['restaurant_id'] = 'required|exists:restaurants,id';
+            }
+
+            $request->validate($rules);
+
         } catch (\Exception $e) {
             return response()->json([$e->getMessage()], 400);
         }
 
         try {
             $user = User::findOrFail($id);
-            $old = "name: {$user->name}, email: {$user->email}, role: {$user->role}";
+            $old  = "name: {$user->name}, email: {$user->email}, role: {$user->role}";
 
             $user->name  = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->role  = $request->role;
+
+            // Asignar o limpiar park_id y restaurant_id según el rol
+            if ($request->role === 'park') {
+                $user->park_id       = $request->park_id;
+                $user->restaurant_id = null;
+
+            } elseif ($request->role === 'restaurant') {
+                $user->park_id       = $request->park_id;
+                $user->restaurant_id = $request->restaurant_id;
+
+            } else {
+                // admin y user no tienen entidad asignada
+                $user->park_id       = null;
+                $user->restaurant_id = null;
+            }
+
             $user->save();
 
-            $this->log('update', 'users', $old, "name: {$user->name}, email: {$user->email}, role: {$user->role}");
+            $this->log(
+                'update', 'users', $old,
+                "name: {$user->name}, email: {$user->email}, role: {$user->role}"
+            );
 
             return response()->json(["Usuario actualizado correctamente"]);
+
         } catch (\Exception $e) {
             return response()->json([$e->getMessage()], 500);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
