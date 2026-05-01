@@ -186,6 +186,6 @@ export class AdminAttractions {
     return this.auth.isAdmin;
   }
   imagenAtraccion(a: Attraction): string {
-    return a.image ? `${this.imgUrl}/${a.image}` : this.DEFAULT_IMAGE;
+    return a.image ? `${a.image}` : this.DEFAULT_IMAGE;
   }
 }
