@@ -1,8 +1,12 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {AdminUsersService} from '../../components/admin/admin-user';
 import {User} from '../../models/user';
+import {AdminParkService} from '../../components/admin/admin-parks';
+import {AdminRestaurantService} from '../../components/admin/admin-restaurant';
+import {Park} from '../../models/park';
+import {Restaurant} from '../../models/restaurant';
 
 @Component({
   selector: 'app-admin-user-edit',
@@ -14,6 +18,8 @@ export class AdminUserEdit {
   private service = inject(AdminUsersService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private parkService    = inject(AdminParkService);
+  private restService    = inject(AdminRestaurantService);
 
   cargando = signal(true);
   guardando = signal(false);
@@ -25,6 +31,12 @@ export class AdminUserEdit {
   email = signal('');
   phone = signal<number | undefined>(undefined);
   role = signal('user');
+
+  parks       = signal<Park[]>([]);
+  restaurants = signal<Restaurant[]>([]);
+
+  selectedParkId       = signal<number | null>(null);
+  selectedRestaurantId = signal<number | null>(null);
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id')!;
@@ -46,6 +58,10 @@ export class AdminUserEdit {
         this.cargando.set(false);
       }
     });
+
+    this.restService.fetchRestaurants().subscribe(res => {
+      if (Array.isArray(res)) this.restaurants.set(res);
+    });
   }
 
   guardar() {
@@ -54,16 +70,36 @@ export class AdminUserEdit {
       return;
     }
 
+    const role = this.role();
+
+    if (role === 'park' && !this.selectedParkId()) {
+      this.error.set('Debes seleccionar un parque.');
+      return;
+    }
+    if (role === 'restaurant' && !this.selectedRestaurantId()) {
+      this.error.set('Debes seleccionar un restaurante.');
+      return;
+    }
+
     this.guardando.set(true);
     this.exito.set(null);
     this.error.set(null);
 
-    this.service.update(this.usuario()!.id, {
+    const payload: any = {
       name:  this.name(),
       email: this.email(),
       phone: this.phone(),
-      role:  this.role(),
-    }).subscribe({
+      role,
+    };
+
+    if (role === 'park') {
+      payload['park_id'] = this.selectedParkId();
+    }
+    if (role === 'restaurant') {
+      payload['restaurant_id'] = this.selectedRestaurantId();
+    }
+
+    this.service.update(this.usuario()!.id, payload).subscribe({
       next: () => {
         this.exito.set('Usuario actualizado correctamente.');
         this.guardando.set(false);
@@ -74,6 +110,23 @@ export class AdminUserEdit {
         this.guardando.set(false);
       }
     });
+  }
+
+  filteredRestaurants = computed(() => {
+    const pid = this.selectedParkId();
+    if (pid === null) return [];
+    return this.restaurants().filter(r => r.park_id === pid);
+  });
+
+  onRoleChange(value: string) {
+    this.role.set(value);
+    this.selectedParkId.set(null);
+    this.selectedRestaurantId.set(null);
+  }
+
+  onParkChange(value: string) {
+    this.selectedParkId.set(value ? +value : null);
+    this.selectedRestaurantId.set(null);
   }
 
   volver() {

@@ -32,16 +32,6 @@ export class AdminRestaurant {
   filtroPark = signal<number>(0);
 
   ngOnInit() {
-    // this.service.fetchRestaurants().subscribe({
-    //   next: (data) => {
-    //     this.restaurants.set(data);
-    //     this.cargando.set(false);
-    //   },
-    //   error: (err) => {
-    //     this.error.set(err.error?.message ?? 'Error al cargar los restaurantes');
-    //     this.cargando.set(false);
-    //   }
-    // });
     this.service.fetchRestaurants().subscribe({
       next: (data) => {
         if (this.auth.isAdmin) {
