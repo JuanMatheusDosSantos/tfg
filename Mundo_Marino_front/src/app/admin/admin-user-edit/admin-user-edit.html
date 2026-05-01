@@ -69,12 +69,11 @@
                 <label class="form-label fw-semibold small text-uppercase text-muted"
                        style="font-size:0.65rem;letter-spacing:0.1em;">Rol</label>
                 <select class="form-select rounded-3"
-                        [value]="role()"
-                        (change)="role.set($any($event.target).value)">
-                  <option value="admin">Administrador</option>
-                  <option value="park">Parque</option>
-                  <option value="restaurant">Restaurante</option>
-                  <option value="user">Usuario</option>
+                        (change)="onRoleChange($any($event.target).value)">
+                  <option value="admin" [selected]="role() === 'admin'">Administrador</option>
+                  <option value="park"  [selected]="role() === 'park'">Parque</option>
+                  <option value="restaurant" [selected]="role() === 'restaurant'">Restaurante</option>
+                  <option value="user"  [selected]="role() === 'user'">Usuario</option>
                 </select>
               </div>
               <!-- Select Parque (visible para roles park y restaurant) -->
@@ -83,11 +82,10 @@
                   <label class="form-label fw-semibold small text-uppercase text-muted"
                          style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
                   <select class="form-select rounded-3"
-                          [value]="selectedParkId() ?? ''"
                           (change)="onParkChange($any($event.target).value)">
                     <option value="">-- Selecciona un parque --</option>
                     @for (park of parks(); track park.id) {
-                      <option [value]="park.id">{{ park.name }}</option>
+                      <option [value]="park.id" [selected]="selectedParkId() === park.id">{{ park.name }}</option>
                     }
                   </select>
                 </div>
@@ -103,11 +101,10 @@
                     <p class="text-muted small mt-1">No hay restaurantes para este parque.</p>
                   } @else {
                     <select class="form-select rounded-3"
-                            [value]="selectedRestaurantId() ?? ''"
                             (change)="selectedRestaurantId.set($any($event.target).value ? +$any($event.target).value : null)">
                       <option value="">-- Selecciona un restaurante --</option>
                       @for (r of filteredRestaurants(); track r.id) {
-                        <option [value]="r.id">{{ r.name }}</option>
+                        <option [value]="r.id" [selected]="selectedRestaurantId() === r.id">{{ r.name }}</option>
                       }
                     </select>
                   }
