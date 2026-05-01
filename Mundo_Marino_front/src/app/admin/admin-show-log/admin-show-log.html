@@ -1,1 +1,86 @@
-<p>admin-show-log works!</p>
+<div class="d-flex flex-column" style="min-height:100vh;">
+  <div class="d-flex flex-grow-1">
+    <app-admin-sidebar />
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      @if (cargando()) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <div class="spinner-border" style="color:#0cc0a8;" role="status"></div>
+        </div>
+      } @else if (error()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      } @else {
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <button class="btn btn-light rounded-3 d-flex align-items-center gap-1" (click)="volver()">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">arrow_back</span>
+          </button>
+          <div>
+            <h1 class="fw-bold mb-0" style="font-size:1.6rem;">Detalle del Log</h1>
+            <p class="text-muted small mb-0">#{{ log()?.id }} · {{ log()?.action }} en {{ log()?.affected_table }}</p>
+          </div>
+        </div>
+
+        <!-- Info general -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <p class="text-muted small text-uppercase fw-semibold mb-1" style="font-size:0.65rem;letter-spacing:0.1em;">Acción</p>
+              <span class="badge rounded-pill px-3 py-2"
+                    [style.background]="log()?.action === 'create' ? '#d1fae5' : log()?.action === 'delete' ? '#fee2e2' : '#e0f2fe'"
+                    [style.color]="log()?.action === 'create' ? '#065f46' : log()?.action === 'delete' ? '#991b1b' : '#0369a1'">
+                {{ log()?.action }}
+              </span>
+            </div>
+            <div class="col-6 col-md-3">
+              <p class="text-muted small text-uppercase fw-semibold mb-1" style="font-size:0.65rem;letter-spacing:0.1em;">Tabla</p>
+              <p class="fw-semibold mb-0">{{ log()?.affected_table }}</p>
+            </div>
+            <div class="col-6 col-md-3">
+              <p class="text-muted small text-uppercase fw-semibold mb-1" style="font-size:0.65rem;letter-spacing:0.1em;">Usuario</p>
+              <p class="fw-semibold mb-0">{{ log()?.user?.name ?? '—' }}</p>
+            </div>
+            <div class="col-6 col-md-3">
+              <p class="text-muted small text-uppercase fw-semibold mb-1" style="font-size:0.65rem;letter-spacing:0.1em;">Fecha</p>
+              <p class="fw-semibold mb-0">{{ log()?.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de cambios -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <h5 class="fw-bold mb-4">Cambios</h5>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr style="font-size:0.75rem;" class="text-uppercase text-muted">
+                  <th class="fw-semibold pb-3">Campo</th>
+                  <th class="fw-semibold pb-3">Valor Antiguo</th>
+                  <th class="fw-semibold pb-3"></th>
+                  <th class="fw-semibold pb-3">Valor Nuevo</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (fila of diff(); track fila.campo) {
+                  <tr [style.background]="fila.cambio ? '#fffbeb' : 'transparent'">
+                    <td class="fw-semibold" style="font-size:0.85rem;">{{ fila.campo }}</td>
+                    <td class="text-muted" style="font-size:0.85rem;">{{ fila.antiguo }}</td>
+                    <td class="text-center">
+                      <span class="material-symbols-outlined text-muted" style="font-size:1rem;">arrow_forward</span>
+                    </td>
+                    <td style="font-size:0.85rem;"
+                        [style.color]="fila.cambio ? '#0cc0a8' : 'inherit'"
+                        [style.fontWeight]="fila.cambio ? '600' : '400'">
+                      {{ fila.nuevo }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      }
+    </main>
+  </div>
+</div>

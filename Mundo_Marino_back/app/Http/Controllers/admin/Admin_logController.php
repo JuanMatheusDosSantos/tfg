@@ -55,7 +55,7 @@ class Admin_logController extends Controller
     public function show($id)
     {
         try {
-            $log=Admin_log::findOrFail($id);
+            $log=Admin_log::with("user")->findOrFail($id);
             return response()->json($log);
         }catch (\Exception $e){
             return response()->json([
