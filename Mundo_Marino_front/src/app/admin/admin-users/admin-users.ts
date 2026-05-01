@@ -79,7 +79,9 @@ export class AdminUsers {
     });
   }
 
-  get totalAdmins()      { return this.users().filter(u => u.role === 'admin').length; }
+  get totalAdmins()      {
+    console.log(this.users());
+    return this.users().filter(u => u.role === 'admin').length; }
   get totalRestaurant()  { return this.users().filter(u => u.role === 'restaurant').length; }
   get totalPark()        { return this.users().filter(u => u.role === 'park').length; }
 }
