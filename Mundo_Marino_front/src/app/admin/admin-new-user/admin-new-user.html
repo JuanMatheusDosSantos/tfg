@@ -1,1 +1,129 @@
-<p>admin-new-user works!</p>
+<div class="d-flex flex-column" style="min-height:100vh;">
+  <div class="d-flex flex-grow-1">
+    <app-admin-sidebar />
+    <main class="flex-grow-1 overflow-auto p-4 p-lg-5" style="background:#f5f8f8;">
+
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <button class="btn btn-light rounded-3 d-flex align-items-center gap-1" (click)="volver()">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;">arrow_back</span>
+        </button>
+        <div>
+          <h1 class="fw-bold mb-0" style="font-size:1.6rem;">Nuevo Usuario</h1>
+          <p class="text-muted small mb-0">Crea un nuevo usuario en el sistema</p>
+        </div>
+      </div>
+
+      @if (exito()) {
+        <div class="alert alert-success d-flex align-items-center gap-2">
+          <span class="material-symbols-outlined">check_circle</span>
+          {{ exito() }}
+        </div>
+      }
+      @if (error()) {
+        <div class="alert alert-danger">{{ error() }}</div>
+      }
+
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5">
+            <h5 class="fw-bold mb-4">Datos del Usuario</h5>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Nombre</label>
+              <input type="text" class="form-control rounded-3"
+                     [value]="name()"
+                     (input)="name.set($any($event.target).value)" />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Email</label>
+              <input type="email" class="form-control rounded-3"
+                     [value]="email()"
+                     (input)="email.set($any($event.target).value)" />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Contraseña</label>
+              <input type="password" class="form-control rounded-3"
+                     [value]="password()"
+                     (input)="password.set($any($event.target).value)" />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Teléfono</label>
+              <input type="number" class="form-control rounded-3"
+                     [value]="phone() ?? ''"
+                     (input)="phone.set($any($event.target).value ? +$any($event.target).value : undefined)"
+                     placeholder="Sin teléfono" />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Rol</label>
+              <select class="form-select rounded-3"
+                      (change)="onRoleChange($any($event.target).value)">
+                <option value="admin">Administrador</option>
+                <option value="park">Parque</option>
+                <option value="restaurant">Restaurante</option>
+                <option value="user" selected>Usuario</option>
+              </select>
+            </div>
+
+            @if (role() === 'park' || role() === 'restaurant') {
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
+                <select class="form-select rounded-3"
+                        (change)="onParkChange($any($event.target).value)">
+                  <option value="">-- Selecciona un parque --</option>
+                  @for (park of parks(); track park.id) {
+                    <option [value]="park.id">{{ park.name }}</option>
+                  }
+                </select>
+              </div>
+            }
+
+            @if (role() === 'restaurant' && selectedParkId()) {
+              <div class="mb-4">
+                <label class="form-label fw-semibold small text-uppercase text-muted"
+                       style="font-size:0.65rem;letter-spacing:0.1em;">Restaurante</label>
+                @if (filteredRestaurants().length === 0) {
+                  <p class="text-muted small mt-1">No hay restaurantes para este parque.</p>
+                } @else {
+                  <select class="form-select rounded-3"
+                          (change)="selectedRestaurantId.set($any($event.target).value ? +$any($event.target).value : null)">
+                    <option value="">-- Selecciona un restaurante --</option>
+                    @for (r of filteredRestaurants(); track r.id) {
+                      <option [value]="r.id">{{ r.name }}</option>
+                    }
+                  </select>
+                }
+              </div>
+            }
+
+            <div class="d-flex gap-3 mt-2">
+              <button class="btn fw-bold px-5 py-2 text-white rounded-3"
+                      style="background:#0cc0a8;"
+                      [disabled]="guardando()"
+                      (click)="guardar()">
+                @if (guardando()) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                Crear Usuario
+              </button>
+              <button class="btn btn-light fw-medium px-4 py-2 rounded-3"
+                      (click)="volver()">
+                Cancelar
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

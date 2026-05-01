@@ -25,7 +25,11 @@ export class AdminUsersService {
       tap(data => this.users.set(data))
     );
   }
-
+  create(form: any) {
+    return this.http.post(`${environment.apiUrl}/admin/users`, form, {
+      headers: this.getHeaders()
+    });
+  }
   update(id: number, payload: { name: string; email: string; phone: number | undefined; role: string }) {
     return this.http.put(`${this.API_URL}/user/${id}`, payload, {
       headers: this.getHeaders()
