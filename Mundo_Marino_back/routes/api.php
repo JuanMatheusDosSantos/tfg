@@ -143,6 +143,7 @@ Route::middleware(['auth:api', 'is_admin'])->prefix('admin')->group(function () 
     Route::get("admin_logs",[Admin_logController::class,"index"]);
 
     Route::get('users', [AdminUserController::class, 'index']);
+    Route::post('new/user/', [AdminUserController::class, 'update']);
     Route::put('user/{id}', [AdminUserController::class, 'update']);
     Route::put('user/{id}/role', [AdminUserController::class, 'updateRole']);
     Route::delete('user/{id}', [AdminUserController::class, 'delete']);

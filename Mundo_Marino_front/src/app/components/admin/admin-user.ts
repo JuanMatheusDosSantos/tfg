@@ -26,7 +26,7 @@ export class AdminUsersService {
     );
   }
   create(form: any) {
-    return this.http.post(`${environment.apiUrl}/admin/users`, form, {
+    return this.http.post(`${environment.apiUrl}/admin/new/user`, form, {
       headers: this.getHeaders()
     });
   }

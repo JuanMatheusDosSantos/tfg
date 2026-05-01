@@ -83,7 +83,7 @@ export class AdminNewUser {
     this.exito.set(null);
     this.error.set(null);
 
-    const payload: any = {
+    const form: any = {
       name:      this.name(),
       email:     this.email(),
       phone:     this.phone(),
@@ -93,13 +93,13 @@ export class AdminNewUser {
     };
 
     if (role === 'park' || role === 'restaurant') {
-      payload['park_id'] = this.selectedParkId();
+      form['park_id'] = this.selectedParkId();
     }
     if (role === 'restaurant') {
-      payload['restaurant_id'] = this.selectedRestaurantId();
+      form['restaurant_id'] = this.selectedRestaurantId();
     }
 
-    this.service.create(payload).subscribe({
+    this.service.create(form).subscribe({
       next: () => {
         this.exito.set('Usuario creado correctamente.');
         this.guardando.set(false);
