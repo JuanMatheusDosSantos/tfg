@@ -13,6 +13,10 @@ class Restaurant extends Model
         "opening_time",
         "closing_time",
     ];
+    function user()
+    {
+        return $this->hasMany(User::class);
+    }
     function park()
     {
         return $this->belongsTo(Park::class);

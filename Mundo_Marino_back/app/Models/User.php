@@ -70,6 +70,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Park::class);
     }
+    function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
     public function isAdmin(): bool
     {
         return $this->role==="admin";
