@@ -26,7 +26,60 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $rules = [
+                'name'      => 'required|string|max:255',
+                'email'     => 'required|email|unique:users,email',
+                'password'  => 'required|string|min:6',
+                'phone'     => 'nullable|integer',
+                'role'      => 'required|in:admin,park,restaurant,user',
+                'birthdate' => 'required|date',
+            ];
+
+            if ($request->role === 'park') {
+                $rules['park_id'] = 'required|exists:parks,id';
+            }
+
+            if ($request->role === 'restaurant') {
+                $rules['park_id']       = 'required|exists:parks,id';
+                $rules['restaurant_id'] = 'required|exists:restaurants,id';
+            }
+
+            $request->validate($rules);
+
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
+
+        try {
+            $user = new User();
+            $user->name      = $request->name;
+            $user->email     = $request->email;
+            $user->password  = bcrypt($request->password);
+            $user->phone     = $request->phone;
+            $user->role      = $request->role;
+            $user->birthdate = $request->birthdate;
+
+            if ($request->role === 'park') {
+                $user->park_id       = (int) $request->park_id;
+                $user->restaurant_id = null;
+            } elseif ($request->role === 'restaurant') {
+                $user->park_id       = (int) $request->park_id;
+                $user->restaurant_id = (int) $request->restaurant_id;
+            } else {
+                $user->park_id       = null;
+                $user->restaurant_id = null;
+            }
+
+            $user->save();
+
+            $this->log('create', 'users', null, "name: {$user->name}, email: {$user->email}, role: {$user->role}");
+
+            return response()->json(["Usuario creado correctamente"], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([$e->getMessage()], 400);
+        }
     }
 
     /**

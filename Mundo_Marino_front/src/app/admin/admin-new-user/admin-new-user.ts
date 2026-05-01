@@ -29,6 +29,7 @@ export class AdminNewUser {
   phone    = signal<number | undefined>(undefined);
   role     = signal('user');
   password = signal('');
+  birthdate = signal('');
 
   parks       = signal<Park[]>([]);
   restaurants = signal<Restaurant[]>([]);
@@ -62,8 +63,8 @@ export class AdminNewUser {
   }
 
   guardar() {
-    if (!this.name() || !this.email() || !this.password()) {
-      this.error.set('Nombre, email y contraseña son obligatorios.');
+    if (!this.name() || !this.email() || !this.password() || !this.birthdate()) {
+      this.error.set('Nombre, email, contraseña y fecha de nacimiento son obligatorios.');
       return;
     }
 
@@ -83,11 +84,12 @@ export class AdminNewUser {
     this.error.set(null);
 
     const payload: any = {
-      name:     this.name(),
-      email:    this.email(),
-      phone:    this.phone(),
+      name:      this.name(),
+      email:     this.email(),
+      phone:     this.phone(),
       role,
-      password: this.password(),
+      password:  this.password(),
+      birthdate: this.birthdate(),
     };
 
     if (role === 'park' || role === 'restaurant') {

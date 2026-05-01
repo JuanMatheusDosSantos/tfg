@@ -60,6 +60,13 @@
                      (input)="phone.set($any($event.target).value ? +$any($event.target).value : undefined)"
                      placeholder="Sin teléfono" />
             </div>
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-uppercase text-muted"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Fecha de Nacimiento</label>
+              <input type="date" class="form-control rounded-3"
+                     [value]="birthdate()"
+                     (input)="birthdate.set($any($event.target).value)" />
+            </div>
 
             <div class="mb-4">
               <label class="form-label fw-semibold small text-uppercase text-muted"
