@@ -13,7 +13,7 @@ class RestaurantController extends Controller
     function index()
     {
         try {
-            $restaurants = Restaurant::all();
+            $restaurants = Restaurant::with("park");
             return response()->json($restaurants);
         } catch (\Exception $e) {
             return response()->json(["Ha ocurrido un error a la hora de mostrar todas los restaurantes"], 400);

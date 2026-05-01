@@ -115,6 +115,7 @@ export class AdminUserEdit {
   filteredRestaurants = computed(() => {
     const pid = this.selectedParkId();
     if (pid === null) return [];
+    console.log(this.restaurants)
     return this.restaurants().filter(r => r.park_id === pid);
   });
 
