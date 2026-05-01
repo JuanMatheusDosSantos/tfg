@@ -47,7 +47,6 @@ export class AdminRestaurantBookings implements OnInit {
           this.reservas.set(data);
         } else {
           console.log(data)
-          console.log(this.auth.currentUser())
           this.reservas.set(data.filter(r => r.restaurant?.id === this.auth.currentUser()?.restaurant_id));
         }
         this.cargando.set(false);
