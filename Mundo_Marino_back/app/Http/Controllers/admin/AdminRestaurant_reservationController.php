@@ -17,7 +17,7 @@ class AdminRestaurant_reservationController extends Controller
      */
     public function index()
     {
-        $reservations = Restaurant_reservation::with("user")->get();
+        $reservations = Restaurant_reservation::with(["user","park"])->get();
         return response()->json($reservations);
     }
 
