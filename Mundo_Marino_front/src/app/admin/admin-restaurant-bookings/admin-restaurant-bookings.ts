@@ -46,8 +46,6 @@ export class AdminRestaurantBookings implements OnInit {
         if (this.auth.isAdmin) {
           this.reservas.set(data);
         } else {
-          console.log(data)
-          console.log(this.auth.currentUser().restaurant)
           this.reservas.set(data.filter(r => r.restaurant?.id === this.auth.currentUser()?.restaurant?.id));
         }
         this.cargando.set(false);
@@ -194,5 +192,13 @@ export class AdminRestaurantBookings implements OnInit {
     this.filtroPark.set(id);
     this.filtroRestaurant.set(0);
   }
-
+  isAdmin() {
+    return this.auth.isAdmin;
+  }
+  isRestaurant() {
+    return this.auth.isRestaurant;
+  }
+  adminRestaurant(){
+    return this.auth.currentUser()?.restaurant?.name ??'—';
+  }
 }

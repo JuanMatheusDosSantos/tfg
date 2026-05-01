@@ -45,6 +45,7 @@
         <div class="row g-3 align-items-end">
 
           <!-- Parque -->
+          @if (isAdmin){
           <div class="col-12 col-md-2">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
@@ -57,19 +58,26 @@
               }
             </select>
           </div>
-
+          } @else if (isRestaurant()){
+            <div class="col-12 col-md-3">
+              <label class="text-muted small fw-bold text-uppercase mb-1"
+                     style="font-size:0.65rem;letter-spacing:0.1em;">Parque</label>
+              <p class="rounded-3">{{adminRestaurant()}}</p>
+            </div>
+          }
           <!-- Restaurante -->
           <div class="col-12 col-md-2">
             <label class="text-muted small fw-bold text-uppercase mb-1"
                    style="font-size:0.65rem;letter-spacing:0.1em;">Restaurante</label>
-            <select class="form-select rounded-3"
+              <select class="form-select rounded-3"
                     [value]="filtroRestaurant()"
                     (change)="filtroRestaurant.set(+$any($event.target).value)">
               <option [value]="0">Todos</option>
               @for (r of restaurantesFiltradosPorParque(); track r.id) {
-                <option [value]="r.id">{{ r.name }}</option>
-              }
+            <option [value]="r.id">{{ r.name }}</option>
+            }
             </select>
+
           </div>
 
           <!-- Buscar -->
