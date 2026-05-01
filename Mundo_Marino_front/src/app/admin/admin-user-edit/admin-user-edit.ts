@@ -95,7 +95,7 @@ export class AdminUserEdit {
       role,
     };
 
-    if (role === 'park') {
+    if (role === 'park'||role === 'restaurant') {
       payload['park_id'] = this.selectedParkId();
     }
     if (role === 'restaurant') {
