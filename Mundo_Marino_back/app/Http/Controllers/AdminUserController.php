@@ -73,7 +73,7 @@ class AdminUserController extends Controller
 
             $user->save();
 
-            $this->log('create', 'users', null, "name: {$user->name}, email: {$user->email}, role: {$user->role}");
+            $this->log('create', 'users', '', "name: {$user->name}, email: {$user->email}, role: {$user->role}");
 
             return response()->json(["Usuario creado correctamente"], 201);
 
