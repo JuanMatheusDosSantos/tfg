@@ -10,6 +10,7 @@ import {Restaurant_reservation} from '../../models/restaurant_reservation';
 import {AdminRestaurantBookingService} from '../../components/admin/admin-restaurant-booking';
 import {Park} from '../../models/park';
 import {Restaurant} from '../../models/restaurant';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-admin-restaurant-bookings',
@@ -24,6 +25,7 @@ export class AdminRestaurantBookings implements OnInit {
 
   private service = inject(AdminRestaurantBookingService);
   private router = inject(Router);
+  private auth = inject(AuthService)
 
   reservas = signal<Restaurant_reservation[]>([]);
   cargando = signal(true);
@@ -41,14 +43,18 @@ export class AdminRestaurantBookings implements OnInit {
   ngOnInit() {
     this.service.fetchReservas().subscribe({
       next: (data) => {
-        this.reservas.set(data);
+        if (this.auth.isAdmin) {
+          this.reservas.set(data);
+        } else {
+          this.reservas.set(data.filter(r => r.restaurant?.park_id === this.auth.currentUser()?.park_id));
+        }
         this.cargando.set(false);
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al cargar reservas');
         this.cargando.set(false);
       }
-    });
+    })
     this.service.fetchParks().subscribe({
       next: (data) => this.parks.set(data.sort((a, b) => a.id - b.id)),
       error: () => {}
