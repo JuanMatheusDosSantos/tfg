@@ -54,9 +54,12 @@ export class AdminUserEdit {
           this.role.set(u.role);
 
           if (u.park?.id) {
-            this.selectedParkId.set(u.park.id);
+            this.selectedParkId.set(Number(u.park.id));
           }
 
+          if (u.restaurant?.id) {
+            this.selectedRestaurantId.set(Number(u.restaurant.id));
+          }
           this.restService.fetchRestaurants().subscribe(res => {
             const lista = Array.isArray(res) ? res : (res as any)?.data ?? [];
             this.restaurants.set(lista);
