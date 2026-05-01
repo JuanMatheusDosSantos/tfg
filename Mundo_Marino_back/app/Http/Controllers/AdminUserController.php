@@ -14,7 +14,7 @@ class AdminUserController extends Controller
     public function index()
     {
         try {
-            $users = User::with(["park","restaurant"]);
+            $users = User::with(["park","restaurant"])->get();
             return response()->json($users);
         } catch (\Exception $e) {
             return response()->json(["Ha ocurrido un error a la hora de mostrar todos los usuarios"], 400);

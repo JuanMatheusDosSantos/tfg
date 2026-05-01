@@ -61,27 +61,36 @@ export class AdminUsers {
     if (!confirm(`¿Eliminar el usuario ${u.name}?`)) return;
 
     this.service.delete(u.id).subscribe({
-      next: () => {},
+      next: () => {
+      },
       error: (err) => this.error.set(err.error?.message ?? 'Error al eliminar')
     });
   }
 
-  onFechaFiltro(_fecha: string) {}
+  onFechaFiltro(_fecha: string) {
+  }
 
   guardarRol(u: User, nuevoRol: string) {
     this.service.updateRole(u.id, nuevoRol).subscribe({
       next: () => {
         this.users.update(lista =>
-          lista.map(x => x.id === u.id ? { ...x, role: nuevoRol } : x)
+          lista.map(x => x.id === u.id ? {...x, role: nuevoRol} : x)
         );
       },
       error: (err) => this.error.set(err.error?.message ?? 'Error al actualizar rol')
     });
   }
 
-  get totalAdmins()      {
+  get totalAdmins() {
     console.log(this.users());
-    return this.users().filter(u => u.role === 'admin').length; }
-  get totalRestaurant()  { return this.users().filter(u => u.role === 'restaurant').length; }
-  get totalPark()        { return this.users().filter(u => u.role === 'park').length; }
+    return this.users().filter(u => u.role === 'admin').length;
+  }
+
+  get totalRestaurant() {
+    return this.users().filter(u => u.role === 'restaurant').length;
+  }
+
+  get totalPark() {
+    return this.users().filter(u => u.role === 'park').length;
+  }
 }
