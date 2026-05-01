@@ -47,24 +47,6 @@ export class AdminUserEdit {
     this.service.fetchUsers().subscribe({
       next: () => {
         const u = this.service.users().find(x => x.id === id);
-        this.restService.fetchRestaurants().subscribe(res => {
-          const lista = Array.isArray(res) ? res : (res as any)?.data ?? [];
-          this.restaurants.set(lista);
-
-          console.log('--- DEBUG ---');
-          console.log('usuario:', u);
-          console.log('park del usuario:', u?.park);
-          console.log('restaurant del usuario:', u?.restaurant);
-          console.log('selectedParkId seteado a:', u?.park?.id, typeof u?.park?.id);
-          console.log('restaurants cargados:', lista);
-          console.log('primer restaurant park_id:', lista[0]?.park_id, typeof lista[0]?.park_id);
-
-          if (u?.restaurant?.id) {
-            this.selectedRestaurantId.set(Number(u?.restaurant.id));
-            console.log('selectedRestaurantId seteado a:', this.selectedRestaurantId());
-          }
-        });
-
         if (u) {
           this.usuario.set(u);
           this.name.set(u.name);

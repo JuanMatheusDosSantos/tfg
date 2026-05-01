@@ -56,6 +56,14 @@
           <option value="restaurant">Restaurante</option>
           <option value="user">Usuario</option>
         </select>
+        @if (isAdmin()) {
+          <a [routerLink]="['/admin/user/new']"
+             class="btn fw-bold text-white rounded-3 d-flex align-items-center gap-2"
+             style="background:#0cc0a8;">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">add</span>
+            Nuevo Parque
+          </a>
+        }
       </div>
 
       @if (cargando()) {

@@ -4,6 +4,7 @@ import {AdminSidebar} from '../../layouts/admin-sidebar/admin-sidebar';
 import {RouterLink} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {User} from '../../models/user';
+import {AuthService} from '../../auth/auth';
 
 @Component({
   selector: 'app-admin-users',
@@ -13,6 +14,7 @@ import {User} from '../../models/user';
 })
 export class AdminUsers {
   private service = inject(AdminUsersService);
+  private auth = inject(AuthService);
 
   users = this.service.users;
   cargando = signal(true);
@@ -82,7 +84,6 @@ export class AdminUsers {
   }
 
   get totalAdmins() {
-    console.log(this.users());
     return this.users().filter(u => u.role === 'admin').length;
   }
 
@@ -92,5 +93,11 @@ export class AdminUsers {
 
   get totalPark() {
     return this.users().filter(u => u.role === 'park').length;
+  }
+  isAdmin() {
+    return this.auth.isAdmin;
+  }
+  isRestaurant() {
+    return this.auth.isRestaurant;
   }
 }
