@@ -101,7 +101,7 @@
           No hay atracciones que coincidan con los filtros.
         </div>
       } @else {
-        @for (a of atraccionesFiltradas(); track a.id) {
+        @for (a of atraccionesPaginadas(); track a.id) {
           <div class="card border rounded-4 shadow-sm overflow-hidden flex-md-row attraction-card">
 
             <!-- Imagen por tipo -->
@@ -144,6 +144,28 @@
                   <span class="material-icons" style="font-size:1rem;">arrow_forward</span>
                 </button>
               </div>
+            </div>
+          </div>
+        }
+        @if (totalPaginas() > 1) {
+          <div class="d-flex align-items-center justify-content-between mt-2">
+    <span class="text-muted small">
+      Mostrando {{ (paginaActual() - 1) * porPagina + 1 }}–{{ (paginaActual() - 1) * porPagina + atraccionesPaginadas().length }} de {{ atraccionesFiltradas().length }} atracciones
+    </span>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                      [disabled]="paginaActual() === 1"
+                      (click)="irPagina(paginaActual() - 1)">
+                <span class="material-icons" style="font-size:1rem;">chevron_left</span>
+              </button>
+              <span class="btn btn-sm btn-light rounded-3 fw-bold" style="cursor:default;">
+        {{ paginaActual() }} / {{ totalPaginas() }}
+      </span>
+              <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
+                      [disabled]="paginaActual() === totalPaginas()"
+                      (click)="irPagina(paginaActual() + 1)">
+                <span class="material-icons" style="font-size:1rem;">chevron_right</span>
+              </button>
             </div>
           </div>
         }

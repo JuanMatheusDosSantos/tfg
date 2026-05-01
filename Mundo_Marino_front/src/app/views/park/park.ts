@@ -21,12 +21,14 @@ export class Park {
   filtroTipo = signal<string[]>([]);
   filtroAltura = signal<number[]>([]);
 
+  paginaActual = signal(1);
+  readonly porPagina = 5;
+
   readonly DEFAULT_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG';
 
   ngOnInit() {
     this.attractionService.fetchAttractions().subscribe({
       next: (data) => {
-        console.log(data)
         this.atracciones.set(data.filter(a => a.status !== 'permanently_closed'&&a.park?.id===1));
         this.cargando.set(false);
       },
@@ -37,6 +39,7 @@ export class Park {
       }
     });
   }
+
   atraccionesFiltradas = computed(() => {
     let lista = this.atracciones();
 
@@ -62,6 +65,7 @@ export class Park {
         ? current.filter(t => t !== tipo)
         : [...current, tipo]
     );
+    this.paginaActual.set(1);
   }
 
   toggleAltura(altura: number) {
@@ -70,6 +74,7 @@ export class Park {
         ? current.filter(h => h !== altura)
         : [...current, altura]
     );
+    this.paginaActual.set(1);
   }
 
   limpiarFiltros() {
@@ -127,6 +132,18 @@ export class Park {
       intenso:  'Solo para los amantes de las emociones fuertes. ¡Adrenalina pura!',
     };
     return map[tipo] ?? '';
+  }
+  atraccionesPaginadas = computed(() => {
+    const inicio = (this.paginaActual() - 1) * this.porPagina;
+    return this.atraccionesFiltradas().slice(inicio, inicio + this.porPagina);
+  });
+
+  totalPaginas = computed(() =>
+    Math.ceil(this.atraccionesFiltradas().length / this.porPagina)
+  );
+
+  irPagina(pagina: number) {
+    this.paginaActual.set(pagina);
   }
 }
 
