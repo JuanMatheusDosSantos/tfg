@@ -42,7 +42,6 @@ export class AdminUserEdit {
     const id = +this.route.snapshot.paramMap.get('id')!;
 
     this.parkService.fetchParks().subscribe(parks => this.parks.set(parks));
-    this.restService.fetchRestaurants().subscribe();
 
     this.service.fetchUsers().subscribe({
       next: () => {
@@ -53,6 +52,19 @@ export class AdminUserEdit {
           this.email.set(u.email);
           this.phone.set(u.phone ?? undefined);
           this.role.set(u.role);
+
+          if (u.park?.id) {
+            this.selectedParkId.set(u.park.id);
+          }
+
+          this.restService.fetchRestaurants().subscribe(res => {
+            const lista = Array.isArray(res) ? res : (res as any)?.data ?? [];
+            this.restaurants.set(lista);
+
+            if (u.restaurant?.id) {
+              this.selectedRestaurantId.set(u.restaurant.id);
+            }
+          });
         }
         this.cargando.set(false);
       },
@@ -60,10 +72,6 @@ export class AdminUserEdit {
         this.error.set(err.error?.message ?? 'Error al cargar el usuario');
         this.cargando.set(false);
       }
-    });
-
-    this.restService.fetchRestaurants().subscribe(res => {
-      if (Array.isArray(res)) this.restaurants.set(res);
     });
   }
 
