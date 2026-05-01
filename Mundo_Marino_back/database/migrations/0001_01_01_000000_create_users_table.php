@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum("role",["admin","park","restaurant","user"])->default("user");
             $table->integer("park_id")->nullable();
+            $table->integer("restaurant_id")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

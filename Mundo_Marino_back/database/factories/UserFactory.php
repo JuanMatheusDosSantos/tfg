@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Park;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -34,6 +35,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('12345678'),
             'remember_token' => Str::random(10),
             'park_id' => fake()->boolean() ? Park::inRandomOrder()->first()?->id : null,
+            'restaurant_id' => fake()->boolean() ? Restaurant::inRandomOrder()->first()?->id : null,
             'birthdate' => fake()->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
         ];
     }

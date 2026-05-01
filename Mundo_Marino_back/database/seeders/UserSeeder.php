@@ -38,6 +38,7 @@ class UserSeeder extends Seeder
             "password" => bcrypt("12345678"),
             "role" => "restaurant",
             "park_id"=>1,
+            "restaurant_id"=>1,
             "phone" => 555666777,
             "birthdate"=>"1992-11-08"
         ]);
