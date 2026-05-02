@@ -5,18 +5,6 @@
 
     <main class="flex-grow-1 overflow-auto p-3 p-lg-5" style="background:#f5f8f8;">
 
-    <!-- Botón hamburguesa solo en móvil -->
-    <div class="d-md-none mb-3">
-      <button class="btn btn-sm border rounded-3 d-flex align-items-center gap-2"
-              style="color:#475569;"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#adminSidebar"
-              aria-controls="adminSidebar">
-        <span class="material-symbols-outlined" style="font-size:1.2rem;">menu</span>
-        <span class="fw-semibold small">Menú</span>
-      </button>
-    </div>
 
       @if (cargando()) {
         <div class="d-flex align-items-center justify-content-center py-5">
@@ -245,4 +233,4 @@
       }
     </main>
   </div>
-<!--</div>-->
+</div>
