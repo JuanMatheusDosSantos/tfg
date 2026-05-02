@@ -30,6 +30,9 @@ export class AdminAttractions {
   filtroStatus = signal<string>('all');
   busqueda = signal<string>('');
 
+  paginaActual = signal(1);
+  readonly POR_PAGINA = 10;
+
   readonly DEFAULT_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG';
   imgUrl = `${environment.imgUrl}`;
 
@@ -46,7 +49,7 @@ export class AdminAttractions {
         } else {
           this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
         }
-        this.cargarAtracciones(); // ← aquí, no cargando.set(false)
+        this.cargarAtracciones();
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al cargar los parques');
@@ -79,6 +82,7 @@ export class AdminAttractions {
 
   onParkChange(id: number) {
     this.parkSeleccionado.set(id);
+    this.paginaActual.set(1);
   }
 
   atraccionesFiltradas = computed(() => {
@@ -106,8 +110,16 @@ export class AdminAttractions {
     return lista;
   });
 
-  setFiltro(status: string) { this.filtroStatus.set(status); }
-  onBusqueda(event: Event) { this.busqueda.set((event.target as HTMLInputElement).value); }
+  setFiltro(status: string) {
+    this.filtroStatus.set(status);
+    this.paginaActual.set(1);
+  }
+
+  onBusqueda(event: Event) {
+    this.busqueda.set((event.target as HTMLInputElement).value);
+    this.paginaActual.set(1);
+  }
+
 
   statusClass(status: string): string {
     const map: Record<string, string> = {
@@ -194,9 +206,25 @@ export class AdminAttractions {
       : this.parks().find(p => p.id === this.parkSeleccionado()) ?? null
   );
 
-  isAdmin() { return this.auth.isAdmin; }
+  isAdmin() {
+    return this.auth.isAdmin;
+  }
 
   imagenAtraccion(a: Attraction): string {
     return a.image ? `${a.image}` : this.DEFAULT_IMAGE;
+  }
+
+  atraccionesPaginadas = computed(() => {
+    const lista = this.atraccionesFiltradas();
+    const inicio = (this.paginaActual() - 1) * this.POR_PAGINA;
+    return lista.slice(inicio, inicio + this.POR_PAGINA);
+  });
+
+  totalPaginas = computed(() =>
+    Math.ceil(this.atraccionesFiltradas().length / this.POR_PAGINA)
+  );
+
+  irAPagina(p: number) {
+    this.paginaActual.set(p);
   }
 }
