@@ -7,6 +7,7 @@ import {Attraction} from '../../models/attraction';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../auth/auth';
 import {ParkService} from '../../components/park';
+import {AttractionService} from '../../components/attraction';
 
 @Component({
   selector: 'app-admin-attractions',
@@ -22,6 +23,7 @@ export class AdminAttractions {
   private apiUrl = `${environment.apiUrl}/admin`;
   private auth = inject(AuthService)
   private service=inject(ParkService)
+  private attractionService=inject(AttractionService)
 
   parks = signal<Park[]>([]);
   parkSeleccionado = signal<number>(0); // 0 = todos
@@ -35,30 +37,29 @@ export class AdminAttractions {
 
   imgUrl = `${environment.imgUrl}`
 
-  cargarParks() {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
+  cargarAtracciones() {
+    this.attractionService.fetchAttractions().subscribe({
+      next: (atracciones) => {
+        const filtered = this.isAdmin()
+          ? atracciones
+          : atracciones.filter(a => a.park?.id === this.auth.currentUser()?.park?.id);
 
-    this.service.fetchParks().subscribe({
-      next: (data) => {
-        const sorted = data.sort((a, b) => a.id - b.id);
-        if (this.isAdmin()) {
-          console.log(data)
-          this.parks.set(sorted);
-        } else {
-          this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
-        }
+        this.parks.update(parks =>
+          parks.map(p => ({
+            ...p,
+            attractions: filtered.filter(a => a.park?.id === p.id)
+          }))
+        );
         this.cargando.set(false);
       },
       error: (err) => {
-        this.error.set(err.error?.message ?? 'Error al cargar los parques');
+        this.error.set(err.error?.message ?? 'Error al cargar las atracciones');
         this.cargando.set(false);
       }
     });
   }
-
   ngOnInit() {
-    this.cargarParks();
+    this.cargarAtracciones();
   }
 
 
@@ -174,7 +175,7 @@ export class AdminAttractions {
     const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
     this.http.delete(`${this.apiUrl}/attraction/${a.id}`, {headers}).subscribe({
-      next: () => this.cargarParks(),
+      next: () => this.cargarAtracciones(),
       error: (err) => console.error('Error al eliminar:', err)
     });
   }
