@@ -13,39 +13,27 @@
     } @else {
 
       <!-- Cabecera -->
-      <div class="mb-4">
+      <div class="mb-3">
         @if (parkActual(); as p) {
-          <h1 class="fw-bold mb-1" style="font-size:1.8rem;">{{ p.name }}</h1>
-          <p class="text-muted mb-0 d-flex align-items-center gap-2 flex-wrap">
+          <h1 class="fw-bold mb-1" style="font-size:1.5rem;">{{ p.name }}</h1>
+          <p class="text-muted mb-0 d-flex align-items-center gap-2 flex-wrap small">
             <span class="material-symbols-outlined" style="font-size:1rem;">location_on</span>
             {{ p.location }}
-            <span class="ms-2 material-symbols-outlined" style="font-size:1rem;">schedule</span>
+            <span class="material-symbols-outlined" style="font-size:1rem;">schedule</span>
             {{ p.opening_time.substring(0,5) }} – {{ p.closing_time.substring(0,5) }}
           </p>
         } @else {
-          <h1 class="fw-bold mb-1" style="font-size:1.8rem;">Todas las Atracciones</h1>
+          <h1 class="fw-bold mb-1" style="font-size:1.5rem;">Todas las Atracciones</h1>
           <p class="text-muted mb-0 small">Mostrando atracciones de todos los parques</p>
         }
       </div>
 
-      <!-- Buscador + filtros -->
-      <div class="d-flex flex-column gap-2 mb-4">
+      <!-- Filtros -->
+      <div class="d-flex flex-column gap-2 mb-3">
 
-        <!-- Fila 1: selector parque + buscador + botón nueva -->
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          @if (isAdmin()) {
-            <select class="form-select rounded-3"
-                    style="width:160px;flex-shrink:0;"
-                    [value]="parkSeleccionado()"
-                    (change)="onParkChange(+$any($event.target).value)">
-              <option [value]="0">Todos los parques</option>
-              @for (p of parks(); track p.id) {
-                <option [value]="p.id">{{ p.name }}</option>
-              }
-            </select>
-          }
-
-          <div class="position-relative flex-grow-1" style="min-width:140px;">
+        <!-- Fila 1: buscador + botón nueva -->
+        <div class="d-flex align-items-center gap-2">
+          <div class="position-relative flex-grow-1">
             <span class="material-symbols-outlined position-absolute top-50 translate-middle-y ms-3 text-muted"
                   style="font-size:1rem;">search</span>
             <input type="text"
@@ -53,42 +41,53 @@
                    placeholder="Buscar atracción..."
                    (input)="onBusqueda($event)" />
           </div>
-
           <a [routerLink]="['/admin/attraction']"
-             class="btn fw-bold text-white rounded-3 d-flex align-items-center gap-1"
-             style="background:#0cc0a8;white-space:nowrap;">
-            <span class="material-symbols-outlined" style="font-size:1rem;">add</span>
+             class="btn fw-bold text-white rounded-3 d-flex align-items-center gap-1 flex-shrink-0"
+             style="background:#0cc0a8;">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">add</span>
             <span class="d-none d-sm-inline">Nueva Atracción</span>
           </a>
         </div>
 
-        <!-- Fila 2: filtros de estado -->
-        <div class="d-flex gap-2 flex-wrap">
-          <button class="btn rounded-3 fw-medium px-2 btn-sm"
+        <!-- Fila 2: selector parque (solo admin) -->
+        @if (isAdmin()) {
+          <select class="form-select rounded-3"
+                  [value]="parkSeleccionado()"
+                  (change)="onParkChange(+$any($event.target).value)">
+            <option [value]="0">Todos los parques</option>
+            @for (p of parks(); track p.id) {
+              <option [value]="p.id">{{ p.name }}</option>
+            }
+          </select>
+        }
+
+        <!-- Fila 3: filtros de estado (scroll horizontal en móvil) -->
+        <div class="d-flex gap-2 overflow-auto pb-1" style="scrollbar-width:none;">
+          <button class="btn rounded-3 fw-medium btn-sm flex-shrink-0"
                   [class.text-white]="filtroStatus() === 'all'"
                   [style.background]="filtroStatus() === 'all' ? '#0cc0a8' : '#fff'"
                   [style.border]="filtroStatus() === 'all' ? 'none' : '1px solid #dee2e6'"
                   (click)="setFiltro('all')">Todas</button>
 
-          <button class="btn rounded-3 fw-medium px-2 btn-sm"
+          <button class="btn rounded-3 fw-medium btn-sm flex-shrink-0"
                   [class.text-white]="filtroStatus() === 'operational'"
                   [style.background]="filtroStatus() === 'operational' ? '#0cc0a8' : '#fff'"
                   [style.border]="filtroStatus() === 'operational' ? 'none' : '1px solid #dee2e6'"
                   (click)="setFiltro('operational')">Operativas</button>
 
-          <button class="btn rounded-3 fw-medium px-2 btn-sm"
+          <button class="btn rounded-3 fw-medium btn-sm flex-shrink-0"
                   [class.text-white]="filtroStatus() === 'maintenance'"
                   [style.background]="filtroStatus() === 'maintenance' ? '#f59e0b' : '#fff'"
                   [style.border]="filtroStatus() === 'maintenance' ? 'none' : '1px solid #dee2e6'"
                   (click)="setFiltro('maintenance')">Mantenimiento</button>
 
-          <button class="btn rounded-3 fw-medium px-2 btn-sm"
+          <button class="btn rounded-3 fw-medium btn-sm flex-shrink-0"
                   [class.text-white]="filtroStatus() === 'closed'"
                   [style.background]="filtroStatus() === 'closed' ? '#ef4444' : '#fff'"
                   [style.border]="filtroStatus() === 'closed' ? 'none' : '1px solid #dee2e6'"
                   (click)="setFiltro('closed')">Cerradas</button>
 
-          <button class="btn rounded-3 fw-medium px-2 btn-sm"
+          <button class="btn rounded-3 fw-medium btn-sm flex-shrink-0"
                   [class.text-white]="filtroStatus() === 'permanently_closed'"
                   [style.background]="filtroStatus() === 'permanently_closed' ? '#ef4444' : '#fff'"
                   [style.border]="filtroStatus() === 'permanently_closed' ? 'none' : '1px solid #dee2e6'"
@@ -97,51 +96,50 @@
 
       </div>
 
-      <!-- Tabla atracciones -->
+      <!-- Tabla -->
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light text-muted"
                    style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
               <tr>
-                <th class="px-4 py-3">Atracción</th>
-                <th class="px-4 py-3 d-none d-lg-table-cell">Tipo</th>
-                <th class="px-4 py-3 d-none d-lg-table-cell">Duración</th>
-                <th class="px-4 py-3 d-none d-lg-table-cell">Capacidad</th>
-                <th class="px-4 py-3">Estado</th>
-                <th class="px-4 py-3 d-none d-md-table-cell">Cambiar Estado</th>
-                <th class="px-4 py-3 text-end">Acciones</th>
+                <th class="px-3 py-3">Atracción</th>
+                <th class="px-3 py-3 d-none d-lg-table-cell">Tipo</th>
+                <th class="px-3 py-3 d-none d-lg-table-cell">Duración</th>
+                <th class="px-3 py-3 d-none d-lg-table-cell">Capacidad</th>
+                <th class="px-3 py-3">Estado</th>
+                <th class="px-3 py-3 d-none d-md-table-cell">Cambiar Estado</th>
+                <th class="px-3 py-3 text-end">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @for (a of atraccionesPaginadas(); track a.id) {
                 <tr>
-                  <td class="px-4 py-3">
-                    <div class="d-flex align-items-center gap-3">
+                  <td class="px-3 py-3">
+                    <div class="d-flex align-items-center gap-2">
                       <img [src]="imagenAtraccion(a)" alt=""
-                           style="width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;">
+                           style="width:36px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;">
                       <div>
-                        <span class="fw-bold d-block">{{ a.name }}</span>
-                        <!-- Info extra en móvil bajo el nombre -->
-                        <span class="text-muted d-lg-none" style="font-size:0.75rem;">
+                        <span class="fw-bold d-block" style="font-size:0.9rem;">{{ a.name }}</span>
+                        <span class="text-muted d-lg-none" style="font-size:0.72rem;">
                           {{ tipoLabel(a.type) }} · {{ a.duration }} min · {{ a.max_capacity }} pers.
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td class="px-4 py-3 d-none d-lg-table-cell">
+                  <td class="px-3 py-3 d-none d-lg-table-cell">
                     <span class="badge rounded-pill fw-bold px-3 py-2" [class]="tipoClass(a.type)">
                       {{ tipoLabel(a.type) }}
                     </span>
                   </td>
-                  <td class="px-4 py-3 small d-none d-lg-table-cell">{{ a.duration }} min</td>
-                  <td class="px-4 py-3 small d-none d-lg-table-cell">{{ a.max_capacity }} personas</td>
-                  <td class="px-4 py-3">
-                    <span class="badge rounded-pill fw-bold px-3 py-2" [class]="statusClass(a.status)">
+                  <td class="px-3 py-3 small d-none d-lg-table-cell">{{ a.duration }} min</td>
+                  <td class="px-3 py-3 small d-none d-lg-table-cell">{{ a.max_capacity }} personas</td>
+                  <td class="px-3 py-3">
+                    <span class="badge rounded-pill fw-bold px-2 py-1" style="font-size:0.7rem;" [class]="statusClass(a.status)">
                       {{ statusLabel(a.status) }}
                     </span>
                   </td>
-                  <td class="px-4 py-3 d-none d-md-table-cell">
+                  <td class="px-3 py-3 d-none d-md-table-cell">
                     <select class="form-select form-select-sm rounded-3"
                             style="width:170px;"
                             [value]="a.status"
@@ -152,14 +150,13 @@
                       <option value="permanently_closed">Cerrada permanentemente</option>
                     </select>
                   </td>
-                  <td class="px-4 py-3 text-end">
-                    <div class="d-flex align-items-center justify-content-end gap-2">
+                  <td class="px-3 py-3 text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-1">
                       <a class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
                          [routerLink]="['/admin/attraction', a.id, 'edit']"
                          title="Editar">
                         <span class="material-symbols-outlined" style="font-size:1rem;">edit</span>
                       </a>
-                      <!-- Cambiar estado en móvil: dropdown -->
                       <div class="dropdown d-md-none">
                         <button class="btn btn-sm btn-light rounded-3 d-flex align-items-center"
                                 data-bs-toggle="dropdown" title="Cambiar estado">
@@ -191,37 +188,35 @@
             </tbody>
           </table>
         </div>
-      <div class="px-4 py-3 bg-light border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+        <div class="px-3 py-3 bg-light border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
           <span class="text-muted small">
             Mostrando {{ atraccionesPaginadas().length }} de {{ atraccionesFiltradas().length }} atracciones
           </span>
-
-        @if (totalPaginas() > 1) {
-          <nav>
-            <ul class="pagination pagination-sm mb-0">
-              <li class="page-item" [class.disabled]="paginaActual() === 1">
-                <button class="page-link rounded-3" (click)="irAPagina(paginaActual() - 1)">
-                  <span class="material-symbols-outlined" style="font-size:1rem;">chevron_left</span>
-                </button>
-              </li>
-
-              @for (p of [].constructor(totalPaginas()); track $index) {
-                <li class="page-item" [class.active]="paginaActual() === $index + 1">
-                  <button class="page-link rounded-3" (click)="irAPagina($index + 1)">
-                    {{ $index + 1 }}
+          @if (totalPaginas() > 1) {
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="paginaActual() === 1">
+                  <button class="page-link rounded-3" (click)="irAPagina(paginaActual() - 1)">
+                    <span class="material-symbols-outlined" style="font-size:1rem;">chevron_left</span>
                   </button>
                 </li>
-              }
-
-              <li class="page-item" [class.disabled]="paginaActual() === totalPaginas()">
-                <button class="page-link rounded-3" (click)="irAPagina(paginaActual() + 1)">
-                  <span class="material-symbols-outlined" style="font-size:1rem;">chevron_right</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        }
-      </div>
+                @for (p of [].constructor(totalPaginas()); track $index) {
+                  <li class="page-item" [class.active]="paginaActual() === $index + 1">
+                    <button class="page-link rounded-3" (click)="irAPagina($index + 1)">
+                      {{ $index + 1 }}
+                    </button>
+                  </li>
+                }
+                <li class="page-item" [class.disabled]="paginaActual() === totalPaginas()">
+                  <button class="page-link rounded-3" (click)="irAPagina(paginaActual() + 1)">
+                    <span class="material-symbols-outlined" style="font-size:1rem;">chevron_right</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          }
+        </div>
       </div>
     }
   </main>
