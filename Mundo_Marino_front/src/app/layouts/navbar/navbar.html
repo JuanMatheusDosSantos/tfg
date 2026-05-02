@@ -27,6 +27,24 @@
         @if (isLoggedIn()&&(isAdmin()||isPark()||isRestaurant())) {
           <li class="nav-item"><a class="nav-link fw-semibold" href="/admin">Dashboard</a></li>
         }
+        @if (isAdmin() || isPark()) {
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/admin/attractions">Parque</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/admin/park/bookings">Reservas Parque</a>
+          </li>
+        }
+        @if (isAdmin() || isRestaurant()) {
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/admin/restaurant/bookings">Reservas Restaurante</a>
+          </li>
+        }
+        @if (isAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/admin/users">Usuarios</a>
+          </li>
+        }
         <li class="nav-item"><a class="nav-link fw-semibold" href="/park">Parque</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold" href="/restaurant">Restaurante</a></li>
         <li class="nav-item"><a class="nav-link fw-semibold" href="/horario">Horarios</a></li>
