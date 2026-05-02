@@ -42,7 +42,8 @@ export class AdminAttractions {
     this.service.fetchParks().subscribe({
       next: (data) => {
         const sorted = data.sort((a, b) => a.id - b.id);
-        if (this.auth.isAdmin) {
+        if (this.isAdmin()) {
+          console.log("admin");
           this.parks.set(sorted);
         } else {
           this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
