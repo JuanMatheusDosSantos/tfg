@@ -40,6 +40,7 @@ export class AdminAttractions {
   cargarAtracciones() {
     this.attractionService.fetchAttractions().subscribe({
       next: (atracciones) => {
+        console.log(atracciones)
         const filtered = this.isAdmin()
           ? atracciones
           : atracciones.filter(a => a.park?.id === this.auth.currentUser()?.park?.id);
