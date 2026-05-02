@@ -43,7 +43,7 @@ export class AdminAttractions {
       next: (data) => {
         const sorted = data.sort((a, b) => a.id - b.id);
         if (this.isAdmin()) {
-          console.log("admin");
+          console.log(data)
           this.parks.set(sorted);
         } else {
           this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
