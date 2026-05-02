@@ -1,16 +1,7 @@
-<!-- Offcanvas: drawer en móvil, sidebar fijo en desktop -->
-<aside class="offcanvas-md offcanvas-start bg-white border-end d-flex flex-column"
-       tabindex="-1"
-       id="adminSidebar"
-       style="width: 220px;">
+<aside class="d-none d-md-flex flex-column bg-white border-end"
+       style="width: 220px; min-height: 100vh; flex-shrink: 0; overflow-y: auto;">
 
-  <!-- Header solo visible en móvil -->
-  <div class="offcanvas-header d-md-none border-bottom">
-    <span class="fw-bold" style="color:#005C97;">Menú Admin</span>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebar"></button>
-  </div>
-
-  <nav class="flex-grow-1 p-3 d-flex flex-column gap-1 overflow-auto pt-4">
+<nav class="flex-grow-1 p-3 d-flex flex-column gap-1 overflow-auto pt-4">
 
     <a [routerLink]="'/admin'"
        routerLinkActive="fw-semibold"
