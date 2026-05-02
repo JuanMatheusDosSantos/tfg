@@ -7,38 +7,37 @@ import {Attraction} from '../../models/attraction';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../auth/auth';
 import {ParkService} from '../../components/park';
+import {AttractionService} from '../../components/attraction';
 
 @Component({
   selector: 'app-admin-attractions',
-  imports: [
-    AdminSidebar,
-    RouterLink
-  ],
+  imports: [AdminSidebar, RouterLink],
   templateUrl: './admin-attractions.html',
   styleUrl: './admin-attractions.css',
 })
 export class AdminAttractions {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/admin`;
-  private auth = inject(AuthService)
-  private service=inject(ParkService)
+  private auth = inject(AuthService);
+  private service = inject(ParkService);
+  private attractionService = inject(AttractionService);
 
   parks = signal<Park[]>([]);
-  parkSeleccionado = signal<number>(0); // 0 = todos
-
+  parkSeleccionado = signal<number>(0);
   park = signal<Park | null>(null);
   cargando = signal(true);
   error = signal<string | null>(null);
   filtroStatus = signal<string>('all');
   busqueda = signal<string>('');
-  readonly DEFAULT_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG';
 
-  imgUrl = `${environment.imgUrl}`
+  readonly DEFAULT_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG';
+  imgUrl = `${environment.imgUrl}`;
+
+  ngOnInit() {
+    this.cargarParks();
+  }
 
   cargarParks() {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
-
     this.service.fetchParks().subscribe({
       next: (data) => {
         const sorted = data.sort((a, b) => a.id - b.id);
@@ -47,7 +46,7 @@ export class AdminAttractions {
         } else {
           this.parks.set(sorted.filter(p => p.id === this.auth.currentUser()?.park?.id));
         }
-        this.cargando.set(false);
+        this.cargarAtracciones(); // ← aquí, no cargando.set(false)
       },
       error: (err) => {
         this.error.set(err.error?.message ?? 'Error al cargar los parques');
@@ -56,10 +55,27 @@ export class AdminAttractions {
     });
   }
 
-  ngOnInit() {
-    this.cargarParks();
-  }
+  cargarAtracciones() {
+    this.attractionService.fetchAttractions().subscribe({
+      next: (atracciones) => {
+        const filtered = this.isAdmin()
+          ? atracciones
+          : atracciones.filter(a => a.park?.id === this.auth.currentUser()?.park?.id);
 
+        this.parks.update(parks =>
+          parks.map(p => ({
+            ...p,
+            attractions: filtered.filter(a => a.park?.id === p.id)
+          }))
+        );
+        this.cargando.set(false); // ← aquí sí
+      },
+      error: (err) => {
+        this.error.set(err.error?.message ?? 'Error al cargar las atracciones');
+        this.cargando.set(false);
+      }
+    });
+  }
 
   onParkChange(id: number) {
     this.parkSeleccionado.set(id);
@@ -90,20 +106,15 @@ export class AdminAttractions {
     return lista;
   });
 
-  setFiltro(status: string) {
-    this.filtroStatus.set(status);
-  }
-
-  onBusqueda(event: Event) {
-    this.busqueda.set((event.target as HTMLInputElement).value);
-  }
+  setFiltro(status: string) { this.filtroStatus.set(status); }
+  onBusqueda(event: Event) { this.busqueda.set((event.target as HTMLInputElement).value); }
 
   statusClass(status: string): string {
     const map: Record<string, string> = {
       operational: 'text-bg-success',
       maintenance: 'text-bg-warning',
       closed: 'text-bg-danger',
-      permanently_closed: "text-bg-danger"
+      permanently_closed: 'text-bg-danger'
     };
     return map[status] ?? 'text-bg-secondary';
   }
@@ -113,7 +124,7 @@ export class AdminAttractions {
       operational: 'Operativa',
       maintenance: 'Mantenimiento',
       closed: 'Cerrada',
-      permanently_closed: "Permanentemente cerrado"
+      permanently_closed: 'Permanentemente cerrado'
     };
     return map[status] ?? status;
   }
@@ -135,7 +146,6 @@ export class AdminAttractions {
     };
     return map[tipo] ?? 'text-bg-secondary';
   }
-
 
   cambiarStatus(atraccion: Attraction, nuevoStatus: string) {
     const token = localStorage.getItem('access_token');
@@ -184,9 +194,8 @@ export class AdminAttractions {
       : this.parks().find(p => p.id === this.parkSeleccionado()) ?? null
   );
 
-  isAdmin() {
-    return this.auth.isAdmin;
-  }
+  isAdmin() { return this.auth.isAdmin; }
+
   imagenAtraccion(a: Attraction): string {
     return a.image ? `${a.image}` : this.DEFAULT_IMAGE;
   }
