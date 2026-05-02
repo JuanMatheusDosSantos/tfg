@@ -35,7 +35,7 @@ return new class extends Migration
             $table->decimal("child_price_total", 10, 2);
             $table->decimal("applied_tax", 5, 2);
 
-            $table->foreignId("park_reservation_type_id")->constrained("park_reservation_types"); // ← aquí
+            $table->foreignId("park_reservation_type_id")->constrained("park_reservation_types");
 
 
             $table->unique(["user_id","park_id","reservation_date"],"ui_pi_rd");
