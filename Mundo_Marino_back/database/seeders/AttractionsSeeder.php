@@ -19,7 +19,7 @@ class AttractionsSeeder extends Seeder
             // --- SUAVES ---
             [
                 "name" => "Vórtice Marino",
-                "type" => "moderada",
+                "type" => "moderado",
                 "description" => "Experimenta la atracción definitiva para parejas. Deslízate por giros cerrados y déjate llevar por un vórtice gigante que te hará sentir la verdadera fuerza del agua. Una combinación única de velocidad, embudos y mucha diversión.",
                 "duration" => 3,
                 "max_capacity" => 30,
