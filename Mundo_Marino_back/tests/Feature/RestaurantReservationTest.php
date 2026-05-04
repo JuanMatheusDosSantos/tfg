@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class Restaurant_reservationTest extends TestCase
+class RestaurantReservationTest extends TestCase
 {
     use RefreshDatabase;
 
