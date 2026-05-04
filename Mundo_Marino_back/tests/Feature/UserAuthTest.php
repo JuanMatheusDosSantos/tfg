@@ -22,6 +22,7 @@ class UserAuthTest extends TestCase
             'birthdate' => '04/02/2000',
         ]);
 
+        dump($response->json());
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['email' => 'juan@gmail.com']);
     }
@@ -45,7 +46,7 @@ class UserAuthTest extends TestCase
         $this->postJson('/api/login', [
             'email'    => $user->email,
             'password' => 'incorrecta',
-        ])->assertUnauthorized(); // 401, no assertSessionHasErrors
+        ])->assertUnauthorized();
     }
 
     #[Test]
