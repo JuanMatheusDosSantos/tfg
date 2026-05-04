@@ -71,8 +71,9 @@ class RestaurantReservationTest extends TestCase
                 'reservation_hour' => '14:00:00',
                 'party_size'       => 4,
             ]);
-
+        dump($response->json());
         $response->assertStatus(201);
+
         $this->assertDatabaseHas('restaurant_reservations', [
             'user_id'       => $this->user->id,
             'restaurant_id' => $this->restaurant->id,
@@ -94,8 +95,9 @@ class RestaurantReservationTest extends TestCase
                 'party_size'       => 6,
                 'status'           => 'pending',              // ← añadir
             ]);
-
+        dump($response->json());
         $response->assertOk();
+
         $this->assertDatabaseHas('restaurant_reservations', [
             'id'         => $reservation->id,
             'party_size' => 6,
