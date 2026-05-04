@@ -18,9 +18,9 @@ class AttractionsSeeder extends Seeder
             //parque 1
             // --- SUAVES ---
             [
-                "name" => "El Carrusel Marino",
-                "type" => "suave",
-                "description" => "Un clásico carrusel con figuras de animales marinos.",
+                "name" => "Vórtice Marino",
+                "type" => "moderada",
+                "description" => "Experimenta la atracción definitiva para parejas. Deslízate por giros cerrados y déjate llevar por un vórtice gigante que te hará sentir la verdadera fuerza del agua. Una combinación única de velocidad, embudos y mucha diversión.",
                 "duration" => 3,
                 "max_capacity" => 30,
                 "min_height" => 0.00,
@@ -70,15 +70,15 @@ class AttractionsSeeder extends Seeder
                 "updated_at" => "2026-03-20 10:00:00",
             ],
             [
-                "name" => "Rápidos del Río",
+                "name" => "La Cueva Abisal",
                 "type" => "moderado",
-                "description" => "Descenso por aguas bravas.",
+                "description" => "Sumérgete en la oscuridad total de La Cueva Abisal. Deslízate por un tubo negro donde perderás la noción del tiempo y el espacio hasta que una explosión de luz y agua te devuelva a la superficie. ¿Te atreves con el misterio del fondo marino?",
                 "duration" => 6,
                 "max_capacity" => 8,
                 "min_height" => 1.20,
                 "status" => "operational",
                 "park_id" => 1,
-                "image" => "https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG",
+                "image"=>"image6.png",
                 "created_at" => "2026-03-28 14:20:00",
                 "updated_at" => "2026-03-28 14:20:00",
             ],
