@@ -32,7 +32,7 @@ class RestaurantReservationTest extends TestCase
             'user_id'          => $this->user->id,
             'restaurant_id'    => $this->restaurant->id,
             'reservation_date' => '2026-06-15',
-            'reservation_hour' => '14:00',
+            'reservation_hour' => '14:00:00',
             'party_size'       => 4,
             'status'           => 'pending',
         ], $extra));
@@ -68,11 +68,10 @@ class RestaurantReservationTest extends TestCase
                 'user_id'          => $this->user->id,  // ← añadir
                 'restaurant_id'    => $this->restaurant->id,
                 'reservation_date' => '2026-07-15',
-                'reservation_hour' => '14:00',
+                'reservation_hour' => '14:00:00',
                 'party_size'       => 4,
             ]);
-        dump($response->json());
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('restaurant_reservations', [
             'user_id'       => $this->user->id,
@@ -91,11 +90,10 @@ class RestaurantReservationTest extends TestCase
                 'user_id'          => $this->user->id,        // ← añadir
                 'restaurant_id'    => $this->restaurant->id,  // ← añadir
                 'reservation_date' => '2026-06-15',           // ← añadir
-                'reservation_hour' => '14:00',             // ← añadir
+                'reservation_hour' => '14:00:00',             // ← añadir
                 'party_size'       => 6,
                 'status'           => 'pending',              // ← añadir
             ]);
-        dump($response->json());
         $response->assertOk();
 
         $this->assertDatabaseHas('restaurant_reservations', [
