@@ -25,31 +25,31 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-//            "phone"=>fake()->numerify("#########"),
-            "phone" => fake()->randomElement([6, 9]) . fake()->numerify('########'),
-            'role' => fake()->randomElement(['admin', 'park', 'restaurant', 'user']),
-            'password' => static::$password ??= Hash::make('12345678'),
-            'remember_token' => Str::random(10),
-            'park_id' => fake()->boolean() ? Park::factory() : null,
-            'restaurant_id' => fake()->boolean() ? Restaurant::factory() : null,
-            'birthdate' => fake()->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
-        ];
 //        return [
 //            'name' => fake()->name(),
 //            'email' => fake()->unique()->safeEmail(),
 //            'email_verified_at' => now(),
+////            "phone"=>fake()->numerify("#########"),
 //            "phone" => fake()->randomElement([6, 9]) . fake()->numerify('########'),
 //            'role' => fake()->randomElement(['admin', 'park', 'restaurant', 'user']),
 //            'password' => static::$password ??= Hash::make('12345678'),
 //            'remember_token' => Str::random(10),
-//            'park_id' => fake()->boolean() ? Park::inRandomOrder()->first()?->id : null,
-//            'restaurant_id' => fake()->boolean() ? Restaurant::inRandomOrder()->first()?->id : null,
+//            'park_id' => fake()->boolean() ? Park::factory() : null,
+//            'restaurant_id' => fake()->boolean() ? Restaurant::factory() : null,
 //            'birthdate' => fake()->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
 //        ];
+        return [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            "phone" => fake()->randomElement([6, 9]) . fake()->numerify('########'),
+            'role' => fake()->randomElement(['admin', 'park', 'restaurant', 'user']),
+            'password' => static::$password ??= Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+            'park_id' => fake()->boolean() ? Park::inRandomOrder()->first()?->id : null,
+            'restaurant_id' => fake()->boolean() ? Restaurant::inRandomOrder()->first()?->id : null,
+            'birthdate' => fake()->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
+        ];
     }
 
     /**
