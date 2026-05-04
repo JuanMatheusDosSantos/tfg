@@ -34,8 +34,8 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(['admin', 'park', 'restaurant', 'user']),
             'password' => static::$password ??= Hash::make('12345678'),
             'remember_token' => Str::random(10),
-            'park_id' => fake()->boolean() ? Park::inRandomOrder()->first()?->id : null,
-            'restaurant_id' => fake()->boolean() ? Restaurant::inRandomOrder()->first()?->id : null,
+            'park_id' => fake()->boolean() ? Park::factory() : null,
+            'restaurant_id' => fake()->boolean() ? Restaurant::factory() : null,
             'birthdate' => fake()->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
         ];
     }
