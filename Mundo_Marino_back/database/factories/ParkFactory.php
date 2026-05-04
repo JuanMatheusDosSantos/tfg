@@ -17,10 +17,10 @@ class ParkFactory extends Factory
     public function definition(): array
     {
         return [
-//            'name'         => fake()->unique()->company(),
-//            'location'     => fake()->unique()->city(),
-//            'opening_time' => '09:00:00',
-//            'closing_time' => '20:00:00',
+            'name'         => fake()->unique()->company(),
+            'location'     => fake()->unique()->city(),
+            'opening_time' => '09:00:00',
+            'closing_time' => '20:00:00',
         ];
     }
 }
