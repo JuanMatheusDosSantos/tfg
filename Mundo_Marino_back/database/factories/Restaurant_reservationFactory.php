@@ -6,7 +6,7 @@ use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RestaurantReservationFactory extends Factory
+class Restaurant_reservationFactory extends Factory
 {
     public function definition(): array
     {
