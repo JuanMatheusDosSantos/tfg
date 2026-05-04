@@ -7,8 +7,8 @@
 }
 
 .attraction-img {
-  width: 383px;
-  height: 293px;
+  width: 383px !important;
+  height: 293px !important;
   transition: transform 0.5s ease;
 }
 
