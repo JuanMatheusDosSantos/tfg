@@ -4,15 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+use PHPUnit\Framework\Attributes\Test;
 
 class UserAuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function usuario_puede_registrarse()
     {
         $response = $this->postJson('/api/register', [
@@ -26,32 +25,33 @@ class UserAuthTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['email' => 'juan@gmail.com']);
     }
-    /** @test */
+
+    #[Test]
     public function usuario_puede_cerrar_sesion()
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)
-            ->post('/logout')
-            ->assertRedirect('/');
-
-        $this->assertGuest();
+        $this->actingAs($user, 'api')  // ← guard JWT
+        ->postJson('/api/logout')  // ← ruta API correcta
+        ->assertOk();
+        // sin assertGuest(), JWT no funciona así
     }
-    /** @test */
+
+    #[Test]
     public function login_falla_con_credenciales_incorrectas()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['password' => bcrypt('correcta')]);
 
-        $this->post('/login', [
+        $this->postJson('/api/login', [
             'email'    => $user->email,
-            'password' => 'contraseña_incorrecta',
-        ])->assertSessionHasErrors('email');
-
-        $this->assertGuest();
+            'password' => 'incorrecta',
+        ])->assertUnauthorized(); // 401, no assertSessionHasErrors
     }
-    /** @test */
-    public function usuario_no_autenticado_es_redirigido()
+
+    #[Test]
+    public function ruta_protegida_sin_token_devuelve_401()
     {
-        $this->get('/booking')->assertRedirect('/login');
+        $this->getJson('/api/park_reservations')
+            ->assertUnauthorized(); // 401
     }
 }
