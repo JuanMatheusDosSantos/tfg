@@ -33,9 +33,7 @@ class AttractionsSeeder extends Seeder
             [
                 "name" => "Carrera de Mantarrayas",
                 "type" => "suave",
-                "description" => "¡Deslízate, compite y conquista el arrecife!
-
-¿Alguna vez te has preguntado qué se siente al ser el animal más ágil del océano? En Carrera de Mantarrayas, tú y tus amigos se transformarán en estos majestuosos gigantes del mar para una competencia épica de velocidad.",
+                "description" => "¡Siente el planeo del océano! En Carrera de Mantarrayas competirás cara a cara en un descenso vertiginoso. Emula el movimiento de estos gigantes del mar y llega primero a la meta en una explosión de agua y adrenalina.",
                 "duration" => 10,
                 "max_capacity" => 12,
                 "min_height" => 0.90,

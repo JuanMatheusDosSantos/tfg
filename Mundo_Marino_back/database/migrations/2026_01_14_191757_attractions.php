@@ -10,22 +10,6 @@ return new class extends Migration {
      */
     public function up(): void
     {
-//        Schema::create('attractions', function (Blueprint $table) {
-//            $table->id();
-//            $table->string("name");
-//            $table->enum("type",["suave","moderado","intenso"]);//suave, moderada, intensa
-//            $table->integer("duration");
-//            $table->integer("max_capacity");
-//            $table->enum('status', ['operational', 'maintenance', 'closed'])
-//                ->default('operational')
-//                ->after('park_id');
-//            $table->foreignId("park_id")
-//                ->references("id")
-//                ->on("parks")
-//                ->cascadeOnDelete();
-//            $table->unique(["name","park_id"]);
-//            $table->timestamps();
-//        });
         Schema::create('attractions', function (Blueprint $table) {
             $table->id();
             $table->string("name");
