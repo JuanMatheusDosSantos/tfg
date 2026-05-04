@@ -65,13 +65,12 @@ class RestaurantReservationTest extends TestCase
     {
         $response = $this->actingAs($this->user, 'api')
             ->postJson('/api/restaurant_reservation', [
+                'user_id'          => $this->user->id,  // ← añadir
                 'restaurant_id'    => $this->restaurant->id,
                 'reservation_date' => '2026-07-15',
                 'reservation_hour' => '14:00:00',
                 'party_size'       => 4,
             ]);
-
-        dump($response->json()); // ← ver error 400
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('restaurant_reservations', [
@@ -88,10 +87,13 @@ class RestaurantReservationTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')
             ->putJson("/api/restaurant_reservation/{$reservation->id}", [
-                'party_size' => 6,
+                'user_id'          => $this->user->id,        // ← añadir
+                'restaurant_id'    => $this->restaurant->id,  // ← añadir
+                'reservation_date' => '2026-06-15',           // ← añadir
+                'reservation_hour' => '14:00:00',             // ← añadir
+                'party_size'       => 6,
+                'status'           => 'pending',              // ← añadir
             ]);
-
-        dump($response->json()); // ← ver error 400
 
         $response->assertOk();
         $this->assertDatabaseHas('restaurant_reservations', [
