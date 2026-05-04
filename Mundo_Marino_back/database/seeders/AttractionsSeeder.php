@@ -46,7 +46,7 @@ class AttractionsSeeder extends Seeder
             [
                 "name" => "Arrecife del Tiburón Cubeta",
                 "type" => "suave",
-                "description" => "¡Diversión al límite en nuestra gran estructura interactiva! Explora niveles llenos de toboganes y chorros. Pero cuidado... un tiburón hambriento vigila la cima. Cuando el gigantesco cubo se llena, prepárate para un chapuzón colosal e inolvidable.",
+                "description" => "Diversión al límite en nuestra gran estructura interactiva! Explora niveles llenos de toboganes y chorros. Pero cuidado... un tiburón hambriento vigila la cima. Cuando el gigantesco cubo se llena, prepárate para un chapuzón colosal e inolvidable.",
                 "duration" => 5,
                 "max_capacity" => 4,
                 "min_height" => 0.80,
@@ -59,7 +59,7 @@ class AttractionsSeeder extends Seeder
             [
                 "name" => "Caída del Calamar Gigante",
                 "type" => "intenso",
-                "description" => "Aventura sobre las olas.",
+                "description" => "Siente la fuerza de los tentáculos en esta caída libre de colores. Deslízate a toda velocidad por túneles serpenteantes que desafían la gravedad. Ideal para los valientes que buscan la máxima emoción en Mundo Marino. ¿Te atreves a lanzarte al abismo?",
                 "duration" => 5,
                 "max_capacity" => 20,
                 "min_height" => 1.10,
