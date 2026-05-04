@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Attraction extends Model
 {
 
-    use HasFactory;
-
     protected $fillable = [
         "name",
         "type",
