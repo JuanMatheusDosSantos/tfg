@@ -25,6 +25,41 @@ class UserAuthTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['email' => 'juan@gmail.com']);
     }
+    #[Test]
+    public function usuario_puede_editar_su_perfil()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user, 'api')
+            ->putJson('/api/update/profile', [
+                'name'  => 'Nombre Actualizado',
+                'phone' => '612345678',
+            ]);
+
+        $response->assertOk(); // 200
+        $this->assertDatabaseHas('users', [
+            'id'   => $user->id,
+            'name' => 'Nombre Actualizado',
+        ]);
+    }
+
+    #[Test]
+    public function usuario_puede_loguearse()
+    {
+        $user = User::factory()->create(['password' => bcrypt('12345678')]);
+
+        $response = $this->postJson('/api/login', [
+            'email'    => $user->email,
+            'password' => '12345678',
+        ]);
+
+        $response->assertOk(); // 200
+        $response->assertJsonStructure([
+            'access_token',
+            'token_type',
+            'expires_in',
+        ]);
+    }
 
     #[Test]
     public function usuario_puede_cerrar_sesion()
