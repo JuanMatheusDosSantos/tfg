@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Park;
 use App\Models\User;
+use Database\Seeders\ParksSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -18,8 +20,8 @@ class AdminParkTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\ParksSeeder::class);
-        $this->seed(\Database\Seeders\UserSeeder::class);
+        $this->seed(ParksSeeder::class);
+        $this->seed(UserSeeder::class);
 
         $this->admin = User::where('role', 'admin')->first();
         $this->user  = User::where('role', 'user')->first();
