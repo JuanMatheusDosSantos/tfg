@@ -34,6 +34,7 @@ class UserAuthTest extends TestCase
             ->putJson('/api/update/profile', [
                 'name'  => 'Nombre Actualizado',
                 'phone' => '612345678',
+                "email"=>"si@gmail.com"
             ]);
 
         $response->assertOk(); // 200
