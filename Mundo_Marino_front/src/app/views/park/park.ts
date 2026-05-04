@@ -115,7 +115,15 @@ imgUrl=`${environment.imgUrl}/storage/attractions/`
   }
 
   imagenAtraccion(a: Attraction): string {
-    return this.imgUrl+a.image || this.DEFAULT_IMAGE;
+    if (a.image?.startsWith('http')) {
+      return a.image;
+    }
+    else if(a.image){
+      return this.imgUrl+a.image
+    }
+    else{
+      return this.DEFAULT_IMAGE;
+    }
   }
 
   descripcionPorTipo(tipo: string): string {
