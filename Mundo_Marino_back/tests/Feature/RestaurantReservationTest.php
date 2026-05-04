@@ -18,7 +18,9 @@ class RestaurantReservationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed(\Database\Seeders\ParksSeeder::class);
+        $this->seed(\Database\Seeders\RestaurantSeeder::class);
+        $this->seed(\Database\Seeders\UserSeeder::class);
         $this->user = User::factory()->create();
     }
 
