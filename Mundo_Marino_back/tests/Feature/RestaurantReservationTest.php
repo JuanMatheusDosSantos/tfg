@@ -21,7 +21,7 @@ class RestaurantReservationTest extends TestCase
         $this->seed(\Database\Seeders\ParksSeeder::class);
         $this->seed(\Database\Seeders\RestaurantSeeder::class);
         $this->seed(\Database\Seeders\UserSeeder::class);
-        $this->user = User::factory()->create();
+        $this->user = User::first();
     }
 
     #[Test]
