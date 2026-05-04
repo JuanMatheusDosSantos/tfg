@@ -24,7 +24,7 @@ export class Park {
 
   paginaActual = signal(1);
   readonly porPagina = 5;
-imgUrl=`${environment.imgUrl}`
+imgUrl=`${environment.imgUrl}/storage/atracctions/`
 
   readonly DEFAULT_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFsEt5IDp4eM3zxQA_qXlmCTKvlR_kWL1l9nQ2uAotEcuvEHEggiUvGBRn8Qwx3jKLnhW2Frj7gBCi8egjueurnHnF5NkqrZJVILn4VPbo2afG-zyvZIfgsBrnRoe-MkMQjdJc5TdAsseFh8rB6HqJRlcWdDoXQTC0wFvNMSPGk-PbMcW7orrjtyDQEJqvTiaUzLAAZMGQ-4ldr4OtJZ1o3DoKPpGWdAt5NNDOocklyDyvny298A7zwtA0g4mIhwnjsWyl__BA4arG';
 
@@ -124,7 +124,7 @@ imgUrl=`${environment.imgUrl}`
   // }
 
   imagenAtraccion(a: Attraction): string {
-    return this.imgUrl+"/"+a.image || this.DEFAULT_IMAGE;
+    return this.imgUrl+a.image || this.DEFAULT_IMAGE;
   }
 
   descripcionPorTipo(tipo: string): string {
