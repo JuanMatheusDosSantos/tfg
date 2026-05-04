@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use App\Models\User;
 
 class RestaurantReservationTest extends TestCase
 {
@@ -23,7 +25,7 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_listar_sus_reservas_de_restaurante()
     {
-        RestaurantReservation::factory()->count(3)->create([
+        Restaurant_reservation::factory()->count(3)->create([
             'user_id' => $this->user->id,
         ]);
 
@@ -36,7 +38,7 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_ver_una_reserva_de_restaurante()
     {
-        $reservation = RestaurantReservation::factory()->create([
+        $reservation = Restaurant_reservation::factory()->create([
             'user_id' => $this->user->id,
         ]);
 
@@ -89,7 +91,7 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_eliminar_una_reserva_de_restaurante()
     {
-        $reservation = RestaurantReservation::factory()->create([
+        $reservation = Restaurant_reservation::factory()->create([
             'user_id' => $this->user->id,
         ]);
 
