@@ -22,7 +22,7 @@ class UserAuthTest extends TestCase
             'birthdate' => '2000-02-04',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['email' => 'juan@gmail.com']);
     }
 
