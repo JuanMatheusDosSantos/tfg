@@ -4,13 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use App\Models\User;
 
-class RestaurantReservationTest extends TestCase
+class Restaurant_reservationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,6 +18,7 @@ class RestaurantReservationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed();
         $this->user = User::factory()->create();
     }
 
@@ -51,7 +51,7 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_crear_una_reserva_de_restaurante()
     {
-        $restaurant = Restaurant::factory()->create();
+        $restaurant = Restaurant::first();
 
         $this->actingAs($this->user, 'api')
             ->postJson('/api/restaurant_reservation', [
@@ -60,7 +60,7 @@ class RestaurantReservationTest extends TestCase
                 'reservation_hour' => '14:00:00',
                 'party_size'       => 4,
             ])
-            ->assertStatus(201); // ajusta si devuelve 200
+            ->assertStatus(201);
 
         $this->assertDatabaseHas('restaurant_reservations', [
             'user_id'       => $this->user->id,
@@ -72,8 +72,15 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_editar_una_reserva_de_restaurante()
     {
-        $reservation = Restaurant_reservation::factory()->create([
-            'user_id' => $this->user->id,
+        $restaurant = Restaurant::first();
+
+        $reservation = Restaurant_reservation::create([
+            'user_id'          => $this->user->id,
+            'restaurant_id'    => $restaurant->id,
+            'reservation_date' => '2026-06-15',
+            'reservation_hour' => '14:00:00',
+            'party_size'       => 4,
+            'status'           => 'pending',
         ]);
 
         $this->actingAs($this->user, 'api')
@@ -91,8 +98,15 @@ class RestaurantReservationTest extends TestCase
     #[Test]
     public function puede_eliminar_una_reserva_de_restaurante()
     {
-        $reservation = Restaurant_reservation::factory()->create([
-            'user_id' => $this->user->id,
+        $restaurant = Restaurant::first();
+
+        $reservation = Restaurant_reservation::create([
+            'user_id'          => $this->user->id,
+            'restaurant_id'    => $restaurant->id,
+            'reservation_date' => '2026-06-20',
+            'reservation_hour' => '15:00:00',
+            'party_size'       => 2,
+            'status'           => 'pending',
         ]);
 
         $this->actingAs($this->user, 'api')
