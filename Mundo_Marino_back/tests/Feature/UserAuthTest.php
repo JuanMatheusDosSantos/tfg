@@ -19,10 +19,9 @@ class UserAuthTest extends TestCase
             'email'     => 'juan@gmail.com',
             'password'  => '12345678',
             'phone'     => '123456789',
-            'birthdate' => '04/02/2000',
+            'birthdate' => '2000-02-04',
         ]);
 
-        dump($response->json());
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['email' => 'juan@gmail.com']);
     }
