@@ -5,6 +5,9 @@ namespace Tests\Feature;
 use App\Models\Restaurant;
 use App\Models\Restaurant_reservation;
 use App\Models\User;
+use Database\Seeders\ParksSeeder;
+use Database\Seeders\RestaurantSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -19,9 +22,9 @@ class RestaurantReservationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\ParksSeeder::class);
-        $this->seed(\Database\Seeders\RestaurantSeeder::class);
-        $this->seed(\Database\Seeders\UserSeeder::class);
+        $this->seed(ParksSeeder::class);
+        $this->seed(RestaurantSeeder::class);
+        $this->seed(UserSeeder::class);
         $this->user       = User::first();
         $this->restaurant = Restaurant::first();
     }
